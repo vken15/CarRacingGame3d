@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static CarController;
 
 public class CarController : MonoBehaviour
 {
@@ -13,31 +12,33 @@ public class CarController : MonoBehaviour
     }
 
     [Serializable]
-    public struct Wheel
+    private struct Wheel
     {
         public GameObject wheelModel;
         public GameObject wheelModel_LOD1;
         public GameObject wheelModel_LOD2;
         public WheelCollider wheelCollider;
+        public GameObject wheelEffectObj;
+        public ParticleSystem smokeParticle;
         public Axel axel;
     }
 
-    public float maxAcceleration = 30.0f;
-    public float brakeAcceleration = 50.0f;
+    [SerializeField] private float maxAcceleration = 800.0f;
+    [SerializeField] private float brakeAcceleration = 1500.0f;
 
-    public float turnSensitivity = 1.0f;
-    public float maxSteerAngle = 30.0f;
+    [SerializeField] private float turnSensitivity = 1.0f;
+    [SerializeField] private float maxSteerAngle = 30.0f;
 
-    public float maxSpeed = 5.0f;
+    [SerializeField] private float maxSpeed = 5.0f;
 
-    public Vector3 _centerOfMass;
+    [SerializeField] private Vector3 _centerOfMass;
 
-    public List<Wheel> wheels;
+    [SerializeField] private List<Wheel> wheels;
 
-    float accelerationInput;
-    float steerInput;
-
+    private float accelerationInput;
+    private float steerInput;
     private Rigidbody carRb;
+    private float velocityVsUp = 0;
 
     void Start()
     {
@@ -49,9 +50,10 @@ public class CarController : MonoBehaviour
     {
         GetInputs();
         AnimateWheels();
+        WheelEffects();
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
         Move();
         Steer();
@@ -63,25 +65,28 @@ public class CarController : MonoBehaviour
         accelerationInput = Input.GetAxis("Vertical");
         steerInput = Input.GetAxis("Horizontal");
     }
+    
     void Move()
     {
-        //Apply drag if there is no accelerationInput so the car stops when the player lets go of the accelerator
-        if (accelerationInput == 0) //|| ((velocityVsUp > maxSpeed || velocityVsUp < -maxSpeed * 0.5f)))
+        velocityVsUp = Vector3.Dot(transform.forward, carRb.velocity);
+        print(velocityVsUp);
+        //
+        if (accelerationInput == 0 || ((velocityVsUp > maxSpeed || velocityVsUp < -maxSpeed * 0.5f)))
             carRb.drag = Mathf.Lerp(carRb.drag, 3.0f, Time.fixedDeltaTime * 3);
         else
             carRb.drag = 0;
 
+        //
+        if ((velocityVsUp > maxSpeed && accelerationInput > 0) ||
+            (velocityVsUp < -maxSpeed * 0.5f && accelerationInput < 0) ||
+            carRb.velocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0)
+        {
+            return;
+        }
+
         foreach (var wheel in wheels)
         {
-            if (carRb.velocity.magnitude > maxSpeed)
-            {
-                wheel.wheelCollider.motorTorque = 0;
-            }
-            else
-            {
-                wheel.wheelCollider.motorTorque = accelerationInput * 600 * maxAcceleration * Time.deltaTime;
-            }
-            
+            wheel.wheelCollider.motorTorque = accelerationInput * maxAcceleration;
         }
     }
 
@@ -94,7 +99,6 @@ public class CarController : MonoBehaviour
                 var _steerAngle = steerInput * turnSensitivity * maxSteerAngle;
                 wheel.wheelCollider.steerAngle = Mathf.Lerp(wheel.wheelCollider.steerAngle, _steerAngle, 0.6f);
             }
-            //wheel.wheelCollider.motorTorque = accelerationInput * maxAcceleration * Time.deltaTime;
         }
     }
 
@@ -104,7 +108,7 @@ public class CarController : MonoBehaviour
         {
             foreach (var wheel in wheels)
             {
-                wheel.wheelCollider.brakeTorque = 300 * brakeAcceleration * Time.deltaTime;
+                wheel.wheelCollider.brakeTorque = brakeAcceleration;
             }
         }
         else
@@ -120,15 +124,31 @@ public class CarController : MonoBehaviour
     {
         foreach (var wheel in wheels)
         {
-            Quaternion rot;
-            Vector3 pos;
-            wheel.wheelCollider.GetWorldPose(out pos, out rot);
+            wheel.wheelCollider.GetWorldPose(out Vector3 pos, out Quaternion rot);
             wheel.wheelModel.transform.position = pos;
             wheel.wheelModel.transform.rotation = rot;
             wheel.wheelModel_LOD1.transform.position = pos;
             wheel.wheelModel_LOD1.transform.rotation = rot;
             wheel.wheelModel_LOD2.transform.position = pos;
             wheel.wheelModel_LOD2.transform.rotation = rot;
+        }
+    }
+
+    void WheelEffects()
+    {
+        foreach (var wheel in wheels)
+        {
+            //var dirtParticleMainSettings = wheel.smokeParticle.main;
+
+            if (Input.GetKey(KeyCode.Space) && wheel.axel == Axel.Rear && wheel.wheelCollider.isGrounded == true && carRb.velocity.magnitude >= 10.0f)
+            {
+                wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = true;
+                wheel.smokeParticle.Emit(1);
+            }
+            else
+            {
+                wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = false;
+            }
         }
     }
 }
