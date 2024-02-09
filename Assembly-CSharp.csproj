@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Car\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Car\CarController.cs" />
+    <Compile Include="Assets\Scripts\Car\NitroParticleHandler.cs" />
+    <Compile Include="Assets\Scripts\SpeedBoard.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
