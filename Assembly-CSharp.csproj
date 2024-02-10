@@ -62,6 +62,7 @@
     <Compile Include="Assets\Scripts\Car\CarController.cs" />
     <Compile Include="Assets\Scripts\Car\NitroParticleHandler.cs" />
     <Compile Include="Assets\Scripts\SpeedBoard.cs" />
+    <Compile Include="Assets\Scripts\AntiStuckSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -25,24 +25,28 @@ public class CarController : MonoBehaviour
 
     [SerializeField] private float maxAcceleration = 1000.0f;
     [SerializeField] private float brakeAcceleration = 1500.0f;
-    [SerializeField] private float nitrusAcceleration = 5000.0f;
-
     [SerializeField] private float turnSensitivity = 1.0f;
     [SerializeField] private float maxSteerAngle = 30.0f;
-
     [SerializeField] private float maxSpeed = 30.0f;
-    [SerializeField] private float nitrusMulti = 1.2f;
 
+    [Header("Boost")]
+    [SerializeField] private float nitroAcceleration = 5000.0f;
+    [SerializeField] private float maxNitroFuel = 100.0f;
+    [SerializeField] private float nitroFuel = 100.0f;
+    [SerializeField] private float nitroSpeedMulti = 1.2f;
+
+    [Header("Others")]
     [SerializeField] private Vector3 _centerOfMass;
-
     [SerializeField] private List<Wheel> wheels;
 
     private float accelerationInput;
     private float steerInput;
-    private bool nitrusInput;
-    private Rigidbody carRb;
-    private float velocityVsUp = 0;
+    private bool nitroInput;
 
+    private float velocityVsUp = 0;
+    private bool isRechargeNitro = false;
+
+    private Rigidbody carRb;
     public Transform jumpAnchor;
 
     void Start()
@@ -60,11 +64,12 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
+        DownForce();
         Move();
         Steer();
         Brake();
+        Nitro();
     }
-
 
     /// <summary>
     /// 
@@ -73,17 +78,17 @@ public class CarController : MonoBehaviour
     {
         accelerationInput = Input.GetAxis("Vertical");
         steerInput = Input.GetAxis("Horizontal");
-        nitrusInput = Input.GetKey(KeyCode.LeftShift);
+        nitroInput = Input.GetKey(KeyCode.LeftShift);
     }
     
     void Move()
     {
         velocityVsUp = Vector3.Dot(transform.forward, carRb.velocity);
         float maxSpd = maxSpeed;
-        if (nitrusInput)
-            maxSpd = maxSpeed * nitrusMulti;
+        if (IsNitro())
+            maxSpd = maxSpeed * nitroSpeedMulti;
         //
-        if ((accelerationInput == 0 && !nitrusInput) || ((velocityVsUp > maxSpd || velocityVsUp < -maxSpd * 0.5f)))
+        if ((accelerationInput == 0 && !IsNitro()) || ((velocityVsUp > maxSpd || velocityVsUp < -maxSpd * 0.5f)))
             carRb.drag = Mathf.Lerp(carRb.drag, 3.0f, Time.fixedDeltaTime * 3);
         else
             carRb.drag = 0;
@@ -99,12 +104,6 @@ public class CarController : MonoBehaviour
         foreach (var wheel in wheels)
         {
             wheel.wheelCollider.motorTorque = accelerationInput * maxAcceleration;
-        }
-
-        if (nitrusInput)
-        {
-            var force = transform.forward * nitrusAcceleration * 4;
-            carRb.AddForce(force, ForceMode.Force);
         }
     }
 
@@ -136,6 +135,30 @@ public class CarController : MonoBehaviour
                 wheel.wheelCollider.brakeTorque = 0;
             }
         }
+    }
+
+    void Nitro()
+    {
+        if (isRechargeNitro)
+            nitroFuel += Time.deltaTime / 2;
+
+        if (nitroFuel >= maxNitroFuel)
+            isRechargeNitro = false;
+
+        if (IsNitro())
+        {
+            nitroFuel -= (nitroFuel <= 0) ? 0 : Time.deltaTime * 4;
+            if (nitroFuel > 0) {
+                var force = transform.forward * nitroAcceleration * 4;
+                carRb.AddForce(force, ForceMode.Force);
+            }
+            else isRechargeNitro = true;
+        }
+    }
+
+    void DownForce()
+    {
+        carRb.AddForce(-transform.up * 50 * carRb.velocity.magnitude);
     }
 
     void AnimateWheels()
@@ -172,6 +195,6 @@ public class CarController : MonoBehaviour
 
     public bool IsNitro()
     {
-        return nitrusInput;
+        return nitroInput && !isRechargeNitro;
     }
 }
