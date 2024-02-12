@@ -3391,7 +3391,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1500
   m_Drag: 0
-  m_AngularDrag: 0.3
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -3425,10 +3425,12 @@ MonoBehaviour:
   turnSensitivity: 1
   maxSteerAngle: 30
   maxSpeed: 30
+  extremumSlip: 0.2
   nitroAcceleration: 5000
   maxNitroFuel: 100
   nitroFuel: 100
-  nitroSpeedMulti: 1.2
+  nitroSpeedMultiplier: 1.2
+  extremumSlipBoost: 1
   _centerOfMass: {x: 0, y: 0, z: 0}
   wheels:
   - wheelModel: {fileID: 2815311859800083328}
@@ -8879,10 +8881,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 402262035098283540, guid: ae1c0c88abbd5a54dbb1452c4feb5cae, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 402262035098283540, guid: ae1c0c88abbd5a54dbb1452c4feb5cae, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
@@ -9082,10 +9080,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 402262035098283540, guid: ae1c0c88abbd5a54dbb1452c4feb5cae, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 402262035098283540, guid: ae1c0c88abbd5a54dbb1452c4feb5cae, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
@@ -9150,10 +9144,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 402262035098283540, guid: ae1c0c88abbd5a54dbb1452c4feb5cae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 402262035098283540, guid: ae1c0c88abbd5a54dbb1452c4feb5cae, type: 3}
-      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 402262035098283540, guid: ae1c0c88abbd5a54dbb1452c4feb5cae, type: 3}
@@ -9353,10 +9343,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 402262035098283540, guid: ae1c0c88abbd5a54dbb1452c4feb5cae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 402262035098283540, guid: ae1c0c88abbd5a54dbb1452c4feb5cae, type: 3}
-      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 402262035098283540, guid: ae1c0c88abbd5a54dbb1452c4feb5cae, type: 3}

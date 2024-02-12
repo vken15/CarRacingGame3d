@@ -79,6 +79,8 @@ public class CarController : MonoBehaviour
         Steer();
         Brake();
         Nitro();
+        Debug.DrawRay(transform.position, carRb.velocity * 3);
+        Debug.DrawRay(transform.position, transform.forward * 10, Color.blue);
     }
 
     /// <summary>
@@ -137,7 +139,7 @@ public class CarController : MonoBehaviour
             sidewaysFrictionFront = wheels[0].wheelCollider.sidewaysFriction;
             sidewaysFrictionRear = wheels[3].wheelCollider.sidewaysFriction;
             if (nitroInput)
-                sidewaysFrictionFront.extremumSlip = sidewaysFrictionRear.extremumSlip = extremumSlipBoost;
+                sidewaysFrictionFront.extremumSlip = sidewaysFrictionRear.extremumSlip = extremumSlipBoost * nitroSpeedMultiplier;
             foreach (var wheel in wheels)
             {
                 wheel.wheelCollider.brakeTorque = brakeAcceleration;
