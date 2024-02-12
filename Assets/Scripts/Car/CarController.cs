@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
@@ -28,12 +30,16 @@ public class CarController : MonoBehaviour
     [SerializeField] private float turnSensitivity = 1.0f;
     [SerializeField] private float maxSteerAngle = 30.0f;
     [SerializeField] private float maxSpeed = 30.0f;
+    //[SerializeField] private float frictionMultiplier = 3f;
+    //[SerializeField] private float handBrakeFrictionMultiplier = 2;
+    [SerializeField] private float extremumSlip = 0.2f;
 
     [Header("Boost")]
     [SerializeField] private float nitroAcceleration = 5000.0f;
     [SerializeField] private float maxNitroFuel = 100.0f;
     [SerializeField] private float nitroFuel = 100.0f;
-    [SerializeField] private float nitroSpeedMulti = 1.2f;
+    [SerializeField] private float nitroSpeedMultiplier = 1.2f;
+    [SerializeField] private float extremumSlipBoost = 1.0f;
 
     [Header("Others")]
     [SerializeField] private Vector3 _centerOfMass;
@@ -42,9 +48,13 @@ public class CarController : MonoBehaviour
     private float accelerationInput;
     private float steerInput;
     private bool nitroInput;
+    private bool brakeInput;
 
     private float velocityVsUp = 0;
     private bool isRechargeNitro = false;
+    //private float handBrakeFriction = 0.05f;
+    //private float temp; //wheelSpin pointer
+    private WheelFrictionCurve sidewaysFrictionFront, sidewaysFrictionRear;
 
     private Rigidbody carRb;
     public Transform jumpAnchor;
@@ -79,6 +89,7 @@ public class CarController : MonoBehaviour
         accelerationInput = Input.GetAxis("Vertical");
         steerInput = Input.GetAxis("Horizontal");
         nitroInput = Input.GetKey(KeyCode.LeftShift);
+        brakeInput = Input.GetKey(KeyCode.Space);
     }
     
     void Move()
@@ -86,7 +97,7 @@ public class CarController : MonoBehaviour
         velocityVsUp = Vector3.Dot(transform.forward, carRb.velocity);
         float maxSpd = maxSpeed;
         if (IsNitro())
-            maxSpd = maxSpeed * nitroSpeedMulti;
+            maxSpd = maxSpeed * nitroSpeedMultiplier;
         //
         if ((accelerationInput == 0 && !IsNitro()) || ((velocityVsUp > maxSpd || velocityVsUp < -maxSpd * 0.5f)))
             carRb.drag = Mathf.Lerp(carRb.drag, 3.0f, Time.fixedDeltaTime * 3);
@@ -121,18 +132,33 @@ public class CarController : MonoBehaviour
 
     void Brake()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (brakeInput)
         {
+            sidewaysFrictionFront = wheels[0].wheelCollider.sidewaysFriction;
+            sidewaysFrictionRear = wheels[3].wheelCollider.sidewaysFriction;
+            if (nitroInput)
+                sidewaysFrictionFront.extremumSlip = sidewaysFrictionRear.extremumSlip = extremumSlipBoost;
             foreach (var wheel in wheels)
             {
                 wheel.wheelCollider.brakeTorque = brakeAcceleration;
+                if (wheel.axel == Axel.Front)
+                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionFront;
+                if (wheel.axel == Axel.Rear)
+                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionRear;
             }
         }
         else
         {
+            sidewaysFrictionFront = wheels[0].wheelCollider.sidewaysFriction;
+            sidewaysFrictionRear = wheels[3].wheelCollider.sidewaysFriction;
+            sidewaysFrictionFront.extremumSlip = sidewaysFrictionRear.extremumSlip = extremumSlip;
             foreach (var wheel in wheels)
             {
                 wheel.wheelCollider.brakeTorque = 0;
+                if (wheel.axel == Axel.Front)
+                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionFront;
+                if (wheel.axel == Axel.Rear)
+                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionRear;
             }
         }
     }
@@ -160,7 +186,7 @@ public class CarController : MonoBehaviour
     {
         carRb.AddForce(-transform.up * 50 * carRb.velocity.magnitude);
     }
-
+    
     void AnimateWheels()
     {
         foreach (var wheel in wheels)
