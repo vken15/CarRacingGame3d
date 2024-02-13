@@ -6072,6 +6072,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7176110587231557727}
   - component: {fileID: 1958402563772972609}
+  - component: {fileID: 3394336480210859866}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Player
@@ -6115,6 +6116,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 0.10198212, z: 2.2572324}
   m_Center: {x: 0, y: -0.44900894, z: 0.030593868}
+--- !u!114 &3394336480210859866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6609153191396754239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19aadb42a7098694a9a922b8652d1f37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carPosition: 0
 --- !u!1 &6674088134710863519
 GameObject:
   m_ObjectHideFlags: 0
