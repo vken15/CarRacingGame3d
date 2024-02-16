@@ -42,10 +42,8 @@ public class CarLapCounter : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        print("B1");
         if (collision.CompareTag("CheckPoint"))
         {
-            print("B2");
             //Once a car has completed the race. Stop checking any checkpoints or laps.
             if (isRaceCompleted) //|| GameManager.instance.GetGameState() == GameStates.raceOver)
                 return;
@@ -56,7 +54,6 @@ public class CarLapCounter : MonoBehaviour
             //Make sure the car is passing the checkpoints in the correct order. 1 -> 2 -> 3 ...
             if (passedCheckPointNumber + 1 == checkPoint.checkPointNumber)
             {
-                print("B3");
                 passedCheckPointNumber = checkPoint.checkPointNumber;
                 numberOfPassedCheckPoints++;
                 timeAtLastPassedCheckPoint = Time.time;

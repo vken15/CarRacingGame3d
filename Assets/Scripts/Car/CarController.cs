@@ -7,12 +7,6 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
-    public enum Axel
-    {
-        Front,
-        Rear
-    }
-
     [Serializable]
     private struct Wheel
     {
@@ -67,7 +61,6 @@ public class CarController : MonoBehaviour
 
     void Update()
     {
-        GetInputs();
         AnimateWheels();
         WheelEffects();
     }
@@ -83,17 +76,6 @@ public class CarController : MonoBehaviour
         Debug.DrawRay(transform.position, transform.forward * 10, Color.blue);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    void GetInputs()
-    {
-        accelerationInput = Input.GetAxis("Vertical");
-        steerInput = Input.GetAxis("Horizontal");
-        nitroInput = Input.GetKey(KeyCode.LeftShift);
-        brakeInput = Input.GetKey(KeyCode.Space);
-    }
-    
     void Move()
     {
         velocityVsUp = Vector3.Dot(transform.forward, carRb.velocity);
@@ -219,6 +201,17 @@ public class CarController : MonoBehaviour
                 wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = false;
             }
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void GetInputs(Vector2 inputVector, bool nitro, bool brake)
+    {
+        accelerationInput = inputVector.y;
+        steerInput = inputVector.x;
+        nitroInput = nitro;
+        brakeInput = brake;
     }
 
     public bool IsNitro()

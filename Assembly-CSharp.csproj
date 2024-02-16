@@ -58,14 +58,21 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.0a21\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Enum.cs" />
     <Compile Include="Assets\Scripts\Car\CameraFollow.cs" />
+    <Compile Include="Assets\Scripts\UI\NameplateUIHandler.cs" />
+    <Compile Include="Assets\Scripts\SpawnCars.cs" />
     <Compile Include="Assets\Scripts\Car\CarController.cs" />
     <Compile Include="Assets\Scripts\Car\NitroParticleHandler.cs" />
     <Compile Include="Assets\Scripts\UI\LapCountUIHandler.cs" />
     <Compile Include="Assets\Scripts\Car\CarLapCounter.cs" />
     <Compile Include="Assets\Scripts\CheckPoint.cs" />
     <Compile Include="Assets\Scripts\SpeedBoard.cs" />
+    <Compile Include="Assets\Scripts\Model\Driver.cs" />
     <Compile Include="Assets\Scripts\AntiStuckSystem.cs" />
+    <Compile Include="Assets\Scripts\Startup.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Car\CarInputHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\EasyRoads3D\lib\DelaunayER.dll" />
