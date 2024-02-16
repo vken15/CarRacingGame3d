@@ -9,7 +9,6 @@ public class CarLapCounter : MonoBehaviour
     private int lapsCompleted = 0;
     private int lapsToCompleted;
     private bool isRaceCompleted = false;
-    private bool check = false;
     private LapCountUIHandler lapsCountUIHandler;
 
     public int carPosition = 0;
@@ -89,17 +88,15 @@ public class CarLapCounter : MonoBehaviour
                 {
                     if (CompareTag("Player"))
                     {
-                        //GetComponent<CarInputHandler>().enabled = false;
+                        GetComponentInParent<CarInputHandler>().enabled = false;
                         //CarAIHandler carAIHandler = GetComponent<CarAIHandler>();
                         //carAIHandler.enabled = true;
                         //carAIHandler.aiMode = CarAIHandler.AIMode.followWayPoints;
                         //GetComponent<AStarLite>().enabled = true;
                     }
-                    //if (!check && GameManager.instance.GetGameState() != GameStates.raceOver)
-                    //{
-                    //    check = true;
-                    //    GameManager.instance.OnRaceCompleted();
-                    //}
+
+                    if (GameManager.instance.GetGameState() != GameStates.raceOver)
+                        GameManager.instance.OnRaceCompleted();
                 }
             }
         }

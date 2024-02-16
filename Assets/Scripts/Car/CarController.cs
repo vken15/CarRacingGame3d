@@ -67,6 +67,9 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameManager.instance.GetGameState() == GameStates.countdown)
+            return;
+
         DownForce();
         Move();
         Steer();
@@ -216,6 +219,6 @@ public class CarController : MonoBehaviour
 
     public bool IsNitro()
     {
-        return nitroInput && !isRechargeNitro;
+        return nitroInput && !isRechargeNitro && GameManager.instance.GetGameState() != GameStates.countdown;
     }
 }
