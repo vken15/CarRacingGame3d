@@ -48,8 +48,6 @@ public class CarLapCounter : MonoBehaviour
                 return;
             
             CheckPoint checkPoint = collision.GetComponent<CheckPoint>();
-            print(passedCheckPointNumber + 1);
-            print(checkPoint.checkPointNumber);
             //Make sure the car is passing the checkpoints in the correct order. 1 -> 2 -> 3 ...
             if (passedCheckPointNumber + 1 == checkPoint.checkPointNumber)
             {

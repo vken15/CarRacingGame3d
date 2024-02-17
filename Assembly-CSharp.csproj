@@ -64,11 +64,16 @@
     <Compile Include="Assets\Scripts\UI\NameplateUIHandler.cs" />
     <Compile Include="Assets\Scripts\SpawnCars.cs" />
     <Compile Include="Assets\Scripts\Car\CarController.cs" />
+    <Compile Include="Assets\Scripts\UI\RaceTimeUIHandler.cs" />
     <Compile Include="Assets\Scripts\Car\NitroParticleHandler.cs" />
     <Compile Include="Assets\Scripts\UI\LapCountUIHandler.cs" />
     <Compile Include="Assets\Scripts\Car\CarLapCounter.cs" />
+    <Compile Include="Assets\Scripts\UI\GameFinishMenuUIHandler.cs" />
     <Compile Include="Assets\Scripts\CheckPoint.cs" />
     <Compile Include="Assets\Scripts\SpeedBoard.cs" />
+    <Compile Include="Assets\Scripts\UI\LeaderboardUIHandler.cs" />
+    <Compile Include="Assets\Scripts\UI\SetLeaderboardItemInfo.cs" />
+    <Compile Include="Assets\Scripts\PositionHandler.cs" />
     <Compile Include="Assets\Scripts\Model\Driver.cs" />
     <Compile Include="Assets\Scripts\AntiStuckSystem.cs" />
     <Compile Include="Assets\Scripts\Startup.cs" />
