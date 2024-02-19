@@ -63,7 +63,10 @@
     <Compile Include="Assets\Scripts\UI\CountdownUIHandler.cs" />
     <Compile Include="Assets\Scripts\UI\NameplateUIHandler.cs" />
     <Compile Include="Assets\Scripts\SpawnCars.cs" />
+    <Compile Include="Assets\Scripts\Portal\Portal.cs" />
     <Compile Include="Assets\Scripts\Car\CarController.cs" />
+    <Compile Include="Assets\Scripts\Portal\PortalableObject.cs" />
+    <Compile Include="Assets\Scripts\Portal\PortalCamera.cs" />
     <Compile Include="Assets\Scripts\UI\RaceTimeUIHandler.cs" />
     <Compile Include="Assets\Scripts\Car\NitroParticleHandler.cs" />
     <Compile Include="Assets\Scripts\UI\LapCountUIHandler.cs" />

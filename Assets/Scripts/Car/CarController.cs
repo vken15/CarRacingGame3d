@@ -24,16 +24,18 @@ public class CarController : MonoBehaviour
     [SerializeField] private float turnSensitivity = 1.0f;
     [SerializeField] private float maxSteerAngle = 30.0f;
     [SerializeField] private float maxSpeed = 30.0f;
-    //[SerializeField] private float frictionMultiplier = 3f;
+    [SerializeField] private float frictionMultiplier = 3f;
     //[SerializeField] private float handBrakeFrictionMultiplier = 2;
-    [SerializeField] private float extremumSlip = 0.2f;
+    //[SerializeField] private float extremumSlip = 0.2f;
+    [SerializeField] private float driftFactor = 0.93f;
+    [SerializeField] private float test = 1.0f;
 
     [Header("Boost")]
     [SerializeField] private float nitroAcceleration = 5000.0f;
     [SerializeField] private float maxNitroFuel = 100.0f;
     [SerializeField] private float nitroFuel = 100.0f;
     [SerializeField] private float nitroSpeedMultiplier = 1.2f;
-    [SerializeField] private float extremumSlipBoost = 1.0f;
+    //[SerializeField] private float extremumSlipBoost = 1.0f;
 
     [Header("Others")]
     [SerializeField] private Vector3 _centerOfMass;
@@ -70,11 +72,13 @@ public class CarController : MonoBehaviour
         if (GameManager.instance.GetGameState() == GameStates.countdown)
             return;
 
-        DownForce();
-        Move();
-        Steer();
-        Brake();
+        //DownForce();
         Nitro();
+        Move();
+        KillOrthogonalVelocity();
+        Steer();
+        AdjustTraction();
+        Brake();
         Debug.DrawRay(transform.position, carRb.velocity * 3);
         Debug.DrawRay(transform.position, transform.forward * 10, Color.blue);
     }
@@ -121,31 +125,16 @@ public class CarController : MonoBehaviour
     {
         if (brakeInput)
         {
-            sidewaysFrictionFront = wheels[0].wheelCollider.sidewaysFriction;
-            sidewaysFrictionRear = wheels[3].wheelCollider.sidewaysFriction;
-            if (nitroInput)
-                sidewaysFrictionFront.extremumSlip = sidewaysFrictionRear.extremumSlip = extremumSlipBoost * nitroSpeedMultiplier;
             foreach (var wheel in wheels)
             {
                 wheel.wheelCollider.brakeTorque = brakeAcceleration;
-                if (wheel.axel == Axel.Front)
-                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionFront;
-                if (wheel.axel == Axel.Rear)
-                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionRear;
             }
         }
         else
         {
-            sidewaysFrictionFront = wheels[0].wheelCollider.sidewaysFriction;
-            sidewaysFrictionRear = wheels[3].wheelCollider.sidewaysFriction;
-            sidewaysFrictionFront.extremumSlip = sidewaysFrictionRear.extremumSlip = extremumSlip;
             foreach (var wheel in wheels)
             {
                 wheel.wheelCollider.brakeTorque = 0;
-                if (wheel.axel == Axel.Front)
-                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionFront;
-                if (wheel.axel == Axel.Rear)
-                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionRear;
             }
         }
     }
@@ -171,9 +160,48 @@ public class CarController : MonoBehaviour
 
     void DownForce()
     {
-        carRb.AddForce(-transform.up * 50 * carRb.velocity.magnitude);
+        carRb.AddForce(-transform.up * carRb.velocity.magnitude * 3.6f * carRb.velocity.magnitude);
     }
-    
+    void KillOrthogonalVelocity()
+    {
+        Vector3 forwardVelocity = transform.forward * Vector3.Dot(carRb.velocity, transform.forward);
+        Vector3 rightVelocity = transform.right * Vector3.Dot(carRb.velocity, transform.right);
+        Vector3 upVelocity = transform.up * Vector3.Dot(carRb.velocity, transform.up);
+
+        carRb.velocity = forwardVelocity + rightVelocity + upVelocity * driftFactor;
+    }
+    void AdjustTraction()
+    {
+        if (brakeInput)
+        {
+            float velocity = 0;
+            sidewaysFrictionFront = wheels[0].wheelCollider.sidewaysFriction;
+            sidewaysFrictionRear = wheels[3].wheelCollider.sidewaysFriction;
+            sidewaysFrictionFront.extremumValue = sidewaysFrictionFront.asymptoteValue = 1.5f;
+            sidewaysFrictionRear.extremumValue = sidewaysFrictionRear.asymptoteValue = Mathf.SmoothDamp(sidewaysFrictionRear.asymptoteValue, test, ref velocity, 0.05f * Time.deltaTime);
+            foreach (var wheel in wheels)
+            {
+                if (wheel.axel == Axel.Front)
+                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionFront;
+                if (wheel.axel == Axel.Rear)
+                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionRear;
+            }
+        } else
+        {
+            float velocity = Vector3.Dot(carRb.velocity, transform.forward);
+            sidewaysFrictionFront = wheels[0].wheelCollider.sidewaysFriction;
+            sidewaysFrictionRear = wheels[3].wheelCollider.sidewaysFriction;
+            sidewaysFrictionFront.extremumValue = sidewaysFrictionFront.asymptoteValue = ((velocity * frictionMultiplier) / 300) + 1;
+            sidewaysFrictionRear.extremumValue = sidewaysFrictionRear.asymptoteValue = ((velocity * frictionMultiplier) / 300) + 1;
+            foreach (var wheel in wheels)
+            {
+                if (wheel.axel == Axel.Front)
+                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionFront;
+                if (wheel.axel == Axel.Rear)
+                    wheel.wheelCollider.sidewaysFriction = sidewaysFrictionRear;
+            }
+        }
+    }
     void AnimateWheels()
     {
         foreach (var wheel in wheels)
@@ -194,7 +222,7 @@ public class CarController : MonoBehaviour
         {
             //var dirtParticleMainSettings = wheel.smokeParticle.main;
 
-            if (Input.GetKey(KeyCode.Space) && wheel.axel == Axel.Rear && wheel.wheelCollider.isGrounded == true && carRb.velocity.magnitude >= 10.0f)
+            if (brakeInput && wheel.axel == Axel.Rear && wheel.wheelCollider.isGrounded == true && carRb.velocity.magnitude >= 10.0f)
             {
                 wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = true;
                 wheel.smokeParticle.Emit(1);

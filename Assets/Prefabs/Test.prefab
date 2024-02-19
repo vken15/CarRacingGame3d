@@ -3421,6 +3421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ac46546c5f5394d88f8b87efbb60b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerNumber: 1
 --- !u!114 &1818569958636921682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3438,12 +3439,12 @@ MonoBehaviour:
   turnSensitivity: 1
   maxSteerAngle: 30
   maxSpeed: 30
-  extremumSlip: 0.2
+  frictionMultiplier: 3
+  driftFactor: 0.93
   nitroAcceleration: 5000
   maxNitroFuel: 100
   nitroFuel: 100
   nitroSpeedMultiplier: 1.2
-  extremumSlipBoost: 1
   _centerOfMass: {x: 0, y: 0, z: 0}
   wheels:
   - wheelModel: {fileID: 2815311859800083328}
