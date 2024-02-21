@@ -239,7 +239,7 @@ public class CarController : MonoBehaviour
     /// <summary>
     /// 
     /// </summary>
-    public void GetInputs(Vector2 inputVector, bool nitro, bool brake)
+    public void SetInput(Vector2 inputVector, bool nitro, bool brake)
     {
         accelerationInput = inputVector.y;
         steerInput = inputVector.x;

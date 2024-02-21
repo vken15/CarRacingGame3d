@@ -24,6 +24,6 @@ public class CarInputHandler : MonoBehaviour
         bool nitroInput = Input.GetKey(KeyCode.LeftShift);
         bool brakeInput = Input.GetKey(KeyCode.Space);
 
-        carController.GetInputs(inputVector, nitroInput, brakeInput);
+        carController.SetInput(inputVector, nitroInput, brakeInput);
     }
 }

@@ -97,7 +97,7 @@ public class SpawnCars : MonoBehaviour
             //    car.GetComponent<CarInputHandler>().enabled = false;
             //}
 
-            //car.GetComponent<CarAIHandler>().enabled = false;
+            car.GetComponent<CarAIHandler>().enabled = false;
             //car.GetComponent<AStarLite>().enabled = false;
             car.tag = "Player";
             if (driver.PlayerNumber == 1)

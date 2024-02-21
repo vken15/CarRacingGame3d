@@ -3263,6 +3263,7 @@ GameObject:
   - component: {fileID: 3909907065401198100}
   - component: {fileID: 8667881217087246357}
   - component: {fileID: 1818569958636921682}
+  - component: {fileID: 5098746766339694416}
   m_Layer: 0
   m_Name: Test
   m_TagString: Player
@@ -3481,6 +3482,22 @@ MonoBehaviour:
     smokeParticle: {fileID: 5874691537790115016}
     axel: 1
   jumpAnchor: {fileID: 7176110587231557727}
+--- !u!114 &5098746766339694416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3373542208063198010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac24d2467e3009e4c91a9c714aeb0d25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aiDifficult: 0
+  driveSpeed: 45
+  isAvoidingCars: 1
+  track: 20
 --- !u!1 &3376345986995677294
 GameObject:
   m_ObjectHideFlags: 0

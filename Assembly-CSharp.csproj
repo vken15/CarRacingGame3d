@@ -67,12 +67,15 @@
     <Compile Include="Assets\Scripts\Car\CarController.cs" />
     <Compile Include="Assets\Scripts\Portal\PortalableObject.cs" />
     <Compile Include="Assets\Scripts\Portal\PortalCamera.cs" />
+    <Compile Include="Assets\Scripts\AI\DrawPathHandler.cs" />
+    <Compile Include="Assets\Scripts\AI\CarAIHandler.cs" />
     <Compile Include="Assets\Scripts\UI\RaceTimeUIHandler.cs" />
     <Compile Include="Assets\Scripts\Car\NitroParticleHandler.cs" />
     <Compile Include="Assets\Scripts\UI\LapCountUIHandler.cs" />
     <Compile Include="Assets\Scripts\Car\CarLapCounter.cs" />
     <Compile Include="Assets\Scripts\UI\GameFinishMenuUIHandler.cs" />
     <Compile Include="Assets\Scripts\CheckPoint.cs" />
+    <Compile Include="Assets\Scripts\AI\WayPointNode.cs" />
     <Compile Include="Assets\Scripts\SpeedBoard.cs" />
     <Compile Include="Assets\Scripts\UI\LeaderboardUIHandler.cs" />
     <Compile Include="Assets\Scripts\UI\SetLeaderboardItemInfo.cs" />

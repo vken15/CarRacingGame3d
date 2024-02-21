@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         driverList.Add(new Driver(1, "P1", 1, false, AIDifficult.Normal, 0));
+        driverList.Add(new Driver(2, "P2", 1, true, AIDifficult.Normal, 0));
     }
     private void LoadMap()
     {
