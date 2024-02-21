@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     //
     private readonly List<Driver> driverList = new();
-    private int numberOfLaps;
+    private int numberOfLaps = 2;
     private int numberOfCarsRaceComplete = 0;
 
     //Events

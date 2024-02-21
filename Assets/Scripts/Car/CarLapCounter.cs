@@ -16,8 +16,7 @@ public class CarLapCounter : MonoBehaviour
 
     private void Start()
     {
-        //lapsToCompleted = GameManager.instance.GetNumberOfLaps();
-        lapsToCompleted = 4;
+        lapsToCompleted = GameManager.instance.GetNumberOfLaps();
 
         //if (!IsServer && GameManager.instance.networkStatus == NetworkStatus.online) return;
 

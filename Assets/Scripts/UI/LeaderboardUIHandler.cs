@@ -39,6 +39,7 @@ public class LeaderboardUIHandler : MonoBehaviour
             GameObject leaderboardInfoGameObject = Instantiate(leaderboardItemPrefab, leaderboardLayoutGroup.transform);
 
             setLeaderboardItemInfo[i] = leaderboardInfoGameObject.GetComponent<SetLeaderboardItemInfo>();
+            setLeaderboardItemInfo[i].SetDriverNameText(carLapCounterArray[i].GetComponentInParent<CarController>().gameObject.name);
             setLeaderboardItemInfo[i].SetPositionText($"{i + 1}.");
             setLeaderboardItemInfo[i].SetDriverFinishTimeText($"00:00");
         }
@@ -59,7 +60,7 @@ public class LeaderboardUIHandler : MonoBehaviour
     public void UpdateTimer(CarLapCounter lapCounter, float time)
     {
         foreach (SetLeaderboardItemInfo d in setLeaderboardItemInfo)
-            if (d.GetDriverName() == lapCounter.gameObject.name)
+            if (d.GetDriverName() == lapCounter.GetComponentInParent<CarController>().gameObject.name)
             {
                 int raceTimeMinutes = (int)Mathf.Floor(time / 60);
                 int raceTimeSeconds = (int)Mathf.Floor(time % 60);

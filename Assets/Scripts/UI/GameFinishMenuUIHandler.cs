@@ -16,23 +16,22 @@ public class GameFinishMenuUIHandler : MonoBehaviour
     }
     public void OnRaceAgain()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        //if (GameManager.instance.networkStatus == NetworkStatus.offline)
-        //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (GameManager.instance.networkStatus == NetworkStatus.offline)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         //else
         //    SceneTransitionHandler.sceneTransitionHandler.SwitchScene(GameManager.instance.GetMapScene());
     }
     public void OnBackToMenu()
     {
         SceneManager.LoadScene("Menu");
-        //if (GameManager.instance.networkStatus == NetworkStatus.offline)
-        //    SceneManager.LoadScene("Menu");
-        //else
-        //{
-        //    NetworkManager.Singleton.Shutdown();
-        //    GameManager.instance.networkStatus = NetworkStatus.offline; 
+        if (GameManager.instance.networkStatus == NetworkStatus.offline)
+            SceneManager.LoadScene("Menu");
+        else
+        {
+            NetworkManager.Singleton.Shutdown();
+            GameManager.instance.networkStatus = NetworkStatus.offline; 
         //    SceneTransitionHandler.sceneTransitionHandler.ExitAndLoadStartMenu();
-        //}
+        }
     }
 
     private IEnumerator ShowMenuCO()

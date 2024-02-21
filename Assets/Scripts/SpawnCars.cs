@@ -83,7 +83,7 @@ public class SpawnCars : MonoBehaviour
 
         car.name = driver.Name;
         car.GetComponent<CarInputHandler>().playerNumber = driver.PlayerNumber;
-        car.GetComponent<CarLapCounter>().carPosition = i + 1;
+        car.GetComponentInChildren<CarLapCounter>().carPosition = i + 1;
         if (driver.IsAI)
         {
             car.GetComponent<CarInputHandler>().enabled = false;
@@ -100,10 +100,11 @@ public class SpawnCars : MonoBehaviour
             //car.GetComponent<CarAIHandler>().enabled = false;
             //car.GetComponent<AStarLite>().enabled = false;
             car.tag = "Player";
-            //if (driver.PlayerNumber == 1)
-            //{
-            //    nameplateColor = Color.red;
-            //}
+            if (driver.PlayerNumber == 1)
+            {
+                GetComponent<CameraFollow>().SetTarget(car.GetComponent<Transform>());
+                nameplateColor = Color.red;
+            }
             //else if (driver.PlayerNumber == 2)
             //{
             //    nameplateColor = Color.blue;

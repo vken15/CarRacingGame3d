@@ -7,8 +7,7 @@ public class LapCountUIHandler : MonoBehaviour
     private void Awake()
     {
         lapText = GetComponent<Text>();
-        lapText.text = $"LAP 1/4";
-        //lapText.text = $"LAP 1/{GameManager.instance.GetNumberOfLaps()}";
+        lapText.text = $"LAP 1/{GameManager.instance.GetNumberOfLaps()}";
     }
 
     public void SetLapText(string text)

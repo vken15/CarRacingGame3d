@@ -3441,36 +3441,41 @@ MonoBehaviour:
   maxSpeed: 30
   frictionMultiplier: 3
   driftFactor: 0.93
+  test: 1
   nitroAcceleration: 5000
   maxNitroFuel: 100
   nitroFuel: 100
   nitroSpeedMultiplier: 1.2
   _centerOfMass: {x: 0, y: 0, z: 0}
   wheels:
-  - wheelModel: {fileID: 2815311859800083328}
-    wheelModel_LOD1: {fileID: 1787126085535061399}
-    wheelModel_LOD2: {fileID: 2388351926476729493}
+  - wheelModels:
+    - {fileID: 2815311859800083328}
+    - {fileID: 1787126085535061399}
+    - {fileID: 2388351926476729493}
     wheelCollider: {fileID: 2021775585002498173}
     wheelEffectObj: {fileID: 3503990429495456745}
     smokeParticle: {fileID: 2764448900464581576}
     axel: 0
-  - wheelModel: {fileID: 4300457822064808787}
-    wheelModel_LOD1: {fileID: 264156874840832830}
-    wheelModel_LOD2: {fileID: 7748251111148222450}
+  - wheelModels:
+    - {fileID: 4300457822064808787}
+    - {fileID: 264156874840832830}
+    - {fileID: 7748251111148222450}
     wheelCollider: {fileID: 6317158793122538621}
     wheelEffectObj: {fileID: 7117806328590425646}
     smokeParticle: {fileID: 955453601807608564}
     axel: 0
-  - wheelModel: {fileID: 7113300518174223005}
-    wheelModel_LOD1: {fileID: 3296620977849178684}
-    wheelModel_LOD2: {fileID: 4005215105151828495}
+  - wheelModels:
+    - {fileID: 7113300518174223005}
+    - {fileID: 3296620977849178684}
+    - {fileID: 4005215105151828495}
     wheelCollider: {fileID: 2143120333538967800}
     wheelEffectObj: {fileID: 1355775978460961483}
     smokeParticle: {fileID: 3543602360916506620}
     axel: 1
-  - wheelModel: {fileID: 2571293248307766268}
-    wheelModel_LOD1: {fileID: 3841080702614160954}
-    wheelModel_LOD2: {fileID: 5248014892248612556}
+  - wheelModels:
+    - {fileID: 2571293248307766268}
+    - {fileID: 3841080702614160954}
+    - {fileID: 5248014892248612556}
     wheelCollider: {fileID: 753101014571593917}
     wheelEffectObj: {fileID: 482106055994581240}
     smokeParticle: {fileID: 5874691537790115016}

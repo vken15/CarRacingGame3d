@@ -10,9 +10,7 @@ public class CarController : MonoBehaviour
     [Serializable]
     private struct Wheel
     {
-        public GameObject wheelModel;
-        public GameObject wheelModel_LOD1;
-        public GameObject wheelModel_LOD2;
+        public List<GameObject> wheelModels;
         public WheelCollider wheelCollider;
         public GameObject wheelEffectObj;
         public ParticleSystem smokeParticle;
@@ -25,8 +23,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxSteerAngle = 30.0f;
     [SerializeField] private float maxSpeed = 30.0f;
     [SerializeField] private float frictionMultiplier = 3f;
-    //[SerializeField] private float handBrakeFrictionMultiplier = 2;
-    //[SerializeField] private float extremumSlip = 0.2f;
     [SerializeField] private float driftFactor = 0.93f;
     [SerializeField] private float test = 1.0f;
 
@@ -35,7 +31,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxNitroFuel = 100.0f;
     [SerializeField] private float nitroFuel = 100.0f;
     [SerializeField] private float nitroSpeedMultiplier = 1.2f;
-    //[SerializeField] private float extremumSlipBoost = 1.0f;
 
     [Header("Others")]
     [SerializeField] private Vector3 _centerOfMass;
@@ -48,8 +43,6 @@ public class CarController : MonoBehaviour
 
     private float velocityVsUp = 0;
     private bool isRechargeNitro = false;
-    //private float handBrakeFriction = 0.05f;
-    //private float temp; //wheelSpin pointer
     private WheelFrictionCurve sidewaysFrictionFront, sidewaysFrictionRear;
 
     private Rigidbody carRb;
@@ -90,10 +83,7 @@ public class CarController : MonoBehaviour
         if (IsNitro())
             maxSpd = maxSpeed * nitroSpeedMultiplier;
         //
-        if ((accelerationInput == 0 && !IsNitro()) || ((velocityVsUp > maxSpd || velocityVsUp < -maxSpd * 0.5f)))
-            carRb.drag = Mathf.Lerp(carRb.drag, 3.0f, Time.fixedDeltaTime * 3);
-        else
-            carRb.drag = 0;
+        AdjustDrag(maxSpd);
 
         //
         if ((velocityVsUp > maxSpd && accelerationInput > 0) ||
@@ -162,14 +152,28 @@ public class CarController : MonoBehaviour
     {
         carRb.AddForce(-transform.up * carRb.velocity.magnitude * 3.6f * carRb.velocity.magnitude);
     }
+
     void KillOrthogonalVelocity()
     {
         Vector3 forwardVelocity = transform.forward * Vector3.Dot(carRb.velocity, transform.forward);
         Vector3 rightVelocity = transform.right * Vector3.Dot(carRb.velocity, transform.right);
         Vector3 upVelocity = transform.up * Vector3.Dot(carRb.velocity, transform.up);
 
-        carRb.velocity = forwardVelocity + rightVelocity + upVelocity * driftFactor;
+        carRb.velocity = forwardVelocity + rightVelocity * driftFactor + upVelocity;
     }
+
+    void AdjustDrag(float maxSpd)
+    {
+        float upVelocity = Vector3.Dot(carRb.velocity, transform.up);
+
+        if (velocityVsUp > maxSpd || velocityVsUp < -maxSpd * 0.5f || (accelerationInput == 0 && !IsNitro() && Mathf.Round(upVelocity) == 0))
+            carRb.drag = Mathf.Lerp(carRb.drag, 3.0f, Time.fixedDeltaTime * 3);
+        else if (accelerationInput == 0)
+            carRb.drag = 0.05f;
+        else
+            carRb.drag = 0.02f;
+    }
+
     void AdjustTraction()
     {
         if (brakeInput)
@@ -202,17 +206,17 @@ public class CarController : MonoBehaviour
             }
         }
     }
+    
     void AnimateWheels()
     {
         foreach (var wheel in wheels)
         {
             wheel.wheelCollider.GetWorldPose(out Vector3 pos, out Quaternion rot);
-            wheel.wheelModel.transform.position = pos;
-            wheel.wheelModel.transform.rotation = rot;
-            wheel.wheelModel_LOD1.transform.position = pos;
-            wheel.wheelModel_LOD1.transform.rotation = rot;
-            wheel.wheelModel_LOD2.transform.position = pos;
-            wheel.wheelModel_LOD2.transform.rotation = rot;
+            foreach (var wheelModel in wheel.wheelModels)
+            {
+                wheelModel.transform.position = pos;
+                wheelModel.transform.rotation = rot;
+            }
         }
     }
 
@@ -220,8 +224,6 @@ public class CarController : MonoBehaviour
     {
         foreach (var wheel in wheels)
         {
-            //var dirtParticleMainSettings = wheel.smokeParticle.main;
-
             if (brakeInput && wheel.axel == Axel.Rear && wheel.wheelCollider.isGrounded == true && carRb.velocity.magnitude >= 10.0f)
             {
                 wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = true;

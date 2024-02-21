@@ -13,10 +13,18 @@ public class CameraFollow : MonoBehaviour
     //public Transform carTarget;
     [SerializeField] private Transform carTarget;
 
-    void Start()
-    {
-        SetTarget();
-    }
+    //void Start()
+    //{
+    //    GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+    //    foreach (var player in players)
+    //    {
+    //        if (player.GetComponent<CarInputHandler>().playerNumber == 1)
+    //        {
+    //            carTarget = player.GetComponent<Transform>();
+    //            break;
+    //        }
+    //    }
+    //}
 
     void FixedUpdate()
     {
@@ -44,16 +52,8 @@ public class CameraFollow : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotSmoothness * Time.deltaTime);
     }
 
-    void SetTarget()
+    public void SetTarget(Transform carTrans)
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (var player in players)
-        {
-            if (player.GetComponent<CarInputHandler>().playerNumber == 1)
-            {
-                carTarget = player.GetComponent<Transform>();
-                break;
-            }
-        }
+        carTarget = carTrans;
     }
 }
