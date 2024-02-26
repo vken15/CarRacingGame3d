@@ -6,3 +6,4 @@ public enum Axel
     Front,
     Rear
 }
+public enum InputType { keyboard, mouse }

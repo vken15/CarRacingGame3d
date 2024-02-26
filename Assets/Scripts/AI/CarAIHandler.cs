@@ -9,6 +9,11 @@ public class CarAIHandler : MonoBehaviour
     public bool isAvoidingCars = true;
     [SerializeField] private float track = 20.0f;
 
+    [SerializeField] private Vector3 sensorPosition;
+    [SerializeField] private float sideSensorPosition = 0.3f;
+    [SerializeField] private float sensorAngle = 30.0f;
+    [SerializeField] private float sensorLength = 5.0f;
+
     private Vector3 targetPosition = Vector3.zero;
     private Transform targetTransform = null;
 
@@ -34,6 +39,7 @@ public class CarAIHandler : MonoBehaviour
 
     void FixedUpdate()
     {
+        Avoidance();
         if (GameManager.instance.GetGameState() == GameStates.countdown)
         {
             return;
@@ -78,7 +84,6 @@ public class CarAIHandler : MonoBehaviour
             //float currentMinDistanceToReachWayPoint = GetMinDistanceToReachWayPoint();
             if (distanceToWayPoint <= currentWayPoint.minDistanceToReachWayPoint)
             {
-                print("Change");
                 previousWayPoint = currentWayPoint;
                 currentWayPoint = nextWayPoint;
                 nextWayPoint = nextWayPoint.nextWayPointNode[Random.Range(0, currentWayPoint.nextWayPointNode.Length)];
@@ -103,26 +108,71 @@ public class CarAIHandler : MonoBehaviour
         return lineStartPosition + lineHeadingVector * dotProduct;
     }
 
-    //public float GetMinDistanceToReachWayPoint()
-    //{
-    //    float scale = carController.VelocityVsUp > 20 ? carController.VelocityVsUp / 20 : 1;
-    //    float driftvalue = carController.BaseDriftFactor <= 0.93f ? 0 : (carController.BaseDriftFactor - 0.93f) * 100;
-    //    return currentWayPoint.minDistanceToReachWayPoint * scale + driftvalue;
-    //}
-
     private float TurnTowardTarget()
     {
         Vector3 vectorToTarget = targetPosition - transform.position;
         vectorToTarget.Normalize();
         if (isAvoidingCars)
         {
-            //AvoidCars(vectorToTarget, out vectorToTarget);
+            //Avoidance(vectorToTarget, out vectorToTarget);
+            
         }
         angleToTarget = Vector3.SignedAngle(transform.forward, vectorToTarget, -transform.up);
         angleToTarget *= -1;
         float steerAmount = angleToTarget / 45.0f;
         steerAmount = Mathf.Clamp(steerAmount, -1.0f, 1.0f);
         return steerAmount;
+    }
+
+    private void Avoidance()
+    {
+        RaycastHit hit;
+        Vector3 sensorStartPos = transform.position;
+        sensorStartPos += transform.forward * sensorPosition.z;
+        sensorStartPos += transform.up * sensorPosition.y;
+
+        //center sensor
+        if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
+        {
+            if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("Player"))
+            {
+                Debug.DrawLine(sensorStartPos, hit.point);
+            }
+        }
+        //right sensor
+        sensorStartPos += transform.right * sideSensorPosition;
+        if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
+        {
+            if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("Player"))
+            {
+                Debug.DrawLine(sensorStartPos, hit.point);
+            }
+        }
+        //right angle sensor
+        if (Physics.Raycast(sensorStartPos, Quaternion.AngleAxis(sensorAngle, transform.up) * transform.forward, out hit, sensorLength))
+        {
+            if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("Player"))
+            {
+                Debug.DrawLine(sensorStartPos, hit.point);
+            }
+        }
+        //left sensor
+        sensorStartPos -= 2 * sideSensorPosition * transform.right;
+        if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
+        {
+            if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("Player"))
+            {
+                Debug.DrawLine(sensorStartPos, hit.point);
+            }
+        }
+        //left angle sensor
+        if (Physics.Raycast(sensorStartPos, Quaternion.AngleAxis(-sensorAngle, transform.up) * transform.forward, out hit, sensorLength))
+        {
+            if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("Player"))
+            {
+                Debug.DrawLine(sensorStartPos, hit.point);
+            }
+        }
     }
 
     private float ApplyThrottleOrBrake(float x)

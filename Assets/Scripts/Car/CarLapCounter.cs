@@ -1,7 +1,8 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
-public class CarLapCounter : MonoBehaviour
+public class CarLapCounter : NetworkBehaviour
 {
     private int passedCheckPointNumber = 0;
     private float timeAtLastPassedCheckPoint = 0;
@@ -18,7 +19,7 @@ public class CarLapCounter : MonoBehaviour
     {
         lapsToCompleted = GameManager.instance.GetNumberOfLaps();
 
-        //if (!IsServer && GameManager.instance.networkStatus == NetworkStatus.online) return;
+        if (!IsServer && GameManager.instance.networkStatus == NetworkStatus.online) return;
 
         if (CompareTag("Player"))
         {
@@ -43,7 +44,7 @@ public class CarLapCounter : MonoBehaviour
         if (collision.CompareTag("CheckPoint"))
         {
             //Once a car has completed the race. Stop checking any checkpoints or laps.
-            if (isRaceCompleted) //|| GameManager.instance.GetGameState() == GameStates.raceOver)
+            if (isRaceCompleted || GameManager.instance.GetGameState() == GameStates.raceOver)
                 return;
             
             CheckPoint checkPoint = collision.GetComponent<CheckPoint>();
@@ -63,39 +64,45 @@ public class CarLapCounter : MonoBehaviour
                     }
                     if (!isRaceCompleted && lapsCountUIHandler != null)
                     {
-                        lapsCountUIHandler.SetLapText($"LAP {lapsCompleted + 1}/{lapsToCompleted}");
+                        if (IsServer)
+                        {
+                            UpdateLapCountClientRpc(lapsCompleted);
+                        }
+                        else if (GameManager.instance.networkStatus == NetworkStatus.offline)
+                        {
+                            lapsCountUIHandler.SetLapText($"LAP {lapsCompleted + 1}/{lapsToCompleted}");
+                        }
                     }
-                    //if (!isRaceCompleted && lapsCountUIHandler != null)
-                    //{
-                    //    if (IsServer)
-                    //    {
-                    //        UpdateLapCountClientRpc(lapsCompleted, lapsToCompleted);
-                    //    }
-                    //    else if (GameManager.instance.networkStatus == NetworkStatus.offline)
-                    //    {
-                    //        lapsCountUIHandler.SetLapText($"LAP {lapsCompleted + 1}/{lapsToCompleted}");
-                    //    }
-                    //}
                 }
 
                 OnPassCheckPoint?.Invoke(this);
 
-                //Show the cars position
                 if (isRaceCompleted)
                 {
                     if (CompareTag("Player"))
                     {
                         GetComponentInParent<CarInputHandler>().enabled = false;
-                        //CarAIHandler carAIHandler = GetComponent<CarAIHandler>();
-                        //carAIHandler.enabled = true;
-                        //carAIHandler.aiMode = CarAIHandler.AIMode.followWayPoints;
-                        //GetComponent<AStarLite>().enabled = true;
+                        GetComponentInParent<CarAIHandler>().enabled = true;
                     }
 
                     if (GameManager.instance.GetGameState() != GameStates.raceOver)
                         GameManager.instance.OnRaceCompleted();
                 }
             }
+        }
+    }
+
+    [ClientRpc]
+    private void UpdateLapCountClientRpc(int laps)
+    {
+        if (IsOwner)
+        {
+            if (lapsCountUIHandler == null)
+            {
+                lapsCountUIHandler = FindFirstObjectByType<LapCountUIHandler>();
+            }
+            Debug.Log("Client: " + OwnerClientId + " lap: " + laps);
+            lapsCountUIHandler.SetLapText($"LAP {laps + 1}/{lapsToCompleted}");
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -36,8 +37,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        driverList.Add(new Driver(1, "P1", 1, false, AIDifficult.Normal, 0));
-        driverList.Add(new Driver(2, "P2", 1, true, AIDifficult.Normal, 0));
+        //driverList.Add(new Driver(1, "P1", 1, false, AIDifficult.Normal, 0));
+        //driverList.Add(new Driver(2, "P2", 1, true, AIDifficult.Normal, 0));
     }
     private void LoadMap()
     {
@@ -69,7 +70,7 @@ public class GameManager : MonoBehaviour
     public void OnRaceCompleted()
     {
         numberOfCarsRaceComplete++;
-        if (numberOfCarsRaceComplete >= 4)//map.MaxCars)
+        if (numberOfCarsRaceComplete >= 2)//map.MaxCars)
             OnRaceOver();
         else
             ChangeGameState(GameStates.raceOverCountDown);

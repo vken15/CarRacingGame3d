@@ -28,7 +28,8 @@ public class CameraFollow : MonoBehaviour
 
     void FixedUpdate()
     {
-        FollowTarget();
+        if (carTarget != null)
+            FollowTarget();
     }
 
     void FollowTarget()
