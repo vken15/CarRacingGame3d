@@ -43,15 +43,12 @@ public class PositionHandler : MonoBehaviour
             //Set player last position
             int playerNumber = carLapCounter.GetComponentInParent<CarInputHandler>().playerNumber;
 
-            GameManager.instance.SetDriverLastRacePosition(playerNumber, carPosition);
-            int pointReward = FindFirstObjectByType<SpawnCars>().GetNumberOfCarsSpawned() - carPosition;
-            GameManager.instance.AddPoints(playerNumber, pointReward);
-            //if (GameManager.instance.networkStatus == NetworkStatus.offline || NetworkManager.Singleton.IsServer)
-            //{
-            //    GameManager.instance.SetDriverLastRacePosition(playerNumber, carPosition);
-            //    int pointReward = FindFirstObjectByType<SpawnCars>().GetNumberOfCarsSpawned() - carPosition;
-            //    GameManager.instance.AddPoints(playerNumber, pointReward);
-            //}
+            if (GameManager.instance.networkStatus == NetworkStatus.offline || NetworkManager.Singleton.IsServer)
+            {
+                GameManager.instance.SetDriverLastRacePosition(playerNumber, carPosition);
+                int pointReward = FindFirstObjectByType<SpawnCars>().GetNumberOfCarsSpawned() - carPosition;
+                GameManager.instance.AddPoints(playerNumber, pointReward);
+            }
             //if (playerNumber == 1)
             //{
             //    int numberOfLaps = GameManager.instance.GetNumberOfLaps();

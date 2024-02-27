@@ -17,8 +17,8 @@ public class SpawnCars : NetworkBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        if (GameManager.instance.networkStatus == NetworkStatus.offline)
-            Spawn();
+        //if (GameManager.instance.networkStatus == NetworkStatus.offline)
+        Spawn();
     }
 
     public void Spawn()

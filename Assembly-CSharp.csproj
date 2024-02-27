@@ -59,14 +59,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Enum.cs" />
+    <Compile Include="Assets\Scripts\Multiplayer\ConnectionNotificationManager.cs" />
     <Compile Include="Assets\Scripts\Car\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\UI\CountdownUIHandler.cs" />
+    <Compile Include="Assets\Scripts\Multiplayer\Unused\GameServerBroadcasting.cs" />
     <Compile Include="Assets\Scripts\UI\NameplateUIHandler.cs" />
     <Compile Include="Assets\Scripts\SpawnCars.cs" />
     <Compile Include="Assets\Scripts\Portal\Portal.cs" />
     <Compile Include="Assets\Scripts\Car\CarController.cs" />
+    <Compile Include="Assets\Scripts\Multiplayer\Unused\UdpConnection.cs" />
     <Compile Include="Assets\Scripts\Portal\PortalableObject.cs" />
     <Compile Include="Assets\Scripts\Portal\PortalCamera.cs" />
+    <Compile Include="Assets\Scripts\Multiplayer\NetworkDiscovery\DiscoveryResponseData.cs" />
     <Compile Include="Assets\Scripts\AI\DrawPathHandler.cs" />
     <Compile Include="Assets\Scripts\AI\CarAIHandler.cs" />
     <Compile Include="Assets\Scripts\UI\LobbyRoomUI.cs" />
@@ -75,21 +79,27 @@
     <Compile Include="Assets\Scripts\Car\NitroParticleHandler.cs" />
     <Compile Include="Assets\Scripts\UI\LapCountUIHandler.cs" />
     <Compile Include="Assets\Scripts\Car\CarLapCounter.cs" />
+    <Compile Include="Assets\Scripts\Multiplayer\NetworkDiscovery\ExampleNetworkDiscovery.cs" />
     <Compile Include="Assets\Scripts\SceneTransitionHandler.cs" />
+    <Compile Include="Assets\Scripts\Multiplayer\Unused\ClientServerInfo.cs" />
     <Compile Include="Assets\Scripts\UI\GameFinishMenuUIHandler.cs" />
     <Compile Include="Assets\Scripts\UI\NetworkManagerUI.cs" />
     <Compile Include="Assets\Scripts\CheckPoint.cs" />
     <Compile Include="Assets\Scripts\AI\WayPointNode.cs" />
     <Compile Include="Assets\Scripts\SpeedBoard.cs" />
+    <Compile Include="Assets\Scripts\UI\LobbyControl.cs" />
     <Compile Include="Assets\Scripts\UI\LeaderboardUIHandler.cs" />
     <Compile Include="Assets\Scripts\UI\SetLeaderboardItemInfo.cs" />
     <Compile Include="Assets\Scripts\PositionHandler.cs" />
+    <Compile Include="Assets\Scripts\Multiplayer\NetworkDiscovery\NetworkDiscovery.cs" />
     <Compile Include="Assets\Scripts\Model\Driver.cs" />
+    <Compile Include="Assets\Scripts\Multiplayer\NetworkDiscovery\ExampleNetworkDiscoveryHud.cs" />
     <Compile Include="Assets\Scripts\AntiStuckSystem.cs" />
+    <Compile Include="Assets\Scripts\Multiplayer\RoomControl.cs" />
     <Compile Include="Assets\Scripts\Startup.cs" />
-    <Compile Include="Assets\Scripts\ConnectionNotificationManager.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Car\CarInputHandler.cs" />
+    <Compile Include="Assets\Scripts\Multiplayer\NetworkDiscovery\DiscoveryBroadcastData.cs" />
     <Compile Include="Assets\Controls.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -18,8 +18,8 @@ public class GameFinishMenuUIHandler : MonoBehaviour
     {
         if (GameManager.instance.networkStatus == NetworkStatus.offline)
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        //else
-        //    SceneTransitionHandler.sceneTransitionHandler.SwitchScene(GameManager.instance.GetMapScene());
+        else
+            SceneTransitionHandler.sceneTransitionHandler.SwitchScene("Room");
     }
     public void OnBackToMenu()
     {

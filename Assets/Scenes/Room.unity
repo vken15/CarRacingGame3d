@@ -799,8 +799,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1391874954}
-        m_TargetAssemblyTypeName: LobbyControl, Assembly-CSharp
+      - m_Target: {fileID: 1391874957}
+        m_TargetAssemblyTypeName: RoomControl, Assembly-CSharp
         m_MethodName: PlayerIsReady
         m_Mode: 1
         m_Arguments:
@@ -858,8 +858,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1391874955}
-  - component: {fileID: 1391874953}
-  - component: {fileID: 1391874954}
+  - component: {fileID: 1391874956}
+  - component: {fileID: 1391874957}
   m_Layer: 0
   m_Name: RoomControl
   m_TagString: Untagged
@@ -867,34 +867,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1391874953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1391874952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3873207199
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
---- !u!114 &1391874954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1391874952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29307735d51e1514097601baa97df68e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1391874955
 Transform:
   m_ObjectHideFlags: 0
@@ -910,6 +882,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1391874956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391874952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3412261478
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1391874957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391874952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ae1fa49a08d2c4c837df41356720f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InGameSceneName: Online
+  m_MinimumPlayerCount: 2
+  RoomText: {fileID: 108200573}
 --- !u!1 &1571190334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,8 +1314,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1391874954}
-        m_TargetAssemblyTypeName: LobbyControl, Assembly-CSharp
+      - m_Target: {fileID: 1391874957}
+        m_TargetAssemblyTypeName: RoomControl, Assembly-CSharp
         m_MethodName: CheckForAllPlayersReady
         m_Mode: 1
         m_Arguments:

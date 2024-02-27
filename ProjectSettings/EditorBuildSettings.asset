@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Test.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: dcef2db0a8d4f7f4abe2c52f498770ec
+  - enabled: 1
+    path: Assets/Scenes/Room.unity
+    guid: 0e6c13e08e9ee334b8f459adb4072d8e
+  - enabled: 1
     path: Assets/Scenes/Online.unity
     guid: 1c9d5c7762abef84695e42b35cc28bee
   m_configObjects: {}

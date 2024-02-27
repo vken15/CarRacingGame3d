@@ -98,11 +98,11 @@ public class NetworkManagerUI : NetworkBehaviour
             {
                 //StartGame();
                 //
-                SpawnCars spawn = FindAnyObjectByType<SpawnCars>();
-                if (spawn != null)
-                {
-                    spawn.Spawn();
-                }
+                //SpawnCars spawn = FindAnyObjectByType<SpawnCars>();
+                //if (spawn != null)
+                //{
+                //    spawn.Spawn();
+                //}
                 Singleton.OnClientConnectionNotification -= PlayerJoin;
                 StartGameClientRpc();
             }

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cccd0219b3e4754b9e969e3e5d90c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultMainMenu: Online
+  DefaultMainMenu: Lobby
 --- !u!114 &1200540719165929790
 MonoBehaviour:
   m_ObjectHideFlags: 0
