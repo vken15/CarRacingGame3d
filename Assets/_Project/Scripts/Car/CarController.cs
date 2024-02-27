@@ -24,7 +24,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxSpeed = 30.0f;
     [SerializeField] private float frictionMultiplier = 3f;
     [SerializeField] private float driftFactor = 0.93f;
-    [SerializeField] private float test = 1.0f;
+    [SerializeField] private float brakeFactor = 1.0f;
 
     [Header("Boost")]
     [SerializeField] private float nitroAcceleration = 5000.0f;
@@ -65,7 +65,7 @@ public class CarController : MonoBehaviour
         if (GameManager.instance.GetGameState() == GameStates.countdown)
             return;
 
-        //DownForce();
+        DownForce();
         Nitro();
         Move();
         KillOrthogonalVelocity();
@@ -141,7 +141,7 @@ public class CarController : MonoBehaviour
         {
             nitroFuel -= (nitroFuel <= 0) ? 0 : Time.deltaTime * 4;
             if (nitroFuel > 0) {
-                var force = transform.forward * nitroAcceleration * 4;
+                var force = 4 * nitroAcceleration * transform.forward;
                 carRb.AddForce(force, ForceMode.Force);
             }
             else isRechargeNitro = true;
@@ -150,7 +150,7 @@ public class CarController : MonoBehaviour
 
     void DownForce()
     {
-        carRb.AddForce(-transform.up * carRb.velocity.magnitude * 3.6f * carRb.velocity.magnitude);
+        carRb.AddForce(3.6f * carRb.velocity.magnitude * carRb.velocity.magnitude * -transform.up);
     }
 
     void KillOrthogonalVelocity()
@@ -182,7 +182,7 @@ public class CarController : MonoBehaviour
             sidewaysFrictionFront = wheels[0].wheelCollider.sidewaysFriction;
             sidewaysFrictionRear = wheels[3].wheelCollider.sidewaysFriction;
             sidewaysFrictionFront.extremumValue = sidewaysFrictionFront.asymptoteValue = 1.5f;
-            sidewaysFrictionRear.extremumValue = sidewaysFrictionRear.asymptoteValue = Mathf.SmoothDamp(sidewaysFrictionRear.asymptoteValue, test, ref velocity, 0.05f * Time.deltaTime);
+            sidewaysFrictionRear.extremumValue = sidewaysFrictionRear.asymptoteValue = Mathf.SmoothDamp(sidewaysFrictionRear.asymptoteValue, brakeFactor, ref velocity, 0.05f * Time.deltaTime);
             foreach (var wheel in wheels)
             {
                 if (wheel.axel == Axel.Front)
@@ -214,8 +214,7 @@ public class CarController : MonoBehaviour
             wheel.wheelCollider.GetWorldPose(out Vector3 pos, out Quaternion rot);
             foreach (var wheelModel in wheel.wheelModels)
             {
-                wheelModel.transform.position = pos;
-                wheelModel.transform.rotation = rot;
+                wheelModel.transform.SetPositionAndRotation(pos, rot);
             }
         }
     }
