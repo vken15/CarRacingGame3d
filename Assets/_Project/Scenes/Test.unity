@@ -2789,7 +2789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   countdownText: {fileID: 1073017771}
-  m_raceOverCountdown: 0
+  m_DelayedStartTime: 3
 --- !u!114 &676553811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4605,6 +4605,7 @@ GameObject:
   - component: {fileID: 963194230}
   - component: {fileID: 963194231}
   - component: {fileID: 963194232}
+  - component: {fileID: 963194233}
   m_Layer: 0
   m_Name: Player Camera
   m_TagString: MainCamera
@@ -4759,7 +4760,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carNameplate: {fileID: 6440790114199902800, guid: 32da8a42fb9556b408f7338d09b00b79, type: 3}
-  carPrefab: {fileID: 3373542208063198010, guid: 8f040dddc0077f04789e70beb46e4ac7, type: 3}
+  carCamera: {fileID: 6496352539316740339, guid: 6f90e13b8bfca6c42a11c54b6dbbb65c, type: 3}
+  carPrefab: {fileID: 5385228893749850756, guid: 8f040dddc0077f04789e70beb46e4ac7, type: 3}
 --- !u!114 &963194232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4773,6 +4775,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carLapCounters: []
+--- !u!114 &963194233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3807476730
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1073017769
 GameObject:
   m_ObjectHideFlags: 0

@@ -76,7 +76,7 @@ public class CarAIHandler : MonoBehaviour
             if (distanceToWayPoint > track)
             {
                 Vector3 nearestPointOnTheWayPointLine = FindNearestPointOnLine(previousWayPoint.transform.position, currentWayPoint.transform.position, transform.position);
-                float segments = distanceToWayPoint / 20;
+                float segments = distanceToWayPoint / track;
                 targetPosition = (targetPosition + nearestPointOnTheWayPointLine * segments) / (segments + 1);
                 Debug.DrawLine(transform.position, targetPosition, Color.black);
             }
@@ -119,7 +119,7 @@ public class CarAIHandler : MonoBehaviour
         }
         angleToTarget = Vector3.SignedAngle(transform.forward, vectorToTarget, -transform.up);
         angleToTarget *= -1;
-        float steerAmount = angleToTarget / 45.0f;
+        float steerAmount = angleToTarget / 30.0f;
         steerAmount = Mathf.Clamp(steerAmount, -1.0f, 1.0f);
         return steerAmount;
     }

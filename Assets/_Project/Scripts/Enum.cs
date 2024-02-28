@@ -6,4 +6,10 @@ public enum Axel
     Front,
     Rear
 }
+public enum DriveStyle
+{
+    FWD,
+    RWD,
+    AWD
+}
 public enum InputType { keyboard, mouse }

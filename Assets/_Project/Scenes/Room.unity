@@ -911,7 +911,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InGameSceneName: Online
-  m_MinimumPlayerCount: 2
+  m_MinimumPlayerCount: 1
   RoomText: {fileID: 108200573}
 --- !u!1 &1571190334
 GameObject:
