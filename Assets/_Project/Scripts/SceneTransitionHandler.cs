@@ -3,135 +3,138 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 
-public class SceneTransitionHandler : NetworkBehaviour
+namespace CarRacingGame3d
 {
-    static public SceneTransitionHandler sceneTransitionHandler { get; internal set; }
-
-    [SerializeField]
-    private string DefaultMainMenu = "Menu";
-
-    [HideInInspector]
-    public delegate void ClientLoadedSceneDelegateHandler(ulong clientId);
-    [HideInInspector]
-    public event ClientLoadedSceneDelegateHandler OnClientLoadedScene;
-
-    [HideInInspector]
-    public delegate void SceneStateChangedDelegateHandler(SceneStates newState);
-    [HideInInspector]
-    public event SceneStateChangedDelegateHandler OnSceneStateChanged;
-
-    private int m_numberOfClientLoaded;
-    
-    /// <summary>
-    /// Example scene states
-    /// </summary>
-    public enum SceneStates
+    public class SceneTransitionHandler : NetworkBehaviour
     {
-        Init,
-        Start,
-        Lobby,
-        Ingame
-    }
+        static public SceneTransitionHandler sceneTransitionHandler { get; internal set; }
 
-    private SceneStates m_SceneState;
+        [SerializeField]
+        private string DefaultMainMenu = "Menu";
 
-    /// <summary>
-    /// Awake
-    /// If another version exists, destroy it and use the current version
-    /// Set our scene state to INIT
-    /// </summary>
-    private void Awake()
-    {
-        if(sceneTransitionHandler != this && sceneTransitionHandler != null)
+        [HideInInspector]
+        public delegate void ClientLoadedSceneDelegateHandler(ulong clientId);
+        [HideInInspector]
+        public event ClientLoadedSceneDelegateHandler OnClientLoadedScene;
+
+        [HideInInspector]
+        public delegate void SceneStateChangedDelegateHandler(SceneStates newState);
+        [HideInInspector]
+        public event SceneStateChangedDelegateHandler OnSceneStateChanged;
+
+        private int m_numberOfClientLoaded;
+
+        /// <summary>
+        /// Example scene states
+        /// </summary>
+        public enum SceneStates
         {
-            GameObject.Destroy(sceneTransitionHandler.gameObject);
+            Init,
+            Start,
+            Lobby,
+            Ingame
         }
-        sceneTransitionHandler = this;
-        SetSceneState(SceneStates.Init);
-        DontDestroyOnLoad(this);
-    }
 
-    /// <summary>
-    /// SetSceneState
-    /// Sets the current scene state to help with transitioning.
-    /// </summary>
-    /// <param name="sceneState"></param>
-    public void SetSceneState(SceneStates sceneState)
-    {
-        m_SceneState = sceneState;
-        OnSceneStateChanged?.Invoke(m_SceneState);
-    }
+        private SceneStates m_SceneState;
 
-    /// <summary>
-    /// GetCurrentSceneState
-    /// Returns the current scene state
-    /// </summary>
-    /// <returns>current scene state</returns>
-    public SceneStates GetCurrentSceneState()
-    {
-        return m_SceneState;
-    }
-
-    /// <summary>
-    /// Start
-    /// Loads the default main menu when started (this should always be a component added to the networking manager)
-    /// </summary>
-    private void Start()
-    {
-        if(m_SceneState == SceneStates.Init)
+        /// <summary>
+        /// Awake
+        /// If another version exists, destroy it and use the current version
+        /// Set our scene state to INIT
+        /// </summary>
+        private void Awake()
         {
-            SceneManager.LoadScene(DefaultMainMenu);
+            if (sceneTransitionHandler != this && sceneTransitionHandler != null)
+            {
+                GameObject.Destroy(sceneTransitionHandler.gameObject);
+            }
+            sceneTransitionHandler = this;
+            SetSceneState(SceneStates.Init);
+            DontDestroyOnLoad(this);
         }
-    }
 
-    /// <summary>
-    /// Registers callbacks to the NetworkSceneManager. This should be called when starting the server
-    /// </summary>
-    public void RegisterCallbacks()
-    {
-        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadComplete;
-        
-    }
-
-    /// <summary>
-    /// Switches to a new scene
-    /// </summary>
-    /// <param name="scenename"></param>
-    public void SwitchScene(string scenename)
-    {
-        if(NetworkManager.Singleton.IsListening)
+        /// <summary>
+        /// SetSceneState
+        /// Sets the current scene state to help with transitioning.
+        /// </summary>
+        /// <param name="sceneState"></param>
+        public void SetSceneState(SceneStates sceneState)
         {
-            m_numberOfClientLoaded = 0;
-            NetworkManager.Singleton.SceneManager.LoadScene(scenename, LoadSceneMode.Single);
+            m_SceneState = sceneState;
+            OnSceneStateChanged?.Invoke(m_SceneState);
         }
-        else
+
+        /// <summary>
+        /// GetCurrentSceneState
+        /// Returns the current scene state
+        /// </summary>
+        /// <returns>current scene state</returns>
+        public SceneStates GetCurrentSceneState()
         {
-            SceneManager.LoadSceneAsync(scenename);
+            return m_SceneState;
         }
-    }
 
-    private void OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
-    {
-        m_numberOfClientLoaded += 1;
-        Debug.Log(m_numberOfClientLoaded + " " + clientId);
-        OnClientLoadedScene?.Invoke(clientId);
-    }
+        /// <summary>
+        /// Start
+        /// Loads the default main menu when started (this should always be a component added to the networking manager)
+        /// </summary>
+        private void Start()
+        {
+            if (m_SceneState == SceneStates.Init)
+            {
+                SceneManager.LoadScene(DefaultMainMenu);
+            }
+        }
 
-    public bool AllClientsAreLoaded()
-    {
-        Debug.Log(m_numberOfClientLoaded + " " + NetworkManager.Singleton.ConnectedClients.Count);
-        return m_numberOfClientLoaded == NetworkManager.Singleton.ConnectedClients.Count;
-    }
+        /// <summary>
+        /// Registers callbacks to the NetworkSceneManager. This should be called when starting the server
+        /// </summary>
+        public void RegisterCallbacks()
+        {
+            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadComplete;
 
-    /// <summary>
-    /// ExitAndLoadStartMenu
-    /// This should be invoked upon a user exiting a multiplayer game session.
-    /// </summary>
-    public void ExitAndLoadStartMenu()
-    {
-        NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnLoadComplete;
-        OnClientLoadedScene = null;
-        SetSceneState(SceneStates.Start);
-        SceneManager.LoadScene("Menu");
+        }
+
+        /// <summary>
+        /// Switches to a new scene
+        /// </summary>
+        /// <param name="scenename"></param>
+        public void SwitchScene(string scenename)
+        {
+            if (NetworkManager.Singleton.IsListening)
+            {
+                m_numberOfClientLoaded = 0;
+                NetworkManager.Singleton.SceneManager.LoadScene(scenename, LoadSceneMode.Single);
+            }
+            else
+            {
+                SceneManager.LoadSceneAsync(scenename);
+            }
+        }
+
+        private void OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+        {
+            m_numberOfClientLoaded += 1;
+            Debug.Log(m_numberOfClientLoaded + " " + clientId);
+            OnClientLoadedScene?.Invoke(clientId);
+        }
+
+        public bool AllClientsAreLoaded()
+        {
+            Debug.Log(m_numberOfClientLoaded + " " + NetworkManager.Singleton.ConnectedClients.Count);
+            return m_numberOfClientLoaded == NetworkManager.Singleton.ConnectedClients.Count;
+        }
+
+        /// <summary>
+        /// ExitAndLoadStartMenu
+        /// This should be invoked upon a user exiting a multiplayer game session.
+        /// </summary>
+        public void ExitAndLoadStartMenu()
+        {
+            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnLoadComplete;
+            OnClientLoadedScene = null;
+            SetSceneState(SceneStates.Start);
+            SceneManager.LoadScene("Menu");
+        }
     }
 }

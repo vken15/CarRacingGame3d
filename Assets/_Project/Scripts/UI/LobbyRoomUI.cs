@@ -2,31 +2,34 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
 
-public class LobbyRoomUI : MonoBehaviour
+namespace CarRacingGame3d
 {
-    [SerializeField] private GameObject startBtn;
-    [SerializeField] private GameObject readyBtn;
-
-    private void Awake()
+    public class LobbyRoomUI : MonoBehaviour
     {
-        if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost)
+        [SerializeField] private GameObject startBtn;
+        [SerializeField] private GameObject readyBtn;
+
+        private void Awake()
         {
-            Debug.Log("Host");
-            Destroy(readyBtn);
-        }
-        else
-        {
-            Debug.Log("Client Join");
-            Destroy(startBtn);
-            Text btnName = readyBtn.GetComponentInChildren<Text>();
-            btnName.text = "Ready";
-            readyBtn.GetComponent<Button>().onClick.AddListener(() =>
+            if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost)
             {
-                if (btnName.text.Equals("Ready"))
-                    btnName.text = "Cancel";
-                else
-                    btnName.text = "Ready";
-            });
+                Debug.Log("Host");
+                Destroy(readyBtn);
+            }
+            else
+            {
+                Debug.Log("Client Join");
+                Destroy(startBtn);
+                Text btnName = readyBtn.GetComponentInChildren<Text>();
+                btnName.text = "Ready";
+                readyBtn.GetComponent<Button>().onClick.AddListener(() =>
+                {
+                    if (btnName.text.Equals("Ready"))
+                        btnName.text = "Cancel";
+                    else
+                        btnName.text = "Ready";
+                });
+            }
         }
     }
 }

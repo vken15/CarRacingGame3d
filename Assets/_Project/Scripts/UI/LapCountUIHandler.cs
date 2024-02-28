@@ -1,17 +1,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LapCountUIHandler : MonoBehaviour
+namespace CarRacingGame3d
 {
-    private Text lapText;
-    private void Awake()
+    public class LapCountUIHandler : MonoBehaviour
     {
-        lapText = GetComponent<Text>();
-        lapText.text = $"LAP 1/{GameManager.instance.GetNumberOfLaps()}";
-    }
+        private Text lapText;
+        private void Awake()
+        {
+            lapText = GetComponent<Text>();
+            lapText.text = $"LAP 1/{GameManager.instance.GetNumberOfLaps()}";
+        }
 
-    public void SetLapText(string text)
-    {
-        lapText.text = text;
+        public void SetLapText(string text)
+        {
+            lapText.text = text;
+        }
     }
 }

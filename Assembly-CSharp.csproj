@@ -8,7 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>CarRacingGame3d</RootNamespace>
     <ProjectGuid>{CCA61BD5-7C14-8782-E54F-3DC91A4906A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -82,6 +82,7 @@
     <Compile Include="Assets\_Project\Scripts\Car\NitroParticleHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\AI\WayPointNode.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\GameServerBroadcasting.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkTimer.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\DiscoveryResponseData.cs" />
     <Compile Include="Assets\_Project\Scripts\Model\Driver.cs" />
     <Compile Include="Assets\_Project\Scripts\Enum.cs" />

@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WayPointNode : MonoBehaviour
+namespace CarRacingGame3d
 {
-    [Header("Waypoint")]
-    public float minDistanceToReachWayPoint = 5;
-    public WayPointNode[] nextWayPointNode;
-
-    private void OnDrawGizmos()
+    public class WayPointNode : MonoBehaviour
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, minDistanceToReachWayPoint);
+        [Header("Waypoint")]
+        public float minDistanceToReachWayPoint = 5;
+        public WayPointNode[] nextWayPointNode;
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(transform.position, minDistanceToReachWayPoint);
+        }
     }
 }

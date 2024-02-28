@@ -4,72 +4,72 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.UI;
-using static ConnectionNotificationManager;
-using System;
+using static CarRacingGame3d.ConnectionNotificationManager;
 
-
-/// <summary>
-/// For testing
-/// </summary>
-public class NetworkManagerUI : NetworkBehaviour
+namespace CarRacingGame3d
 {
-    [SerializeField] private Button serverBtn;
-    [SerializeField] private Button hostBtn;
-    [SerializeField] private Button clientBtn;
-
-    private NetworkVariable<int> numberOfPlayer = new(0);
-
-    public override void OnNetworkSpawn()
+    /// <summary>
+    /// For testing
+    /// </summary>
+    public class NetworkManagerUI : NetworkBehaviour
     {
-        if (IsHost || IsServer)
-        {
-            StartGameServerRpc();
-        }
-    }
+        [SerializeField] private Button serverBtn;
+        [SerializeField] private Button hostBtn;
+        [SerializeField] private Button clientBtn;
 
-    private void Awake()
-    {
-        string myAddressLocal = "";
-        IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (IPAddress ip in hostEntry.AddressList)
+        private NetworkVariable<int> numberOfPlayer = new(0);
+
+        public override void OnNetworkSpawn()
         {
-            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            if (IsHost || IsServer)
             {
-                myAddressLocal = ip.ToString();
-                break;
+                StartGameServerRpc();
             }
         }
-        //if (myAddressLocal == "") 
+
+        private void Awake()
+        {
+            string myAddressLocal = "";
+            IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in hostEntry.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    myAddressLocal = ip.ToString();
+                    break;
+                }
+            }
+            //if (myAddressLocal == "") 
             myAddressLocal = "127.0.0.1";
 
-        serverBtn.onClick.AddListener(() =>
-        {
-            UnityTransport transport = (UnityTransport)NetworkManager.NetworkConfig.NetworkTransport;
-            transport.SetConnectionData(myAddressLocal, 7777);
-            Singleton.OnClientConnectionNotification += PlayerJoin;
-            NetworkManager.Singleton.StartServer();
-        });
-        hostBtn.onClick.AddListener(() =>
-        {
-            UnityTransport transport = (UnityTransport)NetworkManager.NetworkConfig.NetworkTransport;
-            transport.SetConnectionData(myAddressLocal, 7777);
-            Singleton.OnClientConnectionNotification += PlayerJoin;
-            NetworkManager.Singleton.StartHost();
-        });
-        clientBtn.onClick.AddListener(() =>
-        {
-            NetworkManager.Singleton.StartClient();
-        });
-    }
+            serverBtn.onClick.AddListener(() =>
+            {
+                UnityTransport transport = (UnityTransport)NetworkManager.NetworkConfig.NetworkTransport;
+                transport.SetConnectionData(myAddressLocal, 7777);
+                Singleton.OnClientConnectionNotification += PlayerJoin;
+                NetworkManager.Singleton.StartServer();
+            });
+            hostBtn.onClick.AddListener(() =>
+            {
+                UnityTransport transport = (UnityTransport)NetworkManager.NetworkConfig.NetworkTransport;
+                transport.SetConnectionData(myAddressLocal, 7777);
+                Singleton.OnClientConnectionNotification += PlayerJoin;
+                NetworkManager.Singleton.StartHost();
+            });
+            clientBtn.onClick.AddListener(() =>
+            {
+                NetworkManager.Singleton.StartClient();
+            });
+        }
 
-    public override void OnDestroy()
-    {
-        base.OnDestroy();
-        Singleton.OnClientConnectionNotification -= PlayerJoin;
-    }
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            Singleton.OnClientConnectionNotification -= PlayerJoin;
+        }
 
-    private void PlayerJoin(ulong clientId, ConnectionStatus con)
-    {
+        private void PlayerJoin(ulong clientId, ConnectionStatus con)
+        {
             if (con == ConnectionStatus.Connected)
             {
                 GameManager.instance.AddDriverToList(numberOfPlayer.Value + 1, "Tester " + numberOfPlayer.Value + 1, 1, false, AIDifficult.Easy, clientId);
@@ -78,41 +78,42 @@ public class NetworkManagerUI : NetworkBehaviour
             }
             else
                 numberOfPlayer.Value -= 1;
-    }
-
-    private void StartGame()
-    {
-        CountdownUIHandler countdownUIHandler = FindAnyObjectByType<CountdownUIHandler>();
-        if (countdownUIHandler != null)
-        {
-            countdownUIHandler.StartCountDown();
         }
-    }
 
-    [ServerRpc]
-    private void StartGameServerRpc()
-    {
-        numberOfPlayer.OnValueChanged += (int prevValue, int newValue) =>
+        private void StartGame()
         {
-            if (numberOfPlayer.Value >= 2)
+            CountdownUIHandler countdownUIHandler = FindAnyObjectByType<CountdownUIHandler>();
+            if (countdownUIHandler != null)
             {
-                //StartGame();
-                //
-                //SpawnCars spawn = FindAnyObjectByType<SpawnCars>();
-                //if (spawn != null)
-                //{
-                //    spawn.Spawn();
-                //}
-                Singleton.OnClientConnectionNotification -= PlayerJoin;
-                StartGameClientRpc();
+                countdownUIHandler.StartCountDown();
             }
-            Debug.Log(numberOfPlayer.Value);
-        };
-    }
+        }
 
-    [ClientRpc]
-    private void StartGameClientRpc()
-    {
-        StartGame();
+        [ServerRpc]
+        private void StartGameServerRpc()
+        {
+            numberOfPlayer.OnValueChanged += (int prevValue, int newValue) =>
+            {
+                if (numberOfPlayer.Value >= 2)
+                {
+                    //StartGame();
+                    //
+                    //SpawnCars spawn = FindAnyObjectByType<SpawnCars>();
+                    //if (spawn != null)
+                    //{
+                    //    spawn.Spawn();
+                    //}
+                    Singleton.OnClientConnectionNotification -= PlayerJoin;
+                    StartGameClientRpc();
+                }
+                Debug.Log(numberOfPlayer.Value);
+            };
+        }
+
+        [ClientRpc]
+        private void StartGameClientRpc()
+        {
+            StartGame();
+        }
     }
 }

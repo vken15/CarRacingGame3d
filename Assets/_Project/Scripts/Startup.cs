@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Startup : MonoBehaviour
+namespace CarRacingGame3d
 {
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    public static void InstantiatePrefabs()
+    public class Startup : MonoBehaviour
     {
-        Debug.Log("-- Loading --");
-        GameObject[] prefabsToInstantiate = Resources.LoadAll<GameObject>("InstantiateOnLoad/");
-        foreach (GameObject pref in prefabsToInstantiate)
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void InstantiatePrefabs()
         {
-            Debug.Log($"{pref.name}");
-            GameObject.Instantiate(pref);
+            Debug.Log("-- Loading --");
+            GameObject[] prefabsToInstantiate = Resources.LoadAll<GameObject>("InstantiateOnLoad/");
+            foreach (GameObject pref in prefabsToInstantiate)
+            {
+                Debug.Log($"{pref.name}");
+                GameObject.Instantiate(pref);
+            }
+            Debug.Log("-- Done --");
         }
-        Debug.Log("-- Done --");
     }
 }

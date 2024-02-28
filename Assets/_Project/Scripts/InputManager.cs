@@ -1,43 +1,46 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
+namespace CarRacingGame3d
 {
-    public static InputManager instance = null;
-
-    private Controls controllers;
-
-    public Controls Controllers { get { return controllers; } }
-
-    private void Awake()
+    public class InputManager : MonoBehaviour
     {
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
+        public static InputManager instance = null;
+
+        private Controls controllers;
+
+        public Controls Controllers { get { return controllers; } }
+
+        private void Awake()
         {
-            Destroy(gameObject);
-            return;
+            if (instance == null)
+                instance = this;
+            else if (instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
-    }
-    private void Start()
-    {
-        controllers = new();
-        controllers.Enable();
-        LoadRebindInputs();
-    }
-
-    private void LoadRebindInputs()
-    {
-        string rebinds = PlayerPrefs.GetString("rebinds");
-        if (!string.IsNullOrEmpty(rebinds))
+        private void Start()
         {
-            controllers.LoadBindingOverridesFromJson(rebinds);
+            controllers = new();
+            controllers.Enable();
+            LoadRebindInputs();
         }
-    }
-    private void OnDisable()
-    {
-        var rebinds = controllers.SaveBindingOverridesAsJson();
-        PlayerPrefs.SetString("rebinds", rebinds);
+
+        private void LoadRebindInputs()
+        {
+            string rebinds = PlayerPrefs.GetString("rebinds");
+            if (!string.IsNullOrEmpty(rebinds))
+            {
+                controllers.LoadBindingOverridesFromJson(rebinds);
+            }
+        }
+        private void OnDisable()
+        {
+            var rebinds = controllers.SaveBindingOverridesAsJson();
+            PlayerPrefs.SetString("rebinds", rebinds);
+        }
     }
 }

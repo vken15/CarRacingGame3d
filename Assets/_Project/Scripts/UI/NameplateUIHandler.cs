@@ -2,31 +2,34 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
 
-public class NameplateUIHandler : MonoBehaviour
+namespace CarRacingGame3d
 {
-    [SerializeField] private Text nameplate;
-    private Transform canvasTransform;
-    private Transform carTransform;
-
-    // Start is called before the first frame update
-    private void Start()
+    public class NameplateUIHandler : MonoBehaviour
     {
-        canvasTransform = GetComponent<Transform>();
-    }
+        [SerializeField] private Text nameplate;
+        private Transform canvasTransform;
+        private Transform carTransform;
 
-    // Update is called once per frame
-    private void Update()
-    {
-        if (carTransform != null)
+        // Start is called before the first frame update
+        private void Start()
         {
-            canvasTransform.position = carTransform.position;
+            canvasTransform = GetComponent<Transform>();
         }
-    }
 
-    public void SetData(string name, Transform value, Color color)
-    {
-        nameplate.text = name;
-        carTransform = value;
-        nameplate.color = color;
+        // Update is called once per frame
+        private void Update()
+        {
+            if (carTransform != null)
+            {
+                canvasTransform.position = carTransform.position;
+            }
+        }
+
+        public void SetData(string name, Transform value, Color color)
+        {
+            nameplate.text = name;
+            carTransform = value;
+            nameplate.color = color;
+        }
     }
 }

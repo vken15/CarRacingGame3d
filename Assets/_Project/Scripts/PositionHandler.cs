@@ -3,87 +3,90 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PositionHandler : MonoBehaviour
+namespace CarRacingGame3d
 {
-    [SerializeField] private List<CarLapCounter> carLapCounters = new();
-    private LeaderboardUIHandler leaderboardUIHandler;
-    //private DriverInGameInfoUIHandler driverInGameInfoUIHandler;
-
-    // Start is called before the first frame update
-    private void Start()
+    public class PositionHandler : MonoBehaviour
     {
-        CarLapCounter[] carLapCounterArray = FindObjectsByType<CarLapCounter>(FindObjectsSortMode.None);
-        carLapCounters = carLapCounterArray.ToList();
-        foreach (CarLapCounter lapCounters in carLapCounters)
-        {
-            lapCounters.OnPassCheckPoint += OnPassCheckPoint;
-        }
-        leaderboardUIHandler = FindFirstObjectByType<LeaderboardUIHandler>();
-        if (leaderboardUIHandler != null)
-        {
-            leaderboardUIHandler.UpdateList(carLapCounters);
-        }
-        //driverInGameInfoUIHandler = FindFirstObjectByType<DriverInGameInfoUIHandler>();
-        //if (driverInGameInfoUIHandler != null)
-        //{
-        //    driverInGameInfoUIHandler.UpdatePosition(carLapCounters);
-        //}
-    }
+        [SerializeField] private List<CarLapCounter> carLapCounters = new();
+        private LeaderboardUIHandler leaderboardUIHandler;
+        //private DriverInGameInfoUIHandler driverInGameInfoUIHandler;
 
-    private void OnPassCheckPoint(CarLapCounter carLapCounter)
-    {
-        //Sort
-        carLapCounters = carLapCounters.OrderByDescending(s => s.GetNumberOfCheckPointsPassed()).ThenBy(s => s.GetTimeAtLastPassedCheckPoint()).ToList();
-        //Get car position
-        int carPosition = carLapCounters.IndexOf(carLapCounter) + 1;
-        carLapCounter.carPosition = carPosition;
-
-        if (carLapCounter.IsRaceCompleted())
+        // Start is called before the first frame update
+        private void Start()
         {
-            //Set player last position
-            int playerNumber = carLapCounter.GetComponentInParent<CarInputHandler>().playerNumber;
-
-            if (GameManager.instance.networkStatus == NetworkStatus.offline || NetworkManager.Singleton.IsServer)
+            CarLapCounter[] carLapCounterArray = FindObjectsByType<CarLapCounter>(FindObjectsSortMode.None);
+            carLapCounters = carLapCounterArray.ToList();
+            foreach (CarLapCounter lapCounters in carLapCounters)
             {
-                GameManager.instance.SetDriverLastRacePosition(playerNumber, carPosition);
-                int pointReward = FindFirstObjectByType<SpawnCars>().GetNumberOfCarsSpawned() - carPosition;
-                GameManager.instance.AddPoints(playerNumber, pointReward);
+                lapCounters.OnPassCheckPoint += OnPassCheckPoint;
             }
-            //if (playerNumber == 1)
+            leaderboardUIHandler = FindFirstObjectByType<LeaderboardUIHandler>();
+            if (leaderboardUIHandler != null)
+            {
+                leaderboardUIHandler.UpdateList(carLapCounters);
+            }
+            //driverInGameInfoUIHandler = FindFirstObjectByType<DriverInGameInfoUIHandler>();
+            //if (driverInGameInfoUIHandler != null)
             //{
-            //    int numberOfLaps = GameManager.instance.GetNumberOfLaps();
-            //    float time = GameManager.instance.GetRaceTime() / numberOfLaps;
-            //    int raceTimeMinutes = (int)Mathf.Floor(time / 60);
-            //    int raceTimeSeconds = (int)Mathf.Floor(time % 60);
-            //    string key = GameManager.instance.GetMapScene() + "Best Time";
-            //    string bestTime = $"{raceTimeMinutes:00}:{raceTimeSeconds:00}";
-            //    string oldBestTime = PlayerPrefs.GetString(key);
-            //    int oldTime = int.MaxValue;
-            //    if (oldBestTime.Length == 5)
-            //        oldTime = int.Parse(oldBestTime[..2]) * 60 + int.Parse(oldBestTime[3..]);
-
-            //    if (oldTime > time)
-            //        PlayerPrefs.SetString(key, bestTime);
+            //    driverInGameInfoUIHandler.UpdatePosition(carLapCounters);
             //}
         }
 
-        if (leaderboardUIHandler != null)
+        private void OnPassCheckPoint(CarLapCounter carLapCounter)
         {
-            leaderboardUIHandler.UpdateList(carLapCounters);
+            //Sort
+            carLapCounters = carLapCounters.OrderByDescending(s => s.GetNumberOfCheckPointsPassed()).ThenBy(s => s.GetTimeAtLastPassedCheckPoint()).ToList();
+            //Get car position
+            int carPosition = carLapCounters.IndexOf(carLapCounter) + 1;
+            carLapCounter.carPosition = carPosition;
+
             if (carLapCounter.IsRaceCompleted())
             {
-                leaderboardUIHandler.UpdateTimer(carLapCounter, GameManager.instance.GetRaceTime());
+                //Set player last position
+                int playerNumber = carLapCounter.GetComponentInParent<CarInputHandler>().playerNumber;
+
+                if (GameManager.instance.networkStatus == NetworkStatus.offline || NetworkManager.Singleton.IsServer)
+                {
+                    GameManager.instance.SetDriverLastRacePosition(playerNumber, carPosition);
+                    int pointReward = FindFirstObjectByType<SpawnCars>().GetNumberOfCarsSpawned() - carPosition;
+                    GameManager.instance.AddPoints(playerNumber, pointReward);
+                }
+                //if (playerNumber == 1)
+                //{
+                //    int numberOfLaps = GameManager.instance.GetNumberOfLaps();
+                //    float time = GameManager.instance.GetRaceTime() / numberOfLaps;
+                //    int raceTimeMinutes = (int)Mathf.Floor(time / 60);
+                //    int raceTimeSeconds = (int)Mathf.Floor(time % 60);
+                //    string key = GameManager.instance.GetMapScene() + "Best Time";
+                //    string bestTime = $"{raceTimeMinutes:00}:{raceTimeSeconds:00}";
+                //    string oldBestTime = PlayerPrefs.GetString(key);
+                //    int oldTime = int.MaxValue;
+                //    if (oldBestTime.Length == 5)
+                //        oldTime = int.Parse(oldBestTime[..2]) * 60 + int.Parse(oldBestTime[3..]);
+
+                //    if (oldTime > time)
+                //        PlayerPrefs.SetString(key, bestTime);
+                //}
             }
+
+            if (leaderboardUIHandler != null)
+            {
+                leaderboardUIHandler.UpdateList(carLapCounters);
+                if (carLapCounter.IsRaceCompleted())
+                {
+                    leaderboardUIHandler.UpdateTimer(carLapCounter, GameManager.instance.GetRaceTime());
+                }
+            }
+            //if (driverInGameInfoUIHandler != null)
+            //{
+            //    driverInGameInfoUIHandler.UpdatePosition(carLapCounters);
+            //    /*
+            //    if (carLapCounter.IsCrossedFinishLine())
+            //    {
+            //        driverInGameInfoUIHandler.UpdateTimer(carLapCounter, GameManager.instance.GetRaceTime());
+            //    }
+            //    */
+            //}
         }
-        //if (driverInGameInfoUIHandler != null)
-        //{
-        //    driverInGameInfoUIHandler.UpdatePosition(carLapCounters);
-        //    /*
-        //    if (carLapCounter.IsCrossedFinishLine())
-        //    {
-        //        driverInGameInfoUIHandler.UpdateTimer(carLapCounter, GameManager.instance.GetRaceTime());
-        //    }
-        //    */
-        //}
     }
 }
