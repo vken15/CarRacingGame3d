@@ -1,27 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace CarRacingGame3d
 {
+    public struct DriverInput
+    {
+        public Vector2 Move;
+        public bool Brake;
+        public bool Nitro;
+    }
+
     public class CarInputHandler : NetworkBehaviour
     {
-        private NetworkVariable<Vector2> inputVector = new(writePerm: NetworkVariableWritePermission.Owner);
-        private NetworkVariable<bool> inputNitro = new(writePerm: NetworkVariableWritePermission.Owner);
-        private NetworkVariable<bool> inputBrake = new(writePerm: NetworkVariableWritePermission.Owner);
-
         public int playerNumber = 1;
 
         private CarController carController;
 
         private Controls control;
-
-        public override void OnNetworkSpawn()
-        {
-            PlayerClientRPC();
-        }
 
         // Awake is called when the script instance is being loaded
         private void Awake()
@@ -33,41 +32,22 @@ namespace CarRacingGame3d
         // Update is called once per frame
         void Update()
         {
-            if (GameManager.instance.networkStatus == NetworkStatus.online)
-            {
-                if (!IsOwner) return;
-                inputVector.Value = control.Player.Move.ReadValue<Vector2>();
-                inputNitro.Value = control.Player.Nitro.IsPressed();
-                inputBrake.Value = control.Player.Brake.IsPressed();
+            if (GameManager.instance.GetGameState() == GameStates.countdown) return;
+            if (GameManager.instance.networkStatus == NetworkStatus.online && !IsOwner) return;
 
-                //if (IsClient) return;
-                //carController.SetInput(inputVector.Value, inputNitro.Value, inputBrake.Value);
+            DriverInput playerInput = new()
+            {
+                Move = control.Player.Move.ReadValue<Vector2>(),
+                Brake = control.Player.Brake.IsPressed(),
+                Nitro = control.Player.Nitro.IsPressed()
+            };
+
+            if (control.Player.ESC.IsPressed())
+            {
+                transform.position += transform.forward * 20f;
             }
-            else
-            {
-                Vector2 inputVector = control.Player.Move.ReadValue<Vector2>();
-                bool inputNitro = control.Player.Nitro.IsPressed();
-                bool inputBrake = control.Player.Brake.IsPressed();
 
-                carController.SetInput(inputVector, inputNitro, inputBrake);
-            }
-        }
-
-        [ClientRpc]
-        private void PlayerClientRPC()
-        {
-            inputVector.OnValueChanged += (Vector2 prevValue, Vector2 newValue) =>
-            {
-                carController.SetInput(inputVector.Value, inputNitro.Value, inputBrake.Value);
-            };
-            inputNitro.OnValueChanged += (bool prevValue, bool newValue) =>
-            {
-                carController.SetInput(inputVector.Value, inputNitro.Value, inputBrake.Value);
-            };
-            inputBrake.OnValueChanged += (bool prevValue, bool newValue) =>
-            {
-                carController.SetInput(inputVector.Value, inputNitro.Value, inputBrake.Value);
-            };
+            carController.SetInput(playerInput);
         }
     }
 }

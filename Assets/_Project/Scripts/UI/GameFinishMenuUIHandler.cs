@@ -21,7 +21,9 @@ namespace CarRacingGame3d
             if (GameManager.instance.networkStatus == NetworkStatus.offline)
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             else
+            {
                 SceneTransitionHandler.sceneTransitionHandler.SwitchScene("Room");
+            }
         }
         public void OnBackToMenu()
         {

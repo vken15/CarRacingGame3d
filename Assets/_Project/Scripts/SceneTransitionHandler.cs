@@ -121,7 +121,7 @@ namespace CarRacingGame3d
 
         public bool AllClientsAreLoaded()
         {
-            Debug.Log(m_numberOfClientLoaded + " " + NetworkManager.Singleton.ConnectedClients.Count);
+            //Debug.Log(m_numberOfClientLoaded + " " + NetworkManager.Singleton.ConnectedClients.Count);
             return m_numberOfClientLoaded == NetworkManager.Singleton.ConnectedClients.Count;
         }
 

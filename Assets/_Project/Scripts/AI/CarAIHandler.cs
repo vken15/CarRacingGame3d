@@ -58,7 +58,14 @@ namespace CarRacingGame3d
             inputVector.x = TurnTowardTarget();
             inputVector.y = ApplyThrottleOrBrake(inputVector.x);
 
-            carController.SetInput(inputVector, false, false);
+            DriverInput driverInput = new()
+            {
+                Move = inputVector,
+                Nitro = false,
+                Brake = false
+            };
+
+            carController.SetInput(driverInput);
         }
 
         private void FollowWayPoints()

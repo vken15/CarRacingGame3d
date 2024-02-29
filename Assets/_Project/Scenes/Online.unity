@@ -1040,7 +1040,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 18c9ba6399a6a454ab2237a5c805745f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 128.5261
+      value: 103.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 18c9ba6399a6a454ab2237a5c805745f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1048,7 +1048,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 18c9ba6399a6a454ab2237a5c805745f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 111.84
+      value: 112.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 18c9ba6399a6a454ab2237a5c805745f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1492,7 +1492,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 430407358}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &430407364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1507,6 +1507,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 1699265962
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!114 &430407365
@@ -1522,8 +1525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carNameplate: {fileID: 6440790114199902800, guid: 32da8a42fb9556b408f7338d09b00b79, type: 3}
-  carCamera: {fileID: 6496352539316740339, guid: 6f90e13b8bfca6c42a11c54b6dbbb65c, type: 3}
-  carPrefab: {fileID: 5385228893749850756, guid: 8f040dddc0077f04789e70beb46e4ac7, type: 3}
+  carPrefab: {fileID: 1807365943919398502, guid: 8f040dddc0077f04789e70beb46e4ac7, type: 3}
 --- !u!114 &430407366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1802,6 +1804,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3081169099
   AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
 --- !u!114 &537569522

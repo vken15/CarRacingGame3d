@@ -11,7 +11,6 @@ namespace CarRacingGame3d
         private int numberOfCarsSpawned = 0;
 
         [SerializeField] private GameObject carNameplate;
-        [SerializeField] private GameObject carCamera;
 
         //Temp
         [SerializeField] private GameObject carPrefab;
@@ -57,20 +56,18 @@ namespace CarRacingGame3d
                 //GameObject car = Instantiate(carData.CarPrefab, spawnPoint.position, spawnPoint.rotation);
                 GameObject car = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
                 GameObject nameplate = Instantiate(carNameplate);
-                GameObject camera = Instantiate(carCamera);
                 if (GameManager.instance.networkStatus == NetworkStatus.online)
                 {
                     car.GetComponent<NetworkObject>().SpawnWithOwnership(driver.NetworkId);
-                    camera.GetComponent<NetworkObject>().SpawnWithOwnership(driver.NetworkId);
                     nameplate.GetComponent<NetworkObject>().SpawnWithOwnership(driver.NetworkId);
                     Debug.Log(driver.NetworkId + " Spawned");
                     //SetSpawnCarInfo(car, nameplate, driver, i);
 
-                    SpawnCarsClientRpc(car, nameplate, camera, driver.Name, driver.PlayerNumber, i);
+                    SpawnCarsClientRpc(car, nameplate, driver.Name, driver.PlayerNumber, i);
                 }
                 else
                 {
-                    SetSpawnCarInfo(car, nameplate, camera, driver, i);
+                    SetSpawnCarInfo(car, nameplate, driver, i);
                 }
 
                 numberOfCarsSpawned++;
@@ -87,7 +84,7 @@ namespace CarRacingGame3d
             return numberOfCarsSpawned;
         }
 
-        private void SetSpawnCarInfo(GameObject car, GameObject nameplate, GameObject camera, Driver driver, int i)
+        private void SetSpawnCarInfo(GameObject car, GameObject nameplate, Driver driver, int i)
         {
             Color nameplateColor = Color.black;
 
@@ -103,12 +100,10 @@ namespace CarRacingGame3d
             else
             {
                 car.GetComponent<CarAIHandler>().enabled = false;
-                camera.GetComponent<CameraFollow>().SetTarget(car.transform);
                 //car.GetComponent<AStarLite>().enabled = false;
                 car.tag = "Player";
                 if (driver.PlayerNumber == 1)
                 {
-                    camera.GetComponent<Camera>().depth = 1;
                     nameplateColor = Color.red;
                 }
                 //else if (driver.PlayerNumber == 2)
@@ -124,7 +119,7 @@ namespace CarRacingGame3d
             //nameplate.GetComponent<NameplateUIHandler>().SetData(driver.Name, car.GetComponent<Transform>(), nameplateColor);
         }
 
-        private void SetClientSpawnCarInfo(GameObject car, GameObject nameplate, GameObject camera, string name, int playerNumber, int i)
+        private void SetClientSpawnCarInfo(GameObject car, GameObject nameplate, string name, int playerNumber, int i)
         {
             Color nameplateColor = Color.black;
 
@@ -132,10 +127,6 @@ namespace CarRacingGame3d
             car.GetComponent<CarInputHandler>().playerNumber = playerNumber;
             car.GetComponentInChildren<CarLapCounter>().carPosition = i + 1;
             car.GetComponent<CarAIHandler>().enabled = false;
-            camera.GetComponent<CameraFollow>().SetTarget(car.transform);
-
-            if (car.GetComponent<NetworkObject>().IsOwner)
-                camera.GetComponent<Camera>().depth = 1;
 
             if (playerNumber == 1)
             {
@@ -154,9 +145,9 @@ namespace CarRacingGame3d
         }
 
         [ClientRpc]
-        private void SpawnCarsClientRpc(NetworkObjectReference car, NetworkObjectReference nameplate, NetworkObjectReference camera, string name, int playerNumber, int i)
+        private void SpawnCarsClientRpc(NetworkObjectReference car, NetworkObjectReference nameplate, string name, int playerNumber, int i)
         {
-            SetClientSpawnCarInfo((GameObject)car, (GameObject)nameplate, (GameObject)camera, name, playerNumber, i);
+            SetClientSpawnCarInfo((GameObject)car, (GameObject)nameplate, name, playerNumber, i);
         }
     }
 }

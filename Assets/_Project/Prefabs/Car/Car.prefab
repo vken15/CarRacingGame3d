@@ -1867,7 +1867,6 @@ GameObject:
   - component: {fileID: 8778683810426164942}
   - component: {fileID: 8058076575932456337}
   - component: {fileID: 3272351903395732850}
-  - component: {fileID: 1863901659124690196}
   - component: {fileID: 4333285432935388488}
   - component: {fileID: 6794665195252551694}
   m_Layer: 0
@@ -2019,6 +2018,7 @@ MonoBehaviour:
     axel: 1
   jumpAnchor: {fileID: 6057187138996117453}
   IsGrounded: 1
+  reconciliationThreshold: 10
 --- !u!114 &3272351903395732850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2039,32 +2039,6 @@ MonoBehaviour:
   sideSensorPosition: 1.15
   sensorAngle: 30
   sensorLength: 5
---- !u!114 &1863901659124690196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5385228893749850756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  InLocalSpace: 0
-  Interpolate: 1
 --- !u!114 &4333285432935388488
 MonoBehaviour:
   m_ObjectHideFlags: 0

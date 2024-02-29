@@ -1,21 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace CarRacingGame3d
 {
-    public class NetworkTimer : MonoBehaviour
+    public class NetworkTimer
     {
-        // Start is called before the first frame update
-        void Start()
+        float timer;
+        public float MinTimeBetweenTicks { get; }
+        public int CurrentTick { get; private set; }
+
+        public NetworkTimer(float serverTickRate)
         {
-        
+            MinTimeBetweenTicks = 1.0f / serverTickRate;    
         }
 
-        // Update is called once per frame
-        void Update()
+        public void Update(float deltaTime) 
         {
-        
+            timer += deltaTime;
+        }
+
+        public bool ShouldTick()
+        {
+            if (timer >= MinTimeBetweenTicks)
+            {
+                timer -= MinTimeBetweenTicks;
+                CurrentTick++;
+                return true;
+            }
+            return false;
         }
     }
 }

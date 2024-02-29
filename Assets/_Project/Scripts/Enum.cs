@@ -15,4 +15,9 @@ namespace CarRacingGame3d
         AWD
     }
     public enum InputType { keyboard, mouse }
+    public enum AuthorityMode
+    {
+        Server,
+        Client
+    }
 }
