@@ -246,13 +246,12 @@ namespace CarRacingGame3d
             }
         }
 
-        public override void OnDestroy()
+        public override void OnNetworkDespawn()
         {
             if (IsServer)
             {
                 NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
             }
-            base.OnDestroy();
         }
 
         public void StartCountDown()
