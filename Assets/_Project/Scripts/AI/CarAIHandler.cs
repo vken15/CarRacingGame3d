@@ -36,6 +36,10 @@ namespace CarRacingGame3d
         void Awake()
         {
             carController = GetComponent<CarController>();
+        }
+
+        void Start()
+        {
             allWayPoints = FindObjectsByType<WayPointNode>(FindObjectsSortMode.None);
         }
 
@@ -74,7 +78,7 @@ namespace CarRacingGame3d
             {
                 currentWayPoint = FindClosestWayPoint();
                 previousWayPoint = currentWayPoint;
-                nextWayPoint = currentWayPoint.nextWayPointNode[Random.Range(0, currentWayPoint.nextWayPointNode.Length)];
+                nextWayPoint = currentWayPoint.nextWayPointNode[Random.Range(0, currentWayPoint.nextWayPointNode.Length-1)];
             }
             else
             {

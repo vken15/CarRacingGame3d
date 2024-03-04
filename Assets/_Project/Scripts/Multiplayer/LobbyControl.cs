@@ -99,6 +99,7 @@ namespace CarRacingGame3d
             discoveredServers[sender.Address] = response;
 
             GameObject item = Instantiate(roomItem, roomGroup.transform);
+            
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
                 UnityTransport transport = (UnityTransport)m_NetworkManager.NetworkConfig.NetworkTransport;

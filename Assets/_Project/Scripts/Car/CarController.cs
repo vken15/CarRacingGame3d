@@ -201,6 +201,8 @@ namespace CarRacingGame3d
             networkTimer.Update(Time.deltaTime);
             reconciliationCooldown.Tick(Time.deltaTime);
             extrapolationCooldown.Tick(Time.deltaTime);
+
+            //Extravolate();
         }
 
         void FixedUpdate()
@@ -212,10 +214,17 @@ namespace CarRacingGame3d
             }
             Extravolate();
 
-            //Nitro();
-            //Move(driverInput.Move);
-            //Debug.DrawRay(transform.position, carRb.velocity * 3);
-            //Debug.DrawRay(transform.position, transform.forward * 10, Color.blue);
+            if (GameManager.instance.networkStatus == NetworkStatus.offline)
+            {
+                Nitro();
+                Move(driverInput.Move);
+            }
+
+            //Test
+            if (UnityEngine.Input.GetKey(KeyCode.Q))
+            {
+                transform.position += new Vector3(0,0,100);
+            }
         }
 
         void ServerTick()
@@ -244,10 +253,11 @@ namespace CarRacingGame3d
             if (IsServer && extrapolationCooldown.IsRunning)
             {
                 transform.position += extrapolationState.position.With(y: 0) * Time.fixedDeltaTime;
+                //carRb.MovePosition(extrapolationState.position.With(y: 0) * Time.fixedDeltaTime);
             }
         }
 
-        bool ShouldExtrapolate(float latency) => latency < 1.0f && latency > extrapolationLimit;//Time.fixedDeltaTime;
+        bool ShouldExtrapolate(float latency) => latency < extrapolationLimit && latency > Time.fixedDeltaTime;
 
         void Extrapolation(StatePayLoad statePayLoad, float latency)
         {
@@ -274,6 +284,11 @@ namespace CarRacingGame3d
             }
         }
 
+        static float CalculateLatencyInMillis(InputPayLoad inputPayLoad)
+        {
+            return (DateTime.Now - inputPayLoad.timeStamp).Milliseconds / 1000.0f;
+        }
+
         void ClientTick()
         {
             if (!IsClient || !IsOwner) return;
@@ -297,11 +312,6 @@ namespace CarRacingGame3d
             clientStateBuffer.Add(statePayLoad, bufferIndex);
 
             ServerReconciliation();
-        }
-
-        static float CalculateLatencyInMillis(InputPayLoad inputPayLoad)
-        {
-            return (DateTime.Now - inputPayLoad.timeStamp).Milliseconds / 1000.0f;
         }
 
         bool ShouldReconcile()
@@ -375,6 +385,7 @@ namespace CarRacingGame3d
 
         void Move(Vector2 input)
         {
+            //carRb.isKinematic = false;
             float motor = maxAcceleration * input.y;
             float steer = maxSteerAngle * input.x;
             //float motor = maxAcceleration * driverInput.Move.y;
@@ -390,6 +401,8 @@ namespace CarRacingGame3d
                 GroundedMovement(input);
             else
                 AirborneMovement();
+
+           // carRb.isKinematic = true;
         }
 
         void AirborneMovement()
@@ -415,6 +428,7 @@ namespace CarRacingGame3d
                     ? input.y * maxSpeed * nitroSpeedMultiplier : input.y * maxSpeed;
                 Vector3 forwardWithoutY = transform.forward.With(y: 0).normalized;
                 carRb.velocity = Vector3.Lerp(carRb.velocity, forwardWithoutY * targetSpeed, networkTimer.MinTimeBetweenTicks);
+                //carRb.MovePosition(transform.position + Vector3.Lerp(carRb.velocity, forwardWithoutY * targetSpeed, networkTimer.MinTimeBetweenTicks));
             }
 
             //Downforce

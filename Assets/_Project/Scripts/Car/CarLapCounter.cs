@@ -4,15 +4,19 @@ using UnityEngine;
 
 namespace CarRacingGame3d
 {
+    /// <summary>
+    /// Manage racing laps for car
+    /// </summary>
     public class CarLapCounter : NetworkBehaviour
     {
         private int passedCheckPointNumber = 0;
         private float timeAtLastPassedCheckPoint = 0;
         private int numberOfPassedCheckPoints = 0;
-        private int lapsCompleted = 0;
-        private int lapsToCompleted;
+        private ushort lapsCompleted = 0;
+        private ushort lapsToCompleted;
         private bool isRaceCompleted = false;
         private LapCountUIHandler lapsCountUIHandler;
+        private CheckPoint lastCheckPoint;
 
         public int carPosition = 0;
         public event Action<CarLapCounter> OnPassCheckPoint;
@@ -56,6 +60,7 @@ namespace CarRacingGame3d
                     passedCheckPointNumber = checkPoint.checkPointNumber;
                     numberOfPassedCheckPoints++;
                     timeAtLastPassedCheckPoint = Time.time;
+                    lastCheckPoint = checkPoint;
                     if (checkPoint.isFinishLine)
                     {
                         passedCheckPointNumber = 0;
@@ -91,11 +96,16 @@ namespace CarRacingGame3d
                             GameManager.instance.OnRaceCompleted();
                     }
                 }
+                //Wrong way warning
+                else //if (passedCheckPointNumber == checkPoint.checkPointNumber + 1)
+                {
+                    
+                }
             }
         }
 
         [ClientRpc]
-        private void UpdateLapCountClientRpc(int laps)
+        private void UpdateLapCountClientRpc(ushort laps)
         {
             if (IsOwner)
             {

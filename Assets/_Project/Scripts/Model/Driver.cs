@@ -12,7 +12,7 @@ namespace CarRacingGame3d
         private int points = 0;
         private ulong networkId;
 
-        public Driver(int playerNumber, string name, int carID, bool isAI, AIDifficult difficult, ulong networkId)
+        public Driver(int playerNumber, string name, int carID, bool isAI, ulong networkId, AIDifficult difficult = AIDifficult.Easy)
         {
             this.PlayerNumber = playerNumber;
             this.Name = name;

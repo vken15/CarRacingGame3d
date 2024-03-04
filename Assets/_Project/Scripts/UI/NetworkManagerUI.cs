@@ -72,7 +72,7 @@ namespace CarRacingGame3d
         {
             if (con == ConnectionStatus.Connected)
             {
-                GameManager.instance.AddDriverToList(numberOfPlayer.Value + 1, "Tester " + numberOfPlayer.Value + 1, 1, false, AIDifficult.Easy, clientId);
+                GameManager.instance.AddDriverToList(numberOfPlayer.Value + 1, "Tester " + numberOfPlayer.Value + 1, 1, false, clientId);
                 numberOfPlayer.Value += 1;
                 print("CONNTECTED " + numberOfPlayer.Value);
             }

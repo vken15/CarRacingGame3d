@@ -19,8 +19,8 @@ namespace CarRacingGame3d
 
         //
         private readonly List<Driver> driverList = new();
-        private int numberOfLaps = 2;
-        private int numberOfCarsRaceComplete = 0;
+        private ushort numberOfLaps = 2;
+        private ushort numberOfCarsRaceComplete = 0;
 
         //Events
         public event Action<GameManager> OnGameStateChanged;
@@ -111,11 +111,11 @@ namespace CarRacingGame3d
         //{
         //    map = m;
         //}
-        public void SetNumberOfLaps(int number)
+        public void SetNumberOfLaps(ushort number)
         {
             numberOfLaps = number;
         }
-        public int GetNumberOfLaps()
+        public ushort GetNumberOfLaps()
         {
             return numberOfLaps;
         }
@@ -128,9 +128,9 @@ namespace CarRacingGame3d
         //    return map.MaxCars;
         //}
         //Driver
-        public void AddDriverToList(int playerNumber, string name, int carID, bool isAI, AIDifficult difficult, ulong networkId)
+        public void AddDriverToList(int playerNumber, string name, int carID, bool isAI, ulong networkId, AIDifficult difficult = AIDifficult.Easy)
         {
-            driverList.Add(new Driver(playerNumber, name, carID, isAI, difficult, networkId));
+            driverList.Add(new Driver(playerNumber, name, carID, isAI, networkId, difficult));
         }
         public List<Driver> GetDriverList()
         {

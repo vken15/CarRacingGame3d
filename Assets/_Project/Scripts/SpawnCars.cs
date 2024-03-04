@@ -18,8 +18,9 @@ namespace CarRacingGame3d
         // Start is called before the first frame update
         private void Start()
         {
-            //if (GameManager.instance.networkStatus == NetworkStatus.offline)
-            Spawn();
+            if (GameManager.instance.networkStatus == NetworkStatus.offline || 
+                (IsServer && GameManager.instance.networkStatus == NetworkStatus.online))
+                Spawn();
         }
 
         public void Spawn()
@@ -28,7 +29,7 @@ namespace CarRacingGame3d
             spawnPoints = spawnPoints.ToList().OrderBy(s => s.name).ToArray();
 
             //Load the car data
-            //CarData[] carDatas = Resources.LoadAll<CarData>("CarData/");
+            CarData[] carDatas = Resources.LoadAll<CarData>("CarData/");
 
             List<Driver> driverList = new(GameManager.instance.GetDriverList());
             driverList = driverList.OrderBy(d => d.LastRacePosition).ToList();
@@ -46,34 +47,34 @@ namespace CarRacingGame3d
 
                 Driver driver = driverList[0];
 
-                //int selectedCarID = driver.CarID;
+                int selectedCarID = driver.CarID;
 
                 //Find the player cars prefab
-                //foreach (CarData carData in carDatas)
-                //{
-                //    if (carData.CarID == selectedCarID)
-                //    {
-                //GameObject car = Instantiate(carData.CarPrefab, spawnPoint.position, spawnPoint.rotation);
-                GameObject car = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
-                GameObject nameplate = Instantiate(carNameplate);
-                if (GameManager.instance.networkStatus == NetworkStatus.online)
+                foreach (CarData carData in carDatas)
                 {
-                    car.GetComponent<NetworkObject>().SpawnWithOwnership(driver.NetworkId);
-                    nameplate.GetComponent<NetworkObject>().SpawnWithOwnership(driver.NetworkId);
-                    Debug.Log(driver.NetworkId + " Spawned");
-                    //SetSpawnCarInfo(car, nameplate, driver, i);
+                    if (carData.CarID == selectedCarID)
+                    {
+                        GameObject car = Instantiate(carData.CarPrefab, spawnPoint.position, spawnPoint.rotation);
+                        //GameObject car = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
+                        GameObject nameplate = Instantiate(carNameplate);
+                        if (GameManager.instance.networkStatus == NetworkStatus.online)
+                        {
+                            car.GetComponent<NetworkObject>().SpawnWithOwnership(driver.NetworkId, true);
+                            nameplate.GetComponent<NetworkObject>().SpawnWithOwnership(driver.NetworkId, true);
+                            Debug.Log(driver.NetworkId + " Spawned");
+                            //SetSpawnCarInfo(car, nameplate, driver, i);
 
-                    SpawnCarsClientRpc(car, nameplate, driver.Name, driver.PlayerNumber, i);
-                }
-                else
-                {
-                    SetSpawnCarInfo(car, nameplate, driver, i);
-                }
+                            SpawnCarsClientRpc(car, nameplate, driver.Name, driver.PlayerNumber, i);
+                        }
+                        else
+                        {
+                            SetSpawnCarInfo(car, nameplate, driver, i);
+                        }
 
-                numberOfCarsSpawned++;
-                //break;
-                //    }
-                //}
+                        numberOfCarsSpawned++;
+                        break;
+                    }
+                }
                 //Remove the spawned driver
                 driverList.Remove(driver);
             }

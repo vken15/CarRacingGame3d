@@ -11,6 +11,8 @@ namespace CarRacingGame3d
         private LeaderboardUIHandler leaderboardUIHandler;
         //private DriverInGameInfoUIHandler driverInGameInfoUIHandler;
 
+        private readonly ushort[] pointReward = { 0, 10, 8, 6, 5, 4, 3, 2, 1 };
+
         // Start is called before the first frame update
         private void Start()
         {
@@ -48,8 +50,7 @@ namespace CarRacingGame3d
                 if (GameManager.instance.networkStatus == NetworkStatus.offline || NetworkManager.Singleton.IsServer)
                 {
                     GameManager.instance.SetDriverLastRacePosition(playerNumber, carPosition);
-                    int pointReward = FindFirstObjectByType<SpawnCars>().GetNumberOfCarsSpawned() - carPosition;
-                    GameManager.instance.AddPoints(playerNumber, pointReward);
+                    GameManager.instance.AddPoints(playerNumber, pointReward[carPosition]);
                 }
                 //if (playerNumber == 1)
                 //{

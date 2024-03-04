@@ -30,10 +30,10 @@ namespace CarRacingGame3d
         public override void OnNetworkSpawn()
         {
             m_ClientsInRoom = new Dictionary<ulong, bool>
-        {
-            //Always add ourselves to the list at first
-            { NetworkManager.LocalClientId, false }
-        };
+            {
+                //Always add ourselves to the list at first
+                { NetworkManager.Singleton.LocalClientId, false }
+            };
 
             //If we are hosting, then handle the server side for detecting when clients have connected
             //and when their room scenes are finished loading.
@@ -41,10 +41,10 @@ namespace CarRacingGame3d
             {
                 m_AllPlayersInRoom = false;
 
-                m_ClientsInRoom[NetworkManager.LocalClientId] = true;
+                m_ClientsInRoom[NetworkManager.Singleton.LocalClientId] = true;
 
                 //Server will be notified when a client connects
-                NetworkManager.OnClientConnectedCallback += OnClientConnectedCallback;
+                NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
                 SceneTransitionHandler.sceneTransitionHandler.OnClientLoadedScene += ClientLoadedScene;
             }
 
@@ -89,7 +89,6 @@ namespace CarRacingGame3d
             {
                 SendClientReadyStatusUpdatesClientRpc(clientRoomStatus.Key, clientRoomStatus.Value);
                 if (!NetworkManager.Singleton.ConnectedClients.ContainsKey(clientRoomStatus.Key))
-
                     //If some clients are still loading into the Room scene then this is false
                     m_AllPlayersInRoom = false;
             }
@@ -126,11 +125,13 @@ namespace CarRacingGame3d
         {
             if (IsServer)
             {
-                if (!m_ClientsInRoom.ContainsKey(clientId)) m_ClientsInRoom.Add(clientId, false);
-                GenerateUserStatsForRoom();
+                if (!m_ClientsInRoom.ContainsKey(clientId)) 
+                    m_ClientsInRoom.Add(clientId, false);
 
+                GenerateUserStatsForRoom();
                 UpdateAndCheckPlayersInRoom();
             }
+            Debug.Log(clientId + "connected!");
         }
 
         /// <summary>
@@ -175,7 +176,7 @@ namespace CarRacingGame3d
                     foreach (var id in m_ClientsInRoom)
                     {
                         i++;
-                        GameManager.instance.AddDriverToList(i, "Test" + i, 1, false, AIDifficult.Easy, id.Key);
+                        GameManager.instance.AddDriverToList(i, "Test" + i, 1, false, id.Key);
                     }
 
                     //Remove our client connected callback
@@ -202,16 +203,7 @@ namespace CarRacingGame3d
         public void PlayerIsReady()
         {
             m_ClientsInRoom[NetworkManager.Singleton.LocalClientId] = !m_ClientsInRoom[NetworkManager.Singleton.LocalClientId];
-            if (IsServer)
-            {
-                UpdateAndCheckPlayersInRoom();
-            }
-            else
-            {
-                OnClientIsReadyServerRpc(NetworkManager.Singleton.LocalClientId);
-            }
-
-            GenerateUserStatsForRoom();
+            OnClientIsReadyServerRpc(m_ClientsInRoom[NetworkManager.Singleton.LocalClientId]);
         }
 
         /// <summary>
@@ -220,11 +212,12 @@ namespace CarRacingGame3d
         /// </summary>
         /// <param name="clientid">clientId that is ready</param>
         [ServerRpc(RequireOwnership = false)]
-        private void OnClientIsReadyServerRpc(ulong clientid)
+        private void OnClientIsReadyServerRpc(bool isReady, ServerRpcParams serverRpcParams = default)
         {
-            if (m_ClientsInRoom.ContainsKey(clientid))
+            var clientId = serverRpcParams.Receive.SenderClientId;
+            if (m_ClientsInRoom.ContainsKey(clientId))
             {
-                m_ClientsInRoom[clientid] = true;
+                m_ClientsInRoom[clientId] = isReady;
                 UpdateAndCheckPlayersInRoom();
                 GenerateUserStatsForRoom();
             }
