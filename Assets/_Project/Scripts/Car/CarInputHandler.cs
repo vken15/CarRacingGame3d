@@ -19,6 +19,7 @@ namespace CarRacingGame3d
         public int playerNumber = 1;
 
         private CarController carController;
+        private ItemController itemController;
 
         private Controls control;
 
@@ -26,6 +27,7 @@ namespace CarRacingGame3d
         private void Awake()
         {
             carController = GetComponent<CarController>();
+            itemController = GetComponent<ItemController>();
             control = InputManager.instance.Controllers;
         }
 
@@ -42,12 +44,17 @@ namespace CarRacingGame3d
                 Nitro = control.Player.Nitro.IsPressed()
             };
 
+            carController.SetInput(playerInput);
+
+            if (control.Player.Item.IsPressed())
+                itemController.UseItem();
+
+            //Test
             if (control.Player.ESC.IsPressed())
             {
                 transform.position += transform.forward * 20f;
             }
 
-            carController.SetInput(playerInput);
         }
     }
 }

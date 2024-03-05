@@ -16,7 +16,8 @@ namespace CarRacingGame3d
         private ushort lapsToCompleted;
         private bool isRaceCompleted = false;
         private LapCountUIHandler lapsCountUIHandler;
-        private CheckPoint lastCheckPoint;
+        //private CheckPoint lastCheckPoint;
+        private GameObject warning;
 
         public int carPosition = 0;
         public event Action<CarLapCounter> OnPassCheckPoint;
@@ -60,7 +61,11 @@ namespace CarRacingGame3d
                     passedCheckPointNumber = checkPoint.checkPointNumber;
                     numberOfPassedCheckPoints++;
                     timeAtLastPassedCheckPoint = Time.time;
-                    lastCheckPoint = checkPoint;
+                    //lastCheckPoint = checkPoint;
+
+                    if (warning != null)
+                        warning.gameObject.SetActive(false);
+
                     if (checkPoint.isFinishLine)
                     {
                         passedCheckPointNumber = 0;
@@ -97,9 +102,12 @@ namespace CarRacingGame3d
                     }
                 }
                 //Wrong way warning
-                else //if (passedCheckPointNumber == checkPoint.checkPointNumber + 1)
+                else if (IsOwner || GameManager.instance.networkStatus == NetworkStatus.offline) //if (passedCheckPointNumber == checkPoint.checkPointNumber + 1)
                 {
+                    if (warning == null)
+                        warning = GameObject.FindGameObjectWithTag("WrongWayWarning");
                     
+                    warning.SetActive(true);
                 }
             }
         }

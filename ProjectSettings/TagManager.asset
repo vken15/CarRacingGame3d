@@ -9,6 +9,8 @@ TagManager:
   - SpawnPoint
   - Road
   - Terrain
+  - WrongWayWarning
+  - ItemBox
   layers:
   - Default
   - TransparentFX
