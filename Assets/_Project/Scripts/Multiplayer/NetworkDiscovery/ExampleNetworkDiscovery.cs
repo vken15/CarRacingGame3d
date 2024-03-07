@@ -42,6 +42,12 @@ public class ExampleNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData, 
         }
     }
 
+    public void StopServer()
+    {
+        m_HasStartedWithServer = false;
+        StopDiscovery();
+    }
+
     protected override bool ProcessBroadcast(IPEndPoint sender, DiscoveryBroadcastData broadCast, out DiscoveryResponseData response)
     {
         response = new DiscoveryResponseData()

@@ -64,6 +64,7 @@
     <Compile Include="Assets\_Project\Scripts\SpawnCars.cs" />
     <Compile Include="Assets\_Project\Scripts\AI\CarAIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\NameplateUIHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\CarSelectUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\GameServerBroadcasting.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkTimer.cs" />
     <Compile Include="Assets\_Project\Scripts\CheckPoint.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Assets\_Project\Scripts\Car\CarLapCounter.cs" />
     <Compile Include="Assets\_Project\Scripts\Portal\Portal.cs" />
     <Compile Include="Assets\_Project\Scripts\Utils\Vector3Extensions.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\CarSelection.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CarController.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\RoomControl.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CameraFollow.cs" />

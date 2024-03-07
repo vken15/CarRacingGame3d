@@ -1,62 +1,82 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace CarRacingGame3d
 {
     public class RoomControl : NetworkBehaviour
     {
-        [SerializeField]
-        private string m_InGameSceneName = "Online";
+        [SerializeField] private string inGameSceneName = "Online";
 
         // Minimum player count required to transition to next level
-        [SerializeField]
-        private int m_MinimumPlayerCount = 2;
+        [SerializeField] private int minimumPlayerCount = 2;
 
-        public TMP_Text RoomText;
-        private bool m_AllPlayersInRoom;
+        [SerializeField] private GridLayoutGroup layout;
 
-        private Dictionary<ulong, bool> m_ClientsInRoom;
-        private string m_UserRoomStatusText;
+        [SerializeField] private GameObject playerItem;
 
-        private void Awake()
-        {
-            //m_InGameSceneName = GameManager.instance.GetMapScene();
-        }
+        private bool allPlayersInRoom;
+        private Dictionary<ulong, bool> clientsInRoom;
+        private Dictionary<ulong, GameObject> playerGroup;
 
         public override void OnNetworkSpawn()
         {
-            m_ClientsInRoom = new Dictionary<ulong, bool>
+            clientsInRoom = new Dictionary<ulong, bool>()
             {
                 //Always add ourselves to the list at first
                 { NetworkManager.Singleton.LocalClientId, false }
+            };
+
+            GameObject player = Instantiate(playerItem, layout.transform);
+            playerGroup = new Dictionary<ulong, GameObject>()
+            {
+                { NetworkManager.Singleton.LocalClientId, player }
             };
 
             //If we are hosting, then handle the server side for detecting when clients have connected
             //and when their room scenes are finished loading.
             if (IsServer)
             {
-                m_AllPlayersInRoom = false;
+                allPlayersInRoom = false;
 
-                m_ClientsInRoom[NetworkManager.Singleton.LocalClientId] = true;
+                clientsInRoom[NetworkManager.Singleton.LocalClientId] = true;
 
                 //Server will be notified when a client connects
                 NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
+                NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
                 SceneTransitionHandler.sceneTransitionHandler.OnClientLoadedScene += ClientLoadedScene;
+
+                GenerateUserStatsForRoom();
+            }
+            else
+            {
+                NetworkManager.Singleton.OnClientDisconnectCallback += OnServerShutdown;
             }
 
-            //Update our room
-            GenerateUserStatsForRoom();
-
             SceneTransitionHandler.sceneTransitionHandler.SetSceneState(SceneTransitionHandler.SceneStates.Lobby);
+            base.OnNetworkSpawn();
         }
 
         private void OnGUI()
         {
-            if (RoomText != null) RoomText.text = m_UserRoomStatusText;
+            //if (RoomText != null) RoomText.text = userRoomStatusText;
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            if (IsServer)
+            {
+                NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedCallback;
+                NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnectCallback;
+                SceneTransitionHandler.sceneTransitionHandler.OnClientLoadedScene -= ClientLoadedScene;
+            } else
+            {
+                NetworkManager.Singleton.OnClientDisconnectCallback -= OnServerShutdown;
+            }
         }
 
         /// <summary>
@@ -66,14 +86,15 @@ namespace CarRacingGame3d
         /// </summary>
         private void GenerateUserStatsForRoom()
         {
-            m_UserRoomStatusText = string.Empty;
-            foreach (var clientRoomStatus in m_ClientsInRoom)
+            foreach (var clientRoomStatus in clientsInRoom)
             {
-                m_UserRoomStatusText += "PLAYER_" + clientRoomStatus.Key + "          ";
+                var userRoomStatusText = "PLAYER_" + clientRoomStatus.Key + "          ";
                 if (clientRoomStatus.Value)
-                    m_UserRoomStatusText += "(READY)\n";
+                    userRoomStatusText += "(READY)\n";
                 else
-                    m_UserRoomStatusText += "(NOT READY)\n";
+                    userRoomStatusText += "(NOT READY)\n";
+
+                playerGroup[clientRoomStatus.Key].GetComponentInChildren<TMP_Text>().text = userRoomStatusText;
             }
         }
 
@@ -83,17 +104,14 @@ namespace CarRacingGame3d
         /// </summary>
         private void UpdateAndCheckPlayersInRoom()
         {
-            m_AllPlayersInRoom = m_ClientsInRoom.Count >= m_MinimumPlayerCount;
+            allPlayersInRoom = clientsInRoom.Count >= minimumPlayerCount;
 
-            foreach (var clientRoomStatus in m_ClientsInRoom)
+            foreach (var clientRoomStatus in clientsInRoom)
             {
-                SendClientReadyStatusUpdatesClientRpc(clientRoomStatus.Key, clientRoomStatus.Value);
                 if (!NetworkManager.Singleton.ConnectedClients.ContainsKey(clientRoomStatus.Key))
                     //If some clients are still loading into the Room scene then this is false
-                    m_AllPlayersInRoom = false;
+                    allPlayersInRoom = false;
             }
-
-            //CheckForAllPlayersReady();
         }
 
         /// <summary>
@@ -105,13 +123,14 @@ namespace CarRacingGame3d
         {
             if (IsServer)
             {
-                if (!m_ClientsInRoom.ContainsKey(clientId))
-                {
-                    m_ClientsInRoom.Add(clientId, false);
-                    GenerateUserStatsForRoom();
-                }
+                allPlayersInRoom = clientsInRoom.Count >= minimumPlayerCount;
 
-                UpdateAndCheckPlayersInRoom();
+                foreach (var clientRoomStatus in clientsInRoom)
+                {
+                    SendClientReadyStatusUpdatesClientRpc(clientRoomStatus.Key, clientRoomStatus.Value);
+                    if (!NetworkManager.Singleton.ConnectedClients.ContainsKey(clientRoomStatus.Key))
+                        allPlayersInRoom = false;
+                }
             }
         }
 
@@ -120,18 +139,49 @@ namespace CarRacingGame3d
         ///     Since we are entering a Room and Netcode's NetworkManager is spawning the player,
         ///     the server can be configured to only listen for connected clients at this stage.
         /// </summary>
-        /// <param name="clientId">client that connected</param>
+        /// <param name="clientId"></param>
         private void OnClientConnectedCallback(ulong clientId)
         {
             if (IsServer)
             {
-                if (!m_ClientsInRoom.ContainsKey(clientId)) 
-                    m_ClientsInRoom.Add(clientId, false);
+                if (!clientsInRoom.ContainsKey(clientId))
+                {
+                    clientsInRoom.Add(clientId, false);
+                    GameObject player = Instantiate(playerItem, layout.transform);
+                    playerGroup.Add(clientId, player);
+                    //SendClientReadyStatusUpdatesClientRpc(clientId, false);
+                }
 
                 GenerateUserStatsForRoom();
                 UpdateAndCheckPlayersInRoom();
+                Debug.Log(clientId + "connected!");
             }
-            Debug.Log(clientId + "connected!");
+        }
+
+        /// <summary>
+        ///     OnClientDisconnectCallback
+        ///     Remove player from the room on disconnect
+        /// </summary>
+        /// <param name="clientId"></param>
+        private void OnClientDisconnectCallback(ulong clientId)
+        {
+            if (IsServer)
+            {
+                if (clientsInRoom.ContainsKey(clientId))
+                {
+                    clientsInRoom.Remove(clientId);
+                    playerGroup.Remove(clientId);
+                    GenerateUserStatsForRoom();
+                    UpdateAndCheckPlayersInRoom();
+                    RemovePlayerClientRpc(clientId);
+                    Debug.Log(clientId + "disconnected!");
+                }
+            }
+        }
+
+        private void OnServerShutdown(ulong clientId)
+        {
+            SceneManager.LoadScene("Lobby");
         }
 
         /// <summary>
@@ -146,64 +196,37 @@ namespace CarRacingGame3d
         {
             if (!IsServer)
             {
-                if (!m_ClientsInRoom.ContainsKey(clientId))
-                    m_ClientsInRoom.Add(clientId, isReady);
+                if (!clientsInRoom.ContainsKey(clientId))
+                {
+                    clientsInRoom.Add(clientId, isReady);
+                    GameObject player = Instantiate(playerItem, layout.transform);
+                    playerGroup.Add(clientId, player);
+                }
                 else
-                    m_ClientsInRoom[clientId] = isReady;
+                    clientsInRoom[clientId] = isReady;
                 GenerateUserStatsForRoom();
             }
         }
 
         /// <summary>
-        ///     CheckForAllPlayersReady
-        ///     Checks to see if all players are ready, and if so launches the game
+        /// RemovePlayerClientRpc
+        /// Send from the server to the client when a player's diconnect or kicked.
         /// </summary>
-        public void CheckForAllPlayersReady()
+        /// <param name="clientId"></param>
+        [ClientRpc]
+        private void RemovePlayerClientRpc(ulong clientId)
         {
-            if (m_AllPlayersInRoom)
+            if (!IsServer)
             {
-                var allPlayersAreReady = true;
-                foreach (var clientRoomStatus in m_ClientsInRoom)
-                    if (!clientRoomStatus.Value)
-                        //If some clients are still loading into the Room scene then this is false
-                        allPlayersAreReady = false;
-
-                //Only if all players are ready
-                if (allPlayersAreReady)
+                if (clientsInRoom.ContainsKey(clientId))
                 {
-                    GameManager.instance.ClearDriverList();
-                    int i = 0;
-                    foreach (var id in m_ClientsInRoom)
-                    {
-                        i++;
-                        GameManager.instance.AddDriverToList(i, "Test" + i, 1, false, id.Key);
-                    }
-
-                    //Remove our client connected callback
-                    NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedCallback;
-
-                    //Remove our scene loaded callback
-                    SceneTransitionHandler.sceneTransitionHandler.OnClientLoadedScene -= ClientLoadedScene;
-
-                    //Transition to the ingame scene
-                    SceneTransitionHandler.sceneTransitionHandler.SwitchScene(m_InGameSceneName);
+                    clientsInRoom.Remove(clientId);
+                    playerGroup.Remove(clientId);
                 }
-                else
-                {
-                    Debug.Log("All player is not ready");
-                }
+
+
+                GenerateUserStatsForRoom();
             }
-            Debug.Log("Need at least " + m_MinimumPlayerCount + " to start the game!");
-        }
-
-        /// <summary>
-        ///     PlayerIsReady
-        ///     Tied to the Ready button in the Room scene
-        /// </summary>
-        public void PlayerIsReady()
-        {
-            m_ClientsInRoom[NetworkManager.Singleton.LocalClientId] = !m_ClientsInRoom[NetworkManager.Singleton.LocalClientId];
-            OnClientIsReadyServerRpc(m_ClientsInRoom[NetworkManager.Singleton.LocalClientId]);
         }
 
         /// <summary>
@@ -215,12 +238,84 @@ namespace CarRacingGame3d
         private void OnClientIsReadyServerRpc(bool isReady, ServerRpcParams serverRpcParams = default)
         {
             var clientId = serverRpcParams.Receive.SenderClientId;
-            if (m_ClientsInRoom.ContainsKey(clientId))
+            if (clientsInRoom.ContainsKey(clientId))
             {
-                m_ClientsInRoom[clientId] = isReady;
-                UpdateAndCheckPlayersInRoom();
+                clientsInRoom[clientId] = isReady;
+                SendClientReadyStatusUpdatesClientRpc(clientId, isReady);
                 GenerateUserStatsForRoom();
             }
+        }
+
+        //Buttons
+
+        /// <summary>
+        ///     CheckForAllPlayersReady
+        ///     Checks to see if all players are ready, and if so launches the game
+        /// </summary>
+        public void CheckForAllPlayersReady()
+        {
+            if (allPlayersInRoom)
+            {
+                var allPlayersAreReady = true;
+                foreach (var clientRoomStatus in clientsInRoom)
+                    if (!clientRoomStatus.Value)
+                        //If some clients are still loading into the Room scene then this is false
+                        allPlayersAreReady = false;
+
+                //Only if all players are ready
+                if (allPlayersAreReady)
+                {
+                    GameManager.instance.ClearDriverList();
+                    int i = 0;
+                    foreach (var id in clientsInRoom)
+                    {
+                        i++;
+                        GameManager.instance.AddDriverToList(i, "Test" + i, 1, false, id.Key);
+                    }
+
+                    //Remove our client connected callback
+                    NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedCallback;
+
+                    //Remove our client disconnected callback
+                    NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnectCallback;
+
+                    //Remove our scene loaded callback
+                    SceneTransitionHandler.sceneTransitionHandler.OnClientLoadedScene -= ClientLoadedScene;
+
+                    //Transition to the ingame scene
+                    SceneTransitionHandler.sceneTransitionHandler.SwitchScene(inGameSceneName);
+                }
+                else
+                {
+                    Debug.Log("All player is not ready");
+                }
+            }
+            Debug.Log("Need at least " + minimumPlayerCount + " to start the game!");
+        }
+
+        /// <summary>
+        ///     PlayerIsReady
+        ///     Tied to the Ready button in the Room scene
+        /// </summary>
+        public void PlayerIsReady()
+        {
+            clientsInRoom[NetworkManager.Singleton.LocalClientId] = !clientsInRoom[NetworkManager.Singleton.LocalClientId];
+            OnClientIsReadyServerRpc(clientsInRoom[NetworkManager.Singleton.LocalClientId]);
+        }
+
+        public void LeaveRoom()
+        {
+            if (IsServer)
+            {
+                var discovery = FindAnyObjectByType<ExampleNetworkDiscovery>();
+                if (discovery != null)
+                {
+                    discovery.StopServer();
+                }
+                SceneTransitionHandler.sceneTransitionHandler.CancelCallbacks();
+            }
+            NetworkManager.Singleton.Shutdown();
+            SceneManager.LoadScene("Lobby");
         }
     }
 }

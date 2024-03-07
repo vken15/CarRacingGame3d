@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Unity.Collections;
@@ -63,9 +64,45 @@ public abstract class NetworkDiscovery<TBroadCast, TResponse> : MonoBehaviour
             throw new InvalidOperationException("Cannot send client broadcast while not running in client mode. Call StartClient first.");
         }
 
-        IPEndPoint endPoint = new IPEndPoint(IPAddress.Broadcast, m_Port);
+        IPAddress localIp = null;
+        IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (IPAddress ip in hostEntry.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                localIp = ip;
+                break;
+            }
+        }
+        uint ipMaskV4 = 0;
+        foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
+        {
+            foreach (UnicastIPAddressInformation unicastIPAddressInformation in adapter.GetIPProperties().UnicastAddresses)
+            {
+                if (unicastIPAddressInformation.Address.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    if (localIp.Equals(unicastIPAddressInformation.Address))
+                    {
+                        ipMaskV4 = BitConverter.ToUInt32(unicastIPAddressInformation.IPv4Mask.GetAddressBytes(), 0);
+                        break;
+                    }
+                }
+            }
+        }
 
-        using (FastBufferWriter writer = new FastBufferWriter(1024, Allocator.Temp, 1024 * 64))
+        uint broadCastIpAddress = 0;
+
+        if (localIp != null && ipMaskV4 != 0)
+        {
+            uint ipAddress = BitConverter.ToUInt32(localIp.GetAddressBytes(), 0);
+            broadCastIpAddress = ipAddress | ~ipMaskV4;
+        }
+
+        Debug.Log(new IPAddress(BitConverter.GetBytes(broadCastIpAddress)).ToString());
+
+        IPEndPoint endPoint = new(broadCastIpAddress == 0 ? IPAddress.Broadcast : new(BitConverter.GetBytes(broadCastIpAddress)), m_Port);
+
+        using (FastBufferWriter writer = new(1024, Allocator.Temp, 1024 * 64))
         {
             
             WriteHeader(writer, MessageType.BroadCast);

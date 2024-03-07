@@ -92,7 +92,13 @@ namespace CarRacingGame3d
         public void RegisterCallbacks()
         {
             NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadComplete;
+        }
 
+        public void CancelCallbacks()
+        {
+            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnLoadComplete;
+            OnClientLoadedScene = null;
+            SetSceneState(SceneStates.Start);
         }
 
         /// <summary>
