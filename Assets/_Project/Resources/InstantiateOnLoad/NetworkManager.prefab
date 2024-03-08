@@ -114,5 +114,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Port: 47777
   m_UniqueApplicationId: 917548277639860899
-  m_StartWithServer: 1
+  m_StartWithServer: 0
   ServerName: EnterName

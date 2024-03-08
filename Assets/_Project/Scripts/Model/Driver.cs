@@ -2,9 +2,9 @@ namespace CarRacingGame3d
 {
     public class Driver
     {
-        private int playerNumber;
+        private ushort playerNumber;
         private string name;
-        private int carID;
+        private ushort carID;
         private bool isAI;
         private AIDifficult difficult;
         //private InputType driverInput = InputType.keyboard;
@@ -12,7 +12,7 @@ namespace CarRacingGame3d
         private int points = 0;
         private ulong networkId;
 
-        public Driver(int playerNumber, string name, int carID, bool isAI, ulong networkId, AIDifficult difficult = AIDifficult.Easy)
+        public Driver(ushort playerNumber, string name, ushort carID, bool isAI, ulong networkId, AIDifficult difficult = AIDifficult.Easy)
         {
             this.PlayerNumber = playerNumber;
             this.Name = name;
@@ -22,9 +22,9 @@ namespace CarRacingGame3d
             //this.DriverInput = driverInput;
             this.networkId = networkId;
         }
-        public int PlayerNumber { get => playerNumber; set => playerNumber = value; }
+        public ushort PlayerNumber { get => playerNumber; set => playerNumber = value; }
         public string Name { get => name; set => name = value; }
-        public int CarID { get => carID; set => carID = value; }
+        public ushort CarID { get => carID; set => carID = value; }
         public bool IsAI { get => isAI; set => isAI = value; }
         //public InputType DriverInput { get => driverInput; set => driverInput = value; }
         public AIDifficult Difficult { get => difficult; set => difficult = value; }

@@ -1,13 +1,20 @@
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace CarRacingGame3d
 {
+    public struct PlayerData
+    {
+        public string playerName;
+        public ushort carId;
+        public GameObject playerView;
+        public bool isReady;
+    }
+
     public class RoomControl : NetworkBehaviour
     {
         [SerializeField] private string inGameSceneName = "Online";
@@ -20,21 +27,22 @@ namespace CarRacingGame3d
         [SerializeField] private GameObject playerItem;
 
         private bool allPlayersInRoom;
-        private Dictionary<ulong, bool> clientsInRoom;
-        private Dictionary<ulong, GameObject> playerGroup;
+        private Dictionary<ulong, PlayerData> clientsInRoom;
 
         public override void OnNetworkSpawn()
         {
-            clientsInRoom = new Dictionary<ulong, bool>()
+            PlayerData data = new()
             {
-                //Always add ourselves to the list at first
-                { NetworkManager.Singleton.LocalClientId, false }
+                playerName = "TEST",
+                carId = 1,
+                playerView = Instantiate(playerItem, layout.transform),
+                isReady = false,
             };
 
-            GameObject player = Instantiate(playerItem, layout.transform);
-            playerGroup = new Dictionary<ulong, GameObject>()
+            clientsInRoom = new()
             {
-                { NetworkManager.Singleton.LocalClientId, player }
+                //Always add ourselves to the list at first
+                { NetworkManager.Singleton.LocalClientId, data }
             };
 
             //If we are hosting, then handle the server side for detecting when clients have connected
@@ -43,7 +51,8 @@ namespace CarRacingGame3d
             {
                 allPlayersInRoom = false;
 
-                clientsInRoom[NetworkManager.Singleton.LocalClientId] = true;
+                data.isReady = true;
+                clientsInRoom[NetworkManager.Singleton.LocalClientId] = data;
 
                 //Server will be notified when a client connects
                 NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
@@ -54,16 +63,12 @@ namespace CarRacingGame3d
             }
             else
             {
+                NetworkManager.Singleton.OnClientConnectedCallback += OnConnectedToServerCallback;
                 NetworkManager.Singleton.OnClientDisconnectCallback += OnServerShutdown;
             }
 
             SceneTransitionHandler.sceneTransitionHandler.SetSceneState(SceneTransitionHandler.SceneStates.Lobby);
             base.OnNetworkSpawn();
-        }
-
-        private void OnGUI()
-        {
-            //if (RoomText != null) RoomText.text = userRoomStatusText;
         }
 
         public override void OnNetworkDespawn()
@@ -75,6 +80,7 @@ namespace CarRacingGame3d
                 SceneTransitionHandler.sceneTransitionHandler.OnClientLoadedScene -= ClientLoadedScene;
             } else
             {
+                NetworkManager.Singleton.OnClientConnectedCallback -= OnConnectedToServerCallback;
                 NetworkManager.Singleton.OnClientDisconnectCallback -= OnServerShutdown;
             }
         }
@@ -88,13 +94,13 @@ namespace CarRacingGame3d
         {
             foreach (var clientRoomStatus in clientsInRoom)
             {
-                var userRoomStatusText = "PLAYER_" + clientRoomStatus.Key + "          ";
-                if (clientRoomStatus.Value)
+                var userRoomStatusText = clientRoomStatus.Value.playerName + "_" + clientRoomStatus.Key + "          ";
+                if (clientRoomStatus.Value.isReady)
                     userRoomStatusText += "(READY)\n";
                 else
                     userRoomStatusText += "(NOT READY)\n";
 
-                playerGroup[clientRoomStatus.Key].GetComponentInChildren<TMP_Text>().text = userRoomStatusText;
+                clientRoomStatus.Value.playerView.GetComponentInChildren<TMP_Text>().text = userRoomStatusText;
             }
         }
 
@@ -127,7 +133,7 @@ namespace CarRacingGame3d
 
                 foreach (var clientRoomStatus in clientsInRoom)
                 {
-                    SendClientReadyStatusUpdatesClientRpc(clientRoomStatus.Key, clientRoomStatus.Value);
+                    SendPlayerDataClientRpc(clientRoomStatus.Key, clientRoomStatus.Value.playerName, clientRoomStatus.Value.carId, clientRoomStatus.Value.isReady);
                     if (!NetworkManager.Singleton.ConnectedClients.ContainsKey(clientRoomStatus.Key))
                         allPlayersInRoom = false;
                 }
@@ -146,9 +152,14 @@ namespace CarRacingGame3d
             {
                 if (!clientsInRoom.ContainsKey(clientId))
                 {
-                    clientsInRoom.Add(clientId, false);
-                    GameObject player = Instantiate(playerItem, layout.transform);
-                    playerGroup.Add(clientId, player);
+                    PlayerData data = new()
+                    {
+                        playerName = "Loading...",
+                        carId = 1,
+                        playerView = Instantiate(playerItem, layout.transform),
+                        isReady = false
+                    };
+                    clientsInRoom.Add(clientId, data);
                     //SendClientReadyStatusUpdatesClientRpc(clientId, false);
                 }
 
@@ -169,13 +180,23 @@ namespace CarRacingGame3d
             {
                 if (clientsInRoom.ContainsKey(clientId))
                 {
+                    GameObject playerView = clientsInRoom[clientId].playerView;
                     clientsInRoom.Remove(clientId);
-                    playerGroup.Remove(clientId);
+                    Destroy(playerView);
                     GenerateUserStatsForRoom();
                     UpdateAndCheckPlayersInRoom();
                     RemovePlayerClientRpc(clientId);
                     Debug.Log(clientId + "disconnected!");
                 }
+            }
+        }
+
+        private void OnConnectedToServerCallback(ulong clientId)
+        {
+            if (!IsServer)
+            {
+                PlayerData data = clientsInRoom[clientId];
+                SendPlayerDataToServerRpc(data.playerName, data.carId);
             }
         }
 
@@ -198,15 +219,53 @@ namespace CarRacingGame3d
             {
                 if (!clientsInRoom.ContainsKey(clientId))
                 {
-                    clientsInRoom.Add(clientId, isReady);
-                    GameObject player = Instantiate(playerItem, layout.transform);
-                    playerGroup.Add(clientId, player);
+                    PlayerData data = new()
+                    {
+                        playerName = "TEST",
+                        carId = 1,
+                        playerView = Instantiate(playerItem, layout.transform),
+                        isReady = isReady
+                    };
+                    clientsInRoom.Add(clientId, data);
                 }
                 else
-                    clientsInRoom[clientId] = isReady;
+                {
+                    PlayerData data = clientsInRoom[clientId];
+                    data.isReady = isReady;
+                    clientsInRoom[clientId] = data;
+                }
+
                 GenerateUserStatsForRoom();
             }
         }
+
+        [ClientRpc]
+        private void SendPlayerDataClientRpc(ulong clientId, string playerName, ushort carId, bool isReady)
+        {
+            if (!IsServer)
+            {
+                if (!clientsInRoom.ContainsKey(clientId))
+                {
+                    PlayerData data = new()
+                    {
+                        playerName = playerName,
+                        carId = carId,
+                        playerView = Instantiate(playerItem, layout.transform),
+                        isReady = isReady
+                    };
+                    clientsInRoom.Add(clientId, data);
+                }
+                else
+                {
+                    PlayerData data = clientsInRoom[clientId];
+                    data.isReady = isReady;
+                    clientsInRoom[clientId] = data;
+                }
+
+                GenerateUserStatsForRoom();
+            }
+        }
+
 
         /// <summary>
         /// RemovePlayerClientRpc
@@ -220,10 +279,10 @@ namespace CarRacingGame3d
             {
                 if (clientsInRoom.ContainsKey(clientId))
                 {
+                    GameObject playerView = clientsInRoom[clientId].playerView;
                     clientsInRoom.Remove(clientId);
-                    playerGroup.Remove(clientId);
+                    Destroy(playerView);
                 }
-
 
                 GenerateUserStatsForRoom();
             }
@@ -240,8 +299,37 @@ namespace CarRacingGame3d
             var clientId = serverRpcParams.Receive.SenderClientId;
             if (clientsInRoom.ContainsKey(clientId))
             {
-                clientsInRoom[clientId] = isReady;
+                PlayerData data = clientsInRoom[clientId];
+                data.isReady = isReady;
+                clientsInRoom[clientId] = data;
                 SendClientReadyStatusUpdatesClientRpc(clientId, isReady);
+                GenerateUserStatsForRoom();
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void SendPlayerDataToServerRpc(string playerName, ushort carId, ServerRpcParams serverRpcParams = default)
+        {
+            var clientId = serverRpcParams.Receive.SenderClientId;
+            if (clientsInRoom.ContainsKey(clientId))
+            {
+                var data = clientsInRoom[clientId];
+                data.playerName = playerName;
+                data.carId = carId;
+                clientsInRoom[clientId] = data;
+                GenerateUserStatsForRoom();
+            }
+        }
+
+        [ServerRpc]
+        private void SendChangedCarToServerRpc(ushort carId, ServerRpcParams serverRpcParams = default)
+        {
+            var clientId = serverRpcParams.Receive.SenderClientId;
+            if (clientsInRoom.ContainsKey(clientId))
+            {
+                var data = clientsInRoom[clientId];
+                data.carId = carId;
+                clientsInRoom[clientId] = data;
                 GenerateUserStatsForRoom();
             }
         }
@@ -258,7 +346,7 @@ namespace CarRacingGame3d
             {
                 var allPlayersAreReady = true;
                 foreach (var clientRoomStatus in clientsInRoom)
-                    if (!clientRoomStatus.Value)
+                    if (!clientRoomStatus.Value.isReady)
                         //If some clients are still loading into the Room scene then this is false
                         allPlayersAreReady = false;
 
@@ -266,11 +354,11 @@ namespace CarRacingGame3d
                 if (allPlayersAreReady)
                 {
                     GameManager.instance.ClearDriverList();
-                    int i = 0;
+                    ushort i = 0;
                     foreach (var id in clientsInRoom)
                     {
                         i++;
-                        GameManager.instance.AddDriverToList(i, "Test" + i, 1, false, id.Key);
+                        GameManager.instance.AddDriverToList(i, id.Value.playerName, id.Value.carId, false, id.Key);
                     }
 
                     //Remove our client connected callback
@@ -299,23 +387,25 @@ namespace CarRacingGame3d
         /// </summary>
         public void PlayerIsReady()
         {
-            clientsInRoom[NetworkManager.Singleton.LocalClientId] = !clientsInRoom[NetworkManager.Singleton.LocalClientId];
-            OnClientIsReadyServerRpc(clientsInRoom[NetworkManager.Singleton.LocalClientId]);
+            PlayerData data = clientsInRoom[NetworkManager.Singleton.LocalClientId];
+            data.isReady = !data.isReady;
+            clientsInRoom[NetworkManager.Singleton.LocalClientId] = data;
+            OnClientIsReadyServerRpc(data.isReady);
         }
 
         public void LeaveRoom()
         {
             if (IsServer)
-            {
-                var discovery = FindAnyObjectByType<ExampleNetworkDiscovery>();
-                if (discovery != null)
-                {
-                    discovery.StopServer();
-                }
                 SceneTransitionHandler.sceneTransitionHandler.CancelCallbacks();
-            }
+
             NetworkManager.Singleton.Shutdown();
             SceneManager.LoadScene("Lobby");
+        }
+    
+        public void OnConfirmCarChanged()
+        {
+            var carId = FindAnyObjectByType<CarSelection>().GetCarIDData();
+            SendChangedCarToServerRpc(carId);
         }
     }
 }

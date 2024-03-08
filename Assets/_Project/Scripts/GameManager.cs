@@ -128,7 +128,7 @@ namespace CarRacingGame3d
         //    return map.MaxCars;
         //}
         //Driver
-        public void AddDriverToList(int playerNumber, string name, int carID, bool isAI, ulong networkId, AIDifficult difficult = AIDifficult.Easy)
+        public void AddDriverToList(ushort playerNumber, string name, ushort carID, bool isAI, ulong networkId, AIDifficult difficult = AIDifficult.Easy)
         {
             driverList.Add(new Driver(playerNumber, name, carID, isAI, networkId, difficult));
         }

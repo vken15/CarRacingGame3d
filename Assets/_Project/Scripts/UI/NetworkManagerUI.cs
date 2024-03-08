@@ -17,7 +17,7 @@ namespace CarRacingGame3d
         [SerializeField] private Button hostBtn;
         [SerializeField] private Button clientBtn;
 
-        private NetworkVariable<int> numberOfPlayer = new(0);
+        private NetworkVariable<ushort> numberOfPlayer = new(0);
 
         public override void OnNetworkSpawn()
         {
@@ -72,8 +72,8 @@ namespace CarRacingGame3d
         {
             if (con == ConnectionStatus.Connected)
             {
-                GameManager.instance.AddDriverToList(numberOfPlayer.Value + 1, "Tester " + numberOfPlayer.Value + 1, 1, false, clientId);
                 numberOfPlayer.Value += 1;
+                GameManager.instance.AddDriverToList(numberOfPlayer.Value, "Tester " + numberOfPlayer.Value, 1, false, clientId);
                 print("CONNTECTED " + numberOfPlayer.Value);
             }
             else
@@ -92,7 +92,7 @@ namespace CarRacingGame3d
         [ServerRpc]
         private void StartGameServerRpc()
         {
-            numberOfPlayer.OnValueChanged += (int prevValue, int newValue) =>
+            numberOfPlayer.OnValueChanged += (ushort prevValue, ushort newValue) =>
             {
                 if (numberOfPlayer.Value >= 2)
                 {

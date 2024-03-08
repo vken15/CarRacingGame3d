@@ -47,7 +47,7 @@ namespace CarRacingGame3d
 
                 Driver driver = driverList[0];
 
-                int selectedCarID = driver.CarID;
+                ushort selectedCarID = driver.CarID;
 
                 //Find the player cars prefab
                 foreach (CarData carData in carDatas)

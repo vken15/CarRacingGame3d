@@ -132,7 +132,7 @@ namespace CarRacingGame3d
         */
         private void OnDestroy()
         {
-            if (m_Discovery.IsRunning)
+            if (m_Discovery.IsRunning && !m_NetworkManager.IsServer)
             {
                 m_Discovery.StopDiscovery();
             }
