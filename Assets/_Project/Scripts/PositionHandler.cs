@@ -9,7 +9,6 @@ namespace CarRacingGame3d
     {
         [SerializeField] private List<CarLapCounter> carLapCounters = new();
         private LeaderboardUIHandler leaderboardUIHandler;
-        //private DriverInGameInfoUIHandler driverInGameInfoUIHandler;
 
         private readonly ushort[] pointReward = { 0, 10, 8, 6, 5, 4, 3, 2, 1 };
 
@@ -27,11 +26,6 @@ namespace CarRacingGame3d
             {
                 leaderboardUIHandler.UpdateList(carLapCounters);
             }
-            //driverInGameInfoUIHandler = FindFirstObjectByType<DriverInGameInfoUIHandler>();
-            //if (driverInGameInfoUIHandler != null)
-            //{
-            //    driverInGameInfoUIHandler.UpdatePosition(carLapCounters);
-            //}
         }
 
         private void OnPassCheckPoint(CarLapCounter carLapCounter)
@@ -78,16 +72,6 @@ namespace CarRacingGame3d
                     leaderboardUIHandler.UpdateTimer(carLapCounter, GameManager.instance.GetRaceTime());
                 }
             }
-            //if (driverInGameInfoUIHandler != null)
-            //{
-            //    driverInGameInfoUIHandler.UpdatePosition(carLapCounters);
-            //    /*
-            //    if (carLapCounter.IsCrossedFinishLine())
-            //    {
-            //        driverInGameInfoUIHandler.UpdateTimer(carLapCounter, GameManager.instance.GetRaceTime());
-            //    }
-            //    */
-            //}
         }
     }
 }

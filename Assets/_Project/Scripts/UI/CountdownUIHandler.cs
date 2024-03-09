@@ -163,10 +163,12 @@ namespace CarRacingGame3d
         {
             //If the game has started, then don't bother with the rest of the count down checks.
             if ((HasGameStarted() && !HasRaceOverCountDown()) || (HasRaceOverCountDown() && IsCurrentGameOver())) return false;
+            Debug.Log("B1");
             if (IsServer)
             {
                 m_CountdownStarted.Value = SceneTransitionHandler.sceneTransitionHandler.AllClientsAreLoaded();
                 //While we are counting down, continually set the replicated time remaining value for clients (client should only receive the update once)
+                Debug.Log("B2 " + m_CountdownStarted.Value);
                 if (m_CountdownStarted.Value && !m_ReplicatedTimeSent)
                 {
                     SetReplicatedTimeRemainingClientRPC(m_DelayedStartTime);
@@ -216,6 +218,14 @@ namespace CarRacingGame3d
 
                 m_TimeRemaining -= Time.deltaTime;
 
+                if (m_TimeRemaining < 0.1f)
+                {
+                    if (HasRaceOverCountDown())
+                        countdownText.text = "Over!";
+                    else
+                        countdownText.text = "Start!";
+                }
+
                 if (m_TimeRemaining <= 0.0f)
                 {
                     if (IsServer) // Only the server should be updating this
@@ -235,10 +245,6 @@ namespace CarRacingGame3d
                         }
                         countdownText.gameObject.SetActive(false);
                     }
-                    if (HasRaceOverCountDown())
-                        countdownText.text = "Over!";
-                    else
-                        countdownText.text = "Start!";
                 }
 
                 if (m_TimeRemaining > 0.1f)
@@ -254,10 +260,12 @@ namespace CarRacingGame3d
             }
         }
 
+        /*
         public void StartCountDown()
         {
             StartCoroutine(CountDownCO(3, false));
         }
+        */
 
         // state = false => race start, state = true => race over countdown
         //Countdown for offline mode

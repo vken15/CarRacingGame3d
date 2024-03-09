@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Windows;
 
 namespace CarRacingGame3d
@@ -14,6 +15,8 @@ namespace CarRacingGame3d
         [SerializeField] private GameObject prevBtn;
         [SerializeField] private GameObject changeBtn;
         [SerializeField] private GameObject confirmBtn;
+        [SerializeField] private GameObject startBtn;
+        [SerializeField] private GameObject readyBtn;
 
         [Header("Car prefab")]
         [SerializeField] private GameObject carPrefab;
@@ -34,16 +37,21 @@ namespace CarRacingGame3d
         {
             //Load the car Data
             carDatas = Resources.LoadAll<CarData>("CarData/");
+            var camera = FindAnyObjectByType<CameraFollow>();
+            camera.SetTarget(spawnOnTransform);
             StartCoroutine(SpawnCarCO(true));
         }
 
         private void Update()
         {
-            float input = InputManager.instance.Controllers.Player.Move.ReadValue<Vector2>().x;
-            if (input > 0)
-                OnNextCar();
-            if (input < 0)
-                OnPreviousCar();
+            if (confirmBtn.activeInHierarchy)
+            {
+                float input = InputManager.instance.Controllers.Player.Move.ReadValue<Vector2>().x;
+                if (input > 0)
+                    OnNextCar();
+                if (input < 0)
+                    OnPreviousCar();
+            }
         }
 
         public void OnChangeButtonPressed()
@@ -52,6 +60,8 @@ namespace CarRacingGame3d
             prevBtn.SetActive(true);
             changeBtn.SetActive(false);
             confirmBtn.SetActive(true);
+            startBtn.GetComponent<Button>().interactable = false;
+            readyBtn.GetComponent<Button>().interactable = false;
         }
 
         public void OnConfirmButtonPressed()
@@ -60,6 +70,8 @@ namespace CarRacingGame3d
             prevBtn.SetActive(false);
             changeBtn.SetActive(true);
             confirmBtn.SetActive(false);
+            startBtn.GetComponent<Button>().interactable = true;
+            readyBtn.GetComponent<Button>().interactable = true;
         }
 
         public void OnNextCar()

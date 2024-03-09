@@ -77,10 +77,10 @@
     <Compile Include="Assets\_Project\Scripts\AI\DrawPathHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\GameManager.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\NetworkDiscovery.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\HostSettingHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\NetworkManagerUI.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionNotificationManager.cs" />
     <Compile Include="Assets\_Project\Scripts\Item\ItemController.cs" />
-    <Compile Include="Assets\_Project\Scripts\Multiplayer\HostManager.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CarLapCounter.cs" />
     <Compile Include="Assets\_Project\Scripts\Portal\Portal.cs" />
     <Compile Include="Assets\_Project\Scripts\Utils\Vector3Extensions.cs" />
@@ -91,10 +91,12 @@
     <Compile Include="Assets\_Project\Scripts\Utils\Timer.cs" />
     <Compile Include="Assets\_Project\Scripts\Item\ItemBox.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\LobbyControl.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\MapIndexUI.cs" />
     <Compile Include="Assets\_Project\Scripts\Portal\PortalCamera.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\GameFinishMenuUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\UdpConnection.cs" />
     <Compile Include="Assets\_Project\Scripts\Utils\ClientNetworkTransform.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\MapSelection.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\DiscoveryBroadcastData.cs" />
     <Compile Include="Assets\_Project\Scripts\SpeedBoard.cs" />
     <Compile Include="Assets\_Project\Scripts\SceneTransitionHandler.cs" />

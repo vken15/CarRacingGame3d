@@ -21,6 +21,10 @@ namespace CarRacingGame3d
         private readonly List<Driver> driverList = new();
         private ushort numberOfLaps = 2;
         private ushort numberOfCarsRaceComplete = 0;
+        public MapData map;
+
+        //Multiplayer
+        public Dictionary<ulong, PlayerData> clientsInRoom = new();
 
         //Events
         public event Action<GameManager> OnGameStateChanged;
@@ -42,12 +46,14 @@ namespace CarRacingGame3d
             //driverList.Add(new Driver(1, "P1", 1, false, AIDifficult.Normal, 0));
             //driverList.Add(new Driver(2, "P2", 1, true, AIDifficult.Normal, 0));
         }
+        
         private void LoadMap()
         {
             ChangeGameState(GameStates.countdown);
 
             Debug.Log("Map loaded");
         }
+        
         public float GetRaceTime()
         {
             if (gameState == GameStates.countdown)
@@ -63,12 +69,14 @@ namespace CarRacingGame3d
                 return Time.time - raceStartedTime;
             }
         }
+        
         public void OnRaceStart()
         {
             raceStartedTime = Time.time;
             ChangeGameState(GameStates.running);
             Debug.Log("Race started");
         }
+        
         public void OnRaceCompleted()
         {
             numberOfCarsRaceComplete++;
@@ -78,6 +86,7 @@ namespace CarRacingGame3d
                 ChangeGameState(GameStates.raceOverCountDown);
             Debug.Log("Race completed");
         }
+        
         public void OnRaceOver()
         {
             raceCompletedTime = Time.time;
@@ -85,10 +94,12 @@ namespace CarRacingGame3d
             ChangeGameState(GameStates.raceOver);
             Debug.Log("Race over");
         }
+        
         public GameStates GetGameState()
         {
             return gameState;
         }
+        
         private void ChangeGameState(GameStates newGameState)
         {
             if (gameState != newGameState)
@@ -97,6 +108,7 @@ namespace CarRacingGame3d
                 OnGameStateChanged?.Invoke(this);
             }
         }
+        
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -106,32 +118,24 @@ namespace CarRacingGame3d
         {
             LoadMap();
         }
-        //Map
-        //public void SetMap(MapData m)
-        //{
-        //    map = m;
-        //}
+        
+        //Lap
         public void SetNumberOfLaps(ushort number)
         {
             numberOfLaps = number;
         }
+
         public ushort GetNumberOfLaps()
         {
             return numberOfLaps;
         }
-        //public string GetMapScene()
-        //{
-        //    return map.Scene;
-        //}
-        //public int GetMaxCars()
-        //{
-        //    return map.MaxCars;
-        //}
+
         //Driver
         public void AddDriverToList(ushort playerNumber, string name, ushort carID, bool isAI, ulong networkId, AIDifficult difficult = AIDifficult.Easy)
         {
             driverList.Add(new Driver(playerNumber, name, carID, isAI, networkId, difficult));
         }
+        
         public List<Driver> GetDriverList()
         {
             return driverList;
@@ -146,19 +150,39 @@ namespace CarRacingGame3d
             }
             return null;
         }
+        
         public void SetDriverLastRacePosition(int playerNumber, int position)
         {
             Driver driver = FindDriver(playerNumber);
             driver.LastRacePosition = position;
         }
+        
         public void AddPoints(int playerNumber, int points)
         {
             Driver driver = FindDriver(playerNumber);
             driver.Points += points;
         }
+        
         public void ClearDriverList()
         {
             driverList.Clear();
+        }
+
+        //Multiplayer
+
+        public void MultiplayerInGameSetUp()
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback += OnInGameClientDisconnectedCallback;
+        }
+
+        private void OnInGameClientDisconnectedCallback(ulong clientId)
+        {
+
+        }
+
+        public void MultiplayerDispose()
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback -= OnInGameClientDisconnectedCallback;
         }
     }
 }

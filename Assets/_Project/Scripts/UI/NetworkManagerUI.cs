@@ -85,7 +85,7 @@ namespace CarRacingGame3d
             CountdownUIHandler countdownUIHandler = FindAnyObjectByType<CountdownUIHandler>();
             if (countdownUIHandler != null)
             {
-                countdownUIHandler.StartCountDown();
+                //countdownUIHandler.StartCountDown();
             }
         }
 

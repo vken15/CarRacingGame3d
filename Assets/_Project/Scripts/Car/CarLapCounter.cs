@@ -107,7 +107,8 @@ namespace CarRacingGame3d
                     if (warning == null)
                         warning = GameObject.FindGameObjectWithTag("WrongWayWarning");
                     
-                    warning.SetActive(true);
+                    if (warning != null)
+                        warning.SetActive(true);
                 }
             }
         }

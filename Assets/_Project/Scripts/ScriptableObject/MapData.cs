@@ -8,15 +8,21 @@ namespace CarRacingGame3d
     [CreateAssetMenu(fileName = "New Map Data", menuName = "Map Data", order = 51)]
     public class MapData : ScriptableObject
     {
-        [SerializeField] private int mapID = 0;
+        [SerializeField] private ushort mapID = 0;
+        [SerializeField] private string mapName = "";
         [SerializeField] private Sprite mapUISprite;
         [SerializeField] private string scene;
-        [SerializeField] private int difficulty;
+        [SerializeField] private ushort numberOfLaps = 2;
+        [SerializeField] private ushort difficulty;
         [SerializeField] private string discription = "";
 
-        public int MapID
+        public ushort MapID
         {
             get { return mapID; }
+        }
+        public string MapName
+        {
+            get { return mapName; }
         }
         public Sprite MapUISprite
         {
@@ -25,6 +31,10 @@ namespace CarRacingGame3d
         public string Scene
         {
             get { return scene; }
+        }
+        public ushort NumberOfLaps
+        {
+            get { return numberOfLaps; }
         }
         public int Difficulty
         {

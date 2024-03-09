@@ -10,12 +10,15 @@ namespace CarRacingGame3d
 {
     public class LobbyControl : MonoBehaviour
     {
+        [SerializeField] private Button createHostBtn;
         [SerializeField] private Button hostBtn;
         [SerializeField] private Button joinBtn;
         [SerializeField] private Button refreshBtn;
 
         [SerializeField] private GameObject roomGroup;
         [SerializeField] private GameObject roomItem;
+
+        [SerializeField] private GameObject hostCanvas;
 
         private List<GameObject> roomList = new();
 
@@ -50,10 +53,11 @@ namespace CarRacingGame3d
                     Destroy(room);
                 }
                 m_Discovery.ClientBroadcast(new DiscoveryBroadcastData());
+                joinBtn.interactable = false;
                 //ClientSearch();
             });
 
-            hostBtn.onClick.AddListener(() =>
+            createHostBtn.onClick.AddListener(() =>
             {
                 UnityTransport transport = (UnityTransport)m_NetworkManager.NetworkConfig.NetworkTransport;
                 transport.SetConnectionData(myAddressLocal, 7777);
@@ -77,6 +81,8 @@ namespace CarRacingGame3d
                 }
                 GameManager.instance.ClearDriverList();
             });
+
+            hostBtn.onClick.AddListener(() => hostCanvas.SetActive(true));
 
             m_Discovery.OnServerFound += OnServerFound;
 

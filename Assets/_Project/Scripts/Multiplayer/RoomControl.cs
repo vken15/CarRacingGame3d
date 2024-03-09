@@ -17,8 +17,6 @@ namespace CarRacingGame3d
 
     public class RoomControl : NetworkBehaviour
     {
-        [SerializeField] private string inGameSceneName = "Online";
-
         // Minimum player count required to transition to next level
         [SerializeField] private int minimumPlayerCount = 2;
 
@@ -31,28 +29,37 @@ namespace CarRacingGame3d
 
         public override void OnNetworkSpawn()
         {
-            PlayerData data = new()
+            if (GameManager.instance.clientsInRoom.Count == 0 || !IsServer)
             {
-                playerName = "TEST",
-                carId = 1,
-                playerView = Instantiate(playerItem, layout.transform),
-                isReady = false,
-            };
+                PlayerData data = new()
+                {
+                    playerName = "TEST",
+                    carId = 1,
+                    playerView = Instantiate(playerItem, layout.transform),
+                    isReady = IsServer,
+                };
 
-            clientsInRoom = new()
+                clientsInRoom = new()
+                {
+                    //Always add ourselves to the list at first
+                    { NetworkManager.Singleton.LocalClientId, data }
+                };
+            } else
             {
-                //Always add ourselves to the list at first
-                { NetworkManager.Singleton.LocalClientId, data }
-            };
+                clientsInRoom = GameManager.instance.clientsInRoom;
+                foreach (var client in clientsInRoom)
+                {
+                    var data = client.Value;
+                    data.playerView = Instantiate(playerItem, layout.transform);
+                    clientsInRoom[client.Key] = data;
+                }
+            }
 
             //If we are hosting, then handle the server side for detecting when clients have connected
             //and when their room scenes are finished loading.
             if (IsServer)
             {
                 allPlayersInRoom = false;
-
-                data.isReady = true;
-                clientsInRoom[NetworkManager.Singleton.LocalClientId] = data;
 
                 //Server will be notified when a client connects
                 NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
@@ -371,7 +378,7 @@ namespace CarRacingGame3d
                     SceneTransitionHandler.sceneTransitionHandler.OnClientLoadedScene -= ClientLoadedScene;
 
                     //Transition to the ingame scene
-                    SceneTransitionHandler.sceneTransitionHandler.SwitchScene(inGameSceneName);
+                    SceneTransitionHandler.sceneTransitionHandler.SwitchScene(GameManager.instance.map.Scene);
                 }
                 else
                 {

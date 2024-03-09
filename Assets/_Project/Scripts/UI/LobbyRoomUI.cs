@@ -10,6 +10,8 @@ namespace CarRacingGame3d
         [SerializeField] private GameObject startBtn;
         [SerializeField] private GameObject readyBtn;
         [SerializeField] private GameObject leaveBtn;
+        [SerializeField] private GameObject changeMapBtn;
+        [SerializeField] private GameObject changeCarBtn;
 
         private void Awake()
         {
@@ -17,6 +19,7 @@ namespace CarRacingGame3d
             {
                 Debug.Log("Host");
                 startBtn.SetActive(true);
+                changeMapBtn.SetActive(true);
             }
             else
             {
@@ -27,9 +30,17 @@ namespace CarRacingGame3d
                 readyBtn.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     if (btnName.text.Equals("Ready"))
+                    {
+                        leaveBtn.GetComponent<Button>().interactable = false;
+                        changeCarBtn.SetActive(false);
                         btnName.text = "Cancel";
+                    }
                     else
+                    {
+                        leaveBtn.GetComponent<Button>().interactable = true;
+                        changeCarBtn.SetActive(true);
                         btnName.text = "Ready";
+                    }
                 });
             }
         }
