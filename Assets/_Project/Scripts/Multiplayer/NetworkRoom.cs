@@ -91,12 +91,26 @@ namespace CarRacingGame3d
         public event Action<ulong, ushort, bool> OnClientReady;
 
         /// <summary>
+        /// Server notification when the host change the map
+        /// </summary>
+        public event Action<ushort> OnMapChanged;
+
+        /// <summary>
         /// RPC to notify the server that a client has chosen a seat.
         /// </summary>
         [ServerRpc(RequireOwnership = false)]
         public void ChangeSeatServerRpc(ulong clientId, ushort carId, bool lockedIn)
         {
             OnClientReady?.Invoke(clientId, carId, lockedIn);
+        }
+
+        /// <summary>
+        /// RPC to notify the server that a client has chosen a seat.
+        /// </summary>
+        [ClientRpc]
+        public void ChangeMapClientRpc(ushort mapId)
+        {
+            OnMapChanged?.Invoke(mapId);
         }
     }
 }

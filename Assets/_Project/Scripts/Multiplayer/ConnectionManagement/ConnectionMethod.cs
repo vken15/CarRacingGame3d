@@ -186,6 +186,9 @@ namespace CarRacingGame3d
                 $"allocation ID:{hostAllocation.AllocationId}, region:{hostAllocation.Region}");
 
             LocalLobby.Instance.RelayJoinCode = joinCode;
+            LocalLobby.Instance.CurRound = GameManager.instance.currentRound;
+            LocalLobby.Instance.MaxRound = GameManager.instance.maxRound;
+            LocalLobby.Instance.MapId = GameManager.instance.map.MapID;
 
             // next line enables lobby and relay services integration
             await LobbyServiceFacade.Instance.UpdateLobbyDataAndUnlockAsync();

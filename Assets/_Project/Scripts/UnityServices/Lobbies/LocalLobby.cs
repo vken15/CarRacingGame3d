@@ -185,11 +185,35 @@ namespace CarRacingGame3d
             }
         }
 
-        public ushort MapId => GameManager.instance.map.MapID;
+        public ushort MapId
+        {
+            get => m_Data.MapId;
+            set
+            {
+                m_Data.MapId = value;
+                OnChanged();
+            }
+        }
 
-        public ushort CurRound => GameManager.instance.currentRound;
+        public ushort CurRound
+        {
+            get => m_Data.CurRound;
+            set
+            {
+                m_Data.CurRound = value;
+                OnChanged();
+            }
+        }
 
-        public ushort MaxRound => GameManager.instance.maxRound;
+        public ushort MaxRound
+        {
+            get => m_Data.MaxRound;
+            set
+            {
+                m_Data.MaxRound = value;
+                OnChanged();
+            }
+        }
 
         public void CopyDataFrom(LobbyData data, Dictionary<string, LocalLobbyUser> currUsers)
         {
@@ -234,7 +258,10 @@ namespace CarRacingGame3d
         public Dictionary<string, DataObject> GetDataForUnityServices() =>
             new()
             {
-            {"RelayJoinCode", new DataObject(DataObject.VisibilityOptions.Public,  RelayJoinCode)}
+            {"RelayJoinCode", new DataObject(DataObject.VisibilityOptions.Public,  RelayJoinCode)},
+            {"MapId", new DataObject(DataObject.VisibilityOptions.Public,  MapId.ToString())},
+            {"CurRound", new DataObject(DataObject.VisibilityOptions.Public,  CurRound.ToString())},
+            {"MaxRound", new DataObject(DataObject.VisibilityOptions.Public,  MaxRound.ToString())}
             };
 
         public void ApplyRemoteData(Lobby lobby)
@@ -245,16 +272,22 @@ namespace CarRacingGame3d
                 LobbyCode = lobby.LobbyCode,
                 Private = lobby.IsPrivate,
                 LobbyName = lobby.Name,
-                MaxPlayerCount = lobby.MaxPlayers
+                MaxPlayerCount = lobby.MaxPlayers,
             }; // Technically, this is largely redundant after the first assignment, but it won't do any harm to assign it again.
 
             if (lobby.Data != null)
             {
                 info.RelayJoinCode = lobby.Data.ContainsKey("RelayJoinCode") ? lobby.Data["RelayJoinCode"].Value : null; // By providing RelayCode through the lobby data with Member visibility, we ensure a client is connected to the lobby before they could attempt a relay connection, preventing timing issues between them.
+                info.MapId = (ushort)(lobby.Data.ContainsKey("MapId") ? ushort.Parse(lobby.Data["MapId"].Value) : 1);
+                info.CurRound = (ushort)(lobby.Data.ContainsKey("CurRound") ? ushort.Parse(lobby.Data["CurRound"].Value) : 1);
+                info.MaxRound = (ushort)(lobby.Data.ContainsKey("MaxRound") ? ushort.Parse(lobby.Data["MaxRound"].Value) : 1);
             }
             else
             {
                 info.RelayJoinCode = null;
+                info.MapId = 1;
+                info.CurRound = 1;
+                info.MaxRound = 1;
             }
 
             var lobbyUsers = new Dictionary<string, LocalLobbyUser>();

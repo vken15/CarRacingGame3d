@@ -8,6 +8,9 @@ namespace CarRacingGame3d
 {
     public class MapSelection : MonoBehaviour
     {
+        [SerializeField] NetworkRoom networkRoom;
+        [SerializeField] NetcodeHooks netcodeHooks;
+
         [Header("Button")]
         [SerializeField] private GameObject cancelBtn;
         [SerializeField] private GameObject confirmBtn;
@@ -28,6 +31,15 @@ namespace CarRacingGame3d
         private MapData[] mapDatas;
         private int selectedMapIndex = 0;
         private GameObject mapDisplay;
+
+        private void Awake()
+        {
+            if (netcodeHooks)
+            {
+                netcodeHooks.OnNetworkSpawnHook += OnNetworkSpawn;
+                netcodeHooks.OnNetworkDespawnHook += OnNetworkDespawn;
+            }
+        }
 
         // Start is called before the first frame update
         private void Start()
@@ -61,6 +73,31 @@ namespace CarRacingGame3d
             gameObject.GetComponent<Canvas>().enabled = true;
         }
 
+        private void OnDestroy()
+        {
+            if (netcodeHooks)
+            {
+                netcodeHooks.OnNetworkSpawnHook -= OnNetworkSpawn;
+                netcodeHooks.OnNetworkDespawnHook -= OnNetworkDespawn;
+            }
+        }
+
+        public void OnNetworkSpawn()
+        {
+            if (!NetworkManager.Singleton.IsServer)
+            {
+                networkRoom.OnMapChanged += OnMapChanged;
+            }
+        }
+
+        public void OnNetworkDespawn()
+        {
+            if (networkRoom)
+            {
+                networkRoom.OnMapChanged -= OnMapChanged;
+            }
+        }
+
         private void DisplayMap(int index)
         {
             mapDisplay.GetComponent<Image>().sprite = mapDatas[index].MapUISprite;
@@ -74,8 +111,8 @@ namespace CarRacingGame3d
             GameManager.instance.map = mapDatas[selectedMapIndex];
             GameManager.instance.SetNumberOfLaps(mapDatas[selectedMapIndex].NumberOfLaps);
             
-            if (NetworkManager.Singleton.IsServer)
-                SendMapChangedToClientRpc(mapDatas[selectedMapIndex].MapID);
+            if (NetworkManager.Singleton.IsServer && networkRoom)
+                networkRoom.ChangeMapClientRpc((ushort)selectedMapIndex);
 
             gameObject.SetActive(false);
         }
@@ -85,13 +122,12 @@ namespace CarRacingGame3d
             gameObject.SetActive(false);
         }
 
-        [ClientRpc]
-        private void SendMapChangedToClientRpc(ushort mapId)
+        private void OnMapChanged(ushort index)
         {
             if (!NetworkManager.Singleton.IsServer)
             {
-                GameManager.instance.map = mapDatas[mapId];
-                GameManager.instance.SetNumberOfLaps(mapDatas[mapId].NumberOfLaps);
+                GameManager.instance.map = mapDatas[index];
+                GameManager.instance.SetNumberOfLaps(mapDatas[index].NumberOfLaps);
 
                 var hostSetting = FindAnyObjectByType<HostSettingHandler>();
                 if (hostSetting != null)

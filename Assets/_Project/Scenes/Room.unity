@@ -4447,6 +4447,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 460621837824146730, guid: b1826ab72082501419c048e2bf51f1b5, type: 3}
+      propertyPath: networkRoom
+      value: 
+      objectReference: {fileID: 2098052938}
+    - target: {fileID: 460621837824146730, guid: b1826ab72082501419c048e2bf51f1b5, type: 3}
+      propertyPath: netcodeHooks
+      value: 
+      objectReference: {fileID: 2098052935}
     - target: {fileID: 1156777489058798071, guid: b1826ab72082501419c048e2bf51f1b5, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

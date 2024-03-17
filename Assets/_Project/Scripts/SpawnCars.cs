@@ -10,7 +10,7 @@ namespace CarRacingGame3d
     {
         private int numberOfCarsSpawned = 0;
 
-        private Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan };
+        private Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan, Color.black };
 
         // Start is called before the first frame update
         private void Start()
@@ -104,13 +104,11 @@ namespace CarRacingGame3d
 
         private void SetClientSpawnCarInfo(GameObject car, string name, int playerNumber, int i)
         {
-            Color nameplateColor = Color.black;
-
             car.name = name;
             car.GetComponent<CarInputHandler>().playerNumber = playerNumber;
             car.GetComponent<CarLapCounter>().carPosition = i + 1;
             car.GetComponent<CarAIHandler>().enabled = false;
-            nameplateColor = playerColors[playerNumber];
+            Color nameplateColor = playerColors[playerNumber];
             car.GetComponentInChildren<NameplateUIHandler>().SetData(name, nameplateColor);
 
             if (car.GetComponent<NetworkObject>().IsOwner)
