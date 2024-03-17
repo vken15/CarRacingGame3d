@@ -1,4 +1,6 @@
-using System;
+using System.Collections.Generic;
+using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +20,11 @@ namespace CarRacingGame3d
         [SerializeField] private Text numberOfLapsText;
 
         [SerializeField] private GameObject mapSelectCanvas;
+        [SerializeField] private TMP_Dropdown maxPlayerDropdown;
+        [SerializeField] private TMP_Dropdown maxRoundDropdown;
+
+        [Header("In room")]
+        [SerializeField] private Text roundText;
 
         private GameObject mapDisplay;
 
@@ -28,6 +35,39 @@ namespace CarRacingGame3d
                 mapDisplay = Instantiate(mapPrefab, spawnOnTransform);
                 mapDisplay.GetComponent<Button>().enabled = false;
                 ChangeMap();
+            }
+
+            if (maxPlayerDropdown != null)
+            {
+                List<string> options = new();
+                for (int i = 2; i <= 8; i++)
+                {
+                    options.Add(i.ToString());
+                }
+                maxPlayerDropdown.AddOptions(options);
+                maxPlayerDropdown.value = ConnectionManager.instance.MaxConnectedPlayers - 2;
+                maxPlayerDropdown.RefreshShownValue();
+                maxPlayerDropdown.onValueChanged.AddListener((index) => {
+                    ConnectionManager.instance.MaxConnectedPlayers = (ushort)(index + 2);
+                });
+            }
+            if (maxRoundDropdown != null)
+            {
+                List<string> options = new();
+                for (int i = 1; i <= 5; i++)
+                {
+                    options.Add(i.ToString());
+                }
+                maxRoundDropdown.AddOptions(options);
+                maxRoundDropdown.value = GameManager.instance.maxRound - 2;
+                maxRoundDropdown.RefreshShownValue();
+                maxRoundDropdown.onValueChanged.AddListener((index) => {
+                    GameManager.instance.maxRound = (ushort)(index + 1);
+                });
+            }
+            if (roundText != null)
+            {
+                roundText.text = $"Round: {GameManager.instance.currentRound}/{GameManager.instance.maxRound}";
             }
         }
 

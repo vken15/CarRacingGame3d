@@ -1,5 +1,4 @@
 ﻿using Unity.Netcode;
-using UnityEngine;
 
 public struct DiscoveryBroadcastData : INetworkSerializable
 {

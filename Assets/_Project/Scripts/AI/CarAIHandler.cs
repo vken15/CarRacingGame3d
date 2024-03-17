@@ -46,7 +46,7 @@ namespace CarRacingGame3d
         void FixedUpdate()
         {
             Avoidance();
-            if (GameManager.instance.GetGameState() == GameStates.countdown)
+            if (GameManager.instance.GetGameState() == GameStates.Countdown)
             {
                 return;
             }

@@ -8,6 +8,8 @@ namespace CarRacingGame3d
         [SerializeField] private Text driverPositionText;
         [SerializeField] private Text driverNameText;
         [SerializeField] private Text driverFinishTimeText;
+        [SerializeField] private Text driverScoreText;
+
         public string GetDriverName()
         {
             return driverNameText.text;
@@ -23,15 +25,21 @@ namespace CarRacingGame3d
             driverPositionText.text = newPosition;
         }
 
-        public void SetDriverNameText(string newDriverName)
+        public void SetDriverNameText(string newDriverName, Color color)
         {
             driverNameText.text = newDriverName;
+            driverNameText.color = color;
         }
 
         public void SetDriverFinishTimeText(string newFinishTime)
         {
             if (!driverFinishTimeText.Equals("Fail"))
                 driverFinishTimeText.text = newFinishTime;
+        }
+
+        public void SetDriverScoreText(string newScore)
+        {
+            driverScoreText.text = newScore;
         }
     }
 }

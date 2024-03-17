@@ -11,7 +11,7 @@ namespace CarRacingGame3d
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("CarBody"))
             {
                 Rigidbody rb = other.GetComponentInParent<Rigidbody>();
                 var force = other.transform.forward * speedBoost;

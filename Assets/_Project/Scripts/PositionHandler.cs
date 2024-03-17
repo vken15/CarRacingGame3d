@@ -10,8 +10,6 @@ namespace CarRacingGame3d
         [SerializeField] private List<CarLapCounter> carLapCounters = new();
         private LeaderboardUIHandler leaderboardUIHandler;
 
-        private readonly ushort[] pointReward = { 0, 10, 8, 6, 5, 4, 3, 2, 1 };
-
         // Start is called before the first frame update
         private void Start()
         {
@@ -39,12 +37,11 @@ namespace CarRacingGame3d
             if (carLapCounter.IsRaceCompleted())
             {
                 //Set player last position
-                int playerNumber = carLapCounter.GetComponentInParent<CarInputHandler>().playerNumber;
+                int playerNumber = carLapCounter.GetComponent<CarInputHandler>().playerNumber;
 
                 if (GameManager.instance.networkStatus == NetworkStatus.offline || NetworkManager.Singleton.IsServer)
                 {
                     GameManager.instance.SetDriverLastRacePosition(playerNumber, carPosition);
-                    GameManager.instance.AddPoints(playerNumber, pointReward[carPosition]);
                 }
                 //if (playerNumber == 1)
                 //{

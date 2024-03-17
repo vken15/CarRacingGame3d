@@ -5,6 +5,9 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode.Transports.UTP;
+using UnityEngine.SceneManagement;
+using TMPro;
+using System;
 
 namespace CarRacingGame3d
 {
@@ -14,13 +17,31 @@ namespace CarRacingGame3d
         [SerializeField] private Button hostBtn;
         [SerializeField] private Button joinBtn;
         [SerializeField] private Button refreshBtn;
+        [SerializeField] private Button returnBtn;
 
         [SerializeField] private GameObject roomGroup;
         [SerializeField] private GameObject roomItem;
-
         [SerializeField] private GameObject hostCanvas;
+        [SerializeField] private TMP_InputField inputName;
+
+        [Header("Map prefab")]
+        [SerializeField] private GameObject mapPrefab;
+
+        [Header("Spawn on")]
+        [SerializeField] private Transform spawnOnTransform;
+
+        [Header("Map infomation")]
+        [SerializeField] private Text mapNameText;
+        [SerializeField] private Text difficultyText;
+        [SerializeField] private Text numberOfLapsText;
+
+        [Header("In room")]
+        [SerializeField] private Text roundText;
+        [SerializeField] private Text playerText;
 
         private List<GameObject> roomList = new();
+        private MapData[] mapDatas;
+        private GameObject mapDisplay;
 
         ExampleNetworkDiscovery m_Discovery;
 
@@ -28,10 +49,20 @@ namespace CarRacingGame3d
 
         Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new();
 
+        private string iPAddress;
+        private int port = 7777;
+
         private void Awake()
         {
             m_Discovery = FindAnyObjectByType<ExampleNetworkDiscovery>();
             m_NetworkManager = FindAnyObjectByType<NetworkManager>();
+
+            //Load the map Data
+            mapDatas = Resources.LoadAll<MapData>("MapData/");
+
+            inputName.text = "Tester";
+
+            GameManager.instance.ClearDriverList();
 
             string myAddressLocal = "";
             IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
@@ -54,42 +85,53 @@ namespace CarRacingGame3d
                 }
                 m_Discovery.ClientBroadcast(new DiscoveryBroadcastData());
                 joinBtn.interactable = false;
+                mapNameText.text = "";
+                difficultyText.text = "";
+                numberOfLapsText.text = "";
+                roundText.text = "";
+                playerText.text = "";
+                Destroy(mapDisplay);
                 //ClientSearch();
             });
 
             createHostBtn.onClick.AddListener(() =>
             {
+                ConnectionManager.instance.StartHostIp(inputName.text, myAddressLocal, port);
+                /*
                 UnityTransport transport = (UnityTransport)m_NetworkManager.NetworkConfig.NetworkTransport;
                 transport.SetConnectionData(myAddressLocal, 7777);
                 if (m_NetworkManager.StartHost())
                 {
                     m_Discovery.StartServer();
-                    SceneTransitionHandler.sceneTransitionHandler.RegisterCallbacks();
-                    SceneTransitionHandler.sceneTransitionHandler.SwitchScene("Room");
+                    SceneTransitionHandler.Instance.RegisterCallbacks();
+                    SceneTransitionHandler.Instance.SwitchScene("Room");
                 }
                 else
                 {
                     Debug.LogError("Failed to start host.");
                 };
+                */
             });
 
             joinBtn.onClick.AddListener(() =>
             {
+                ConnectionManager.instance.StartClientIp(inputName.text, iPAddress, port);
+                /*
                 if (!m_NetworkManager.StartClient())
                 {
                     Debug.LogError("Failed to start client.");
                 }
-                GameManager.instance.ClearDriverList();
+                */
             });
 
             hostBtn.onClick.AddListener(() => hostCanvas.SetActive(true));
 
-            m_Discovery.OnServerFound += OnServerFound;
+            returnBtn.onClick.AddListener(() =>
+            {
+                SceneManager.LoadScene("MainMenu");
+            });
 
-            //Test
-            //MapData[] mapDatas = Resources.LoadAll<MapData>("MapData/");
-            //GameManager.instance.SetMap(mapDatas[0]);
-            GameManager.instance.SetNumberOfLaps(2);
+            m_Discovery.OnServerFound += OnServerFound;
         }
 
         private void Start()
@@ -105,14 +147,35 @@ namespace CarRacingGame3d
             discoveredServers[sender.Address] = response;
 
             GameObject item = Instantiate(roomItem, roomGroup.transform);
-            
+            item.GetComponent<RoomItemUI>().SetRoomName(response.ServerName);
+            item.GetComponent<RoomItemUI>().SetPlayerNumber(response.CurrentPlayer, response.MaxPlayer);
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
-                UnityTransport transport = (UnityTransport)m_NetworkManager.NetworkConfig.NetworkTransport;
-                transport.SetConnectionData(sender.Address.ToString(), response.Port);
+                //UnityTransport transport = (UnityTransport)m_NetworkManager.NetworkConfig.NetworkTransport;
+                //transport.SetConnectionData(sender.Address.ToString(), response.Port);
+                mapDisplay = Instantiate(mapPrefab, spawnOnTransform);
+                mapDisplay.GetComponent<Button>().enabled = false;
+                foreach (var mapData in mapDatas)
+                {
+                    if (mapData.MapID == response.MapId)
+                    {
+                        GameManager.instance.map = mapData;
+                        mapDisplay.GetComponent<Image>().sprite = mapData.MapUISprite;
+                        mapNameText.text = mapData.MapName;
+                        difficultyText.text = "Difficulty: " + mapData.Difficulty.ToString();
+                        numberOfLapsText.text = "Lap: " + mapData.NumberOfLaps.ToString();
+                        break;
+                    }
+                }
+                GameManager.instance.currentRound = response.CurRound;
+                GameManager.instance.maxRound = response.MaxRound;
+                ConnectionManager.instance.MaxConnectedPlayers = response.MaxPlayer;
+                roundText.text = $"Round: {response.CurRound}/{response.MaxRound}";
+                playerText.text = $"Player: {response.CurrentPlayer}/{response.MaxPlayer}";
+                iPAddress = sender.Address.ToString();
+                port = response.Port;
                 joinBtn.interactable = true;
             });
-            Debug.Log("Button added");
             roomList.Add(item);
         }
         /*

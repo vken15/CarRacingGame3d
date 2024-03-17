@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace CarRacingGame3d
 {
@@ -69,6 +70,27 @@ namespace CarRacingGame3d
         {
             initialTime = newTime;
             Reset();
+        }
+    }
+
+    public class RateLimitCooldown
+    {
+        public float CooldownTimeLength => cooldownTimeLength;
+
+        readonly float cooldownTimeLength;
+        private float cooldownFinishedTime;
+
+        public RateLimitCooldown(float cooldownTimeLength)
+        {
+            this.cooldownTimeLength = cooldownTimeLength;
+            cooldownFinishedTime = -1f;
+        }
+
+        public bool CanCall => Time.unscaledTime > cooldownFinishedTime;
+
+        public void PutOnCooldown()
+        {
+            cooldownFinishedTime = Time.unscaledTime + cooldownTimeLength;
         }
     }
 }

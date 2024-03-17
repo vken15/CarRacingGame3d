@@ -21,20 +21,17 @@ namespace CarRacingGame3d
             if (GameManager.instance.networkStatus == NetworkStatus.offline)
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             else
-            {
-                SceneTransitionHandler.sceneTransitionHandler.SwitchScene("Room");
-            }
+                SceneTransitionHandler.Instance.SwitchScene("Room");
         }
         public void OnBackToMenu()
         {
-            SceneManager.LoadScene("Menu");
             if (GameManager.instance.networkStatus == NetworkStatus.offline)
-                SceneManager.LoadScene("Menu");
+                SceneManager.LoadScene("MainMenu");
             else
             {
                 NetworkManager.Singleton.Shutdown();
                 GameManager.instance.networkStatus = NetworkStatus.offline;
-                //    SceneTransitionHandler.sceneTransitionHandler.ExitAndLoadStartMenu();
+                SceneTransitionHandler.Instance.ExitAndLoadStartMenu();
             }
         }
 
@@ -48,10 +45,26 @@ namespace CarRacingGame3d
         //Events
         private void OnGameStateChanged(GameManager gameManager)
         {
-            if (GameManager.instance.GetGameState() == GameStates.raceOver)
+            if (GameManager.instance.GetGameState() == GameStates.RaceOver)
             {
-                StartCoroutine(ShowMenuCO());
+                if (GameManager.instance.gameMode == GameMode.Round)
+                {
+                    GameManager.instance.currentRound++;
+                    StartCoroutine(WaitToEnd());
+                }
+                else 
+                    StartCoroutine(ShowMenuCO());
             }
+        }
+
+        IEnumerator WaitToEnd()
+        {
+            yield return new WaitForSeconds(3);
+
+            if (GameManager.instance.currentRound > GameManager.instance.maxRound)
+                SceneTransitionHandler.Instance.SwitchScene("PostGame");
+            else
+                SceneTransitionHandler.Instance.SwitchScene("Room");
         }
 
         private void OnDestroy()

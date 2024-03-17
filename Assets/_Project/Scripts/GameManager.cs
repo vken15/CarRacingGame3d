@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,8 +11,9 @@ namespace CarRacingGame3d
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance = null;
-        private GameStates gameState = GameStates.countdown;
+        private GameStates gameState = GameStates.Countdown;
         public NetworkStatus networkStatus = NetworkStatus.offline;
+        public GameMode gameMode = GameMode.Round;
 
         //Time
         private float raceStartedTime = 0;
@@ -21,10 +23,12 @@ namespace CarRacingGame3d
         private readonly List<Driver> driverList = new();
         private ushort numberOfLaps = 2;
         private ushort numberOfCarsRaceComplete = 0;
-        public MapData map;
+        public MapData map = null;
 
-        //Multiplayer
-        public Dictionary<ulong, PlayerData> clientsInRoom = new();
+        //Round Mode
+        public ushort maxRound = 1;
+        private readonly ushort[] pointReward = { 0, 10, 8, 6, 5, 4, 3, 2, 1 };
+        [HideInInspector] public ushort currentRound = 1;
 
         //Events
         public event Action<GameManager> OnGameStateChanged;
@@ -49,18 +53,18 @@ namespace CarRacingGame3d
         
         private void LoadMap()
         {
-            ChangeGameState(GameStates.countdown);
+            ChangeGameState(GameStates.Countdown);
 
             Debug.Log("Map loaded");
         }
         
         public float GetRaceTime()
         {
-            if (gameState == GameStates.countdown)
+            if (gameState == GameStates.Countdown)
             {
                 return 0;
             }
-            else if (gameState == GameStates.raceOver)
+            else if (gameState == GameStates.RaceOver)
             {
                 return raceCompletedTime - raceStartedTime;
             }
@@ -73,17 +77,17 @@ namespace CarRacingGame3d
         public void OnRaceStart()
         {
             raceStartedTime = Time.time;
-            ChangeGameState(GameStates.running);
+            ChangeGameState(GameStates.Running);
             Debug.Log("Race started");
         }
         
         public void OnRaceCompleted()
         {
             numberOfCarsRaceComplete++;
-            if (numberOfCarsRaceComplete >= 2)//map.MaxCars)
+            if (numberOfCarsRaceComplete >= driverList.Count)
                 OnRaceOver();
             else
-                ChangeGameState(GameStates.raceOverCountDown);
+                ChangeGameState(GameStates.RaceOverCountDown);
             Debug.Log("Race completed");
         }
         
@@ -91,7 +95,43 @@ namespace CarRacingGame3d
         {
             raceCompletedTime = Time.time;
             numberOfCarsRaceComplete = 0;
-            ChangeGameState(GameStates.raceOver);
+
+            if (gameMode == GameMode.Round 
+                && (NetworkManager.Singleton.IsServer || networkStatus == NetworkStatus.offline))
+            {
+                List<CarLapCounter> carLapCounters = FindObjectsByType<CarLapCounter>(FindObjectsSortMode.None).ToList();
+                carLapCounters = carLapCounters.OrderByDescending(s => s.GetNumberOfCheckPointsPassed()).ThenBy(s => s.GetTimeAtLastPassedCheckPoint()).ToList();
+                foreach (var carLapCounter in carLapCounters)
+                {
+                    int playerNumber = carLapCounter.GetComponent<CarInputHandler>().playerNumber;
+                    int carPosition = carLapCounters.IndexOf(carLapCounter) + 1;
+                    Debug.Log(playerNumber + " " + carPosition);
+                    AddPoints(playerNumber, pointReward[carPosition]);
+                    SetDriverLastRacePosition(playerNumber, carPosition);
+                }
+
+                if (NetworkManager.Singleton.IsServer)
+                {
+                    foreach (var driver in driverList)
+                    {
+                        SessionPlayerData? sessionPlayerData = SessionManager<SessionPlayerData>.Instance.GetPlayerData(driver.ClientId);
+                        if (sessionPlayerData.HasValue)
+                        {
+                            var playerData = sessionPlayerData.Value;
+                            playerData.Score = driver.Score;
+                            SessionManager<SessionPlayerData>.Instance.SetPlayerData(driver.ClientId, playerData);
+                        }
+                    }
+                }
+
+                var leaderboardUIHandler = FindFirstObjectByType<LeaderboardUIHandler>();
+                if (leaderboardUIHandler != null)
+                {
+                    leaderboardUIHandler.UpdateScore(driverList);
+                }
+            }
+
+            ChangeGameState(GameStates.RaceOver);
             Debug.Log("Race over");
         }
         
@@ -116,7 +156,10 @@ namespace CarRacingGame3d
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            LoadMap();
+            if (map != null && scene.name == map.Scene)
+            {
+                LoadMap();
+            }
         }
         
         //Lap
@@ -160,29 +203,12 @@ namespace CarRacingGame3d
         public void AddPoints(int playerNumber, int points)
         {
             Driver driver = FindDriver(playerNumber);
-            driver.Points += points;
+            driver.Score += points;
         }
         
         public void ClearDriverList()
         {
             driverList.Clear();
-        }
-
-        //Multiplayer
-
-        public void MultiplayerInGameSetUp()
-        {
-            NetworkManager.Singleton.OnClientDisconnectCallback += OnInGameClientDisconnectedCallback;
-        }
-
-        private void OnInGameClientDisconnectedCallback(ulong clientId)
-        {
-
-        }
-
-        public void MultiplayerDispose()
-        {
-            NetworkManager.Singleton.OnClientDisconnectCallback -= OnInGameClientDisconnectedCallback;
         }
     }
 }

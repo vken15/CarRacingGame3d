@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarRacingGame3d;
+using System;
 using System.Net;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -16,8 +17,6 @@ public class ExampleNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData, 
     [SerializeField]
     [Tooltip("If true NetworkDiscovery will make the server visible and answer to client broadcasts as soon as netcode starts running as server.")]
     bool m_StartWithServer = true;
-
-    public string ServerName = "EnterName";
 
     //public ServerFoundEvent OnServerFound;
     public event Action<IPEndPoint, DiscoveryResponseData> OnServerFound;
@@ -44,10 +43,16 @@ public class ExampleNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData, 
 
     protected override bool ProcessBroadcast(IPEndPoint sender, DiscoveryBroadcastData broadCast, out DiscoveryResponseData response)
     {
+        var sessionData = SessionManager<SessionPlayerData>.Instance.GetPlayerData(NetworkManager.Singleton.LocalClientId);
         response = new DiscoveryResponseData()
         {
-            ServerName = ServerName,
-            Port = ((UnityTransport) m_NetworkManager.NetworkConfig.NetworkTransport).ConnectionData.Port,
+            ServerName = sessionData.Value.PlayerName,
+            Port = ((UnityTransport)m_NetworkManager.NetworkConfig.NetworkTransport).ConnectionData.Port,
+            CurrentPlayer = (ushort)NetworkManager.Singleton.ConnectedClientsIds.Count,
+            MaxPlayer = (ushort)ConnectionManager.instance.MaxConnectedPlayers,
+            MapId = GameManager.instance.map.MapID,
+            CurRound = GameManager.instance.currentRound,
+            MaxRound = GameManager.instance.maxRound,
         };
         return true;
     }

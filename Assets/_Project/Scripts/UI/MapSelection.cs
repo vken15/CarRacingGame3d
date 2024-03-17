@@ -38,11 +38,12 @@ namespace CarRacingGame3d
             mapDisplay = Instantiate(mapPrefab, spawnOnTransform);
             mapDisplay.GetComponent<Button>().enabled = false;
             DisplayMap(0);
-            
-            //Remove this when complete create host
-            GameManager.instance.map = mapDatas[0];
-            GameManager.instance.SetNumberOfLaps(mapDatas[0].NumberOfLaps);
-            //
+
+            if (GameManager.instance.map == null)
+            {
+                GameManager.instance.map = mapDatas[0];
+                GameManager.instance.SetNumberOfLaps(mapDatas[0].NumberOfLaps);
+            }
 
             for (int i = 0; i < mapDatas.Length; i++)
             {
@@ -73,7 +74,7 @@ namespace CarRacingGame3d
             GameManager.instance.map = mapDatas[selectedMapIndex];
             GameManager.instance.SetNumberOfLaps(mapDatas[selectedMapIndex].NumberOfLaps);
             
-            if (GameManager.instance.networkStatus == NetworkStatus.online)
+            if (NetworkManager.Singleton.IsServer)
                 SendMapChangedToClientRpc(mapDatas[selectedMapIndex].MapID);
 
             gameObject.SetActive(false);
@@ -87,7 +88,17 @@ namespace CarRacingGame3d
         [ClientRpc]
         private void SendMapChangedToClientRpc(ushort mapId)
         {
+            if (!NetworkManager.Singleton.IsServer)
+            {
+                GameManager.instance.map = mapDatas[mapId];
+                GameManager.instance.SetNumberOfLaps(mapDatas[mapId].NumberOfLaps);
 
+                var hostSetting = FindAnyObjectByType<HostSettingHandler>();
+                if (hostSetting != null)
+                {
+                    hostSetting.ChangeMap();
+                }
+            }
         }
     }
 }

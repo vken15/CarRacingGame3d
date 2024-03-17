@@ -9,6 +9,8 @@ namespace CarRacingGame3d
     /// </summary>
     public class CarLapCounter : NetworkBehaviour
     {
+        [SerializeField] private GameObject warningPrefab;
+
         private int passedCheckPointNumber = 0;
         private float timeAtLastPassedCheckPoint = 0;
         private int numberOfPassedCheckPoints = 0;
@@ -16,7 +18,7 @@ namespace CarRacingGame3d
         private ushort lapsToCompleted;
         private bool isRaceCompleted = false;
         private LapCountUIHandler lapsCountUIHandler;
-        //private CheckPoint lastCheckPoint;
+        private int lastWarningNumber = -1;
         private GameObject warning;
 
         public int carPosition = 0;
@@ -25,6 +27,9 @@ namespace CarRacingGame3d
         private void Start()
         {
             lapsToCompleted = GameManager.instance.GetNumberOfLaps();
+
+            if (IsOwner || GameManager.instance.networkStatus == NetworkStatus.offline)
+                warning = Instantiate(warningPrefab);
 
             if (!IsServer && GameManager.instance.networkStatus == NetworkStatus.online) return;
 
@@ -51,7 +56,7 @@ namespace CarRacingGame3d
             if (collision.CompareTag("CheckPoint"))
             {
                 //Once a car has completed the race. Stop checking any checkpoints or laps.
-                if (isRaceCompleted || GameManager.instance.GetGameState() == GameStates.raceOver)
+                if (isRaceCompleted || GameManager.instance.GetGameState() == GameStates.RaceOver)
                     return;
 
                 CheckPoint checkPoint = collision.GetComponent<CheckPoint>();
@@ -61,11 +66,12 @@ namespace CarRacingGame3d
                     passedCheckPointNumber = checkPoint.checkPointNumber;
                     numberOfPassedCheckPoints++;
                     timeAtLastPassedCheckPoint = Time.time;
-                    //lastCheckPoint = checkPoint;
-
                     if (warning != null)
-                        warning.gameObject.SetActive(false);
-
+                    {
+                        warning.SetActive(false);
+                        lastWarningNumber = -1;
+                    }
+                        
                     if (checkPoint.isFinishLine)
                     {
                         passedCheckPointNumber = 0;
@@ -97,18 +103,22 @@ namespace CarRacingGame3d
                             GetComponentInParent<CarAIHandler>().enabled = true;
                         }
 
-                        if (GameManager.instance.GetGameState() != GameStates.raceOver)
+                        if (GameManager.instance.GetGameState() != GameStates.RaceOver)
                             GameManager.instance.OnRaceCompleted();
                     }
                 }
                 //Wrong way warning
-                else if (IsOwner || GameManager.instance.networkStatus == NetworkStatus.offline) //if (passedCheckPointNumber == checkPoint.checkPointNumber + 1)
+                else if ((IsOwner || GameManager.instance.networkStatus == NetworkStatus.offline) && !checkPoint.isFinishLine) //if (passedCheckPointNumber == checkPoint.checkPointNumber + 1)
                 {
-                    if (warning == null)
-                        warning = GameObject.FindGameObjectWithTag("WrongWayWarning");
-                    
-                    if (warning != null)
+                    if (warning != null && (lastWarningNumber == -1 || lastWarningNumber - 1 == checkPoint.checkPointNumber))
+                    {
+                        lastWarningNumber = checkPoint.checkPointNumber;
                         warning.SetActive(true);
+                    } else if (lastWarningNumber + 1 == checkPoint.checkPointNumber)
+                    {
+                        lastWarningNumber = -1;
+                        warning.SetActive(false);
+                    }
                 }
             }
         }

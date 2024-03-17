@@ -34,7 +34,7 @@ namespace CarRacingGame3d
         // Update is called once per frame
         void Update()
         {
-            if (GameManager.instance.GetGameState() == GameStates.countdown) return;
+            if (GameManager.instance.GetGameState() == GameStates.Countdown) return;
             if (GameManager.instance.networkStatus == NetworkStatus.online && !IsOwner) return;
 
             DriverInput playerInput = new()

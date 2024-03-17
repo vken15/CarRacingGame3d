@@ -11,6 +11,8 @@ namespace CarRacingGame3d
         private SetLeaderboardItemInfo[] setLeaderboardItemInfo;
         private bool isInitilized = false;
 
+        private Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan };
+
         //Oher components
         private Canvas canvas;
 
@@ -39,30 +41,43 @@ namespace CarRacingGame3d
             {
                 //Set the position
                 GameObject leaderboardInfoGameObject = Instantiate(leaderboardItemPrefab, leaderboardLayoutGroup.transform);
-
+                var carInput = carLapCounterArray[i].GetComponent<CarInputHandler>();
                 setLeaderboardItemInfo[i] = leaderboardInfoGameObject.GetComponent<SetLeaderboardItemInfo>();
-                setLeaderboardItemInfo[i].SetDriverNameText(carLapCounterArray[i].GetComponentInParent<CarController>().gameObject.name);
+                setLeaderboardItemInfo[i].SetDriverNameText(carInput.gameObject.name, playerColors[carInput.playerNumber]);
                 setLeaderboardItemInfo[i].SetPositionText($"{i + 1}.");
-                setLeaderboardItemInfo[i].SetDriverFinishTimeText($"00:00");
+                setLeaderboardItemInfo[i].SetDriverFinishTimeText("--:--");
+                setLeaderboardItemInfo[i].SetDriverScoreText("0");
             }
 
             Canvas.ForceUpdateCanvases();
             isInitilized = true;
         }
+
+        private void Update()
+        {
+            if (InputManager.instance.Controllers.Player.Tab.IsPressed() || GameManager.instance.GetGameState() == GameStates.RaceOver)
+                canvas.enabled = true;
+            else
+                canvas.enabled = false;
+        }
+
         public void UpdateList(List<CarLapCounter> lapCounters)
         {
             if (!isInitilized)
                 return;
+
             //Update the leaderboard items
             for (int i = 0; i < lapCounters.Count; i++)
-            {
-                setLeaderboardItemInfo[i].SetDriverNameText(lapCounters[i].GetComponentInParent<CarController>().gameObject.name);
-            }
+                setLeaderboardItemInfo[i].transform.SetSiblingIndex(i);
+
+            for (int i = 0; i < setLeaderboardItemInfo.Length; i++)
+                setLeaderboardItemInfo[i].SetPositionText($"{i + 1}.");
         }
+
         public void UpdateTimer(CarLapCounter lapCounter, float time)
         {
             foreach (SetLeaderboardItemInfo d in setLeaderboardItemInfo)
-                if (d.GetDriverName() == lapCounter.GetComponentInParent<CarController>().gameObject.name)
+                if (d.GetDriverName() == lapCounter.GetComponent<CarController>().gameObject.name)
                 {
                     int raceTimeMinutes = (int)Mathf.Floor(time / 60);
                     int raceTimeSeconds = (int)Mathf.Floor(time % 60);
@@ -71,13 +86,24 @@ namespace CarRacingGame3d
                 }
         }
 
+        public void UpdateScore(List<Driver> drivers)
+        {
+            for (int i = 0; i < setLeaderboardItemInfo.Length; i++)
+                foreach (Driver driver in drivers)
+                    if (driver.LastRacePosition == i + 1)
+                    {
+                        setLeaderboardItemInfo[i].SetDriverScoreText($"{driver.Score}");
+                        break;
+                    }
+        }
+
         //Events 
         private void OnGameStateChanged(GameManager gameManager)
         {
-            if (GameManager.instance.GetGameState() == GameStates.raceOver)
+            if (GameManager.instance.GetGameState() == GameStates.RaceOver)
             {
                 foreach (SetLeaderboardItemInfo d in setLeaderboardItemInfo)
-                    if (d.GetDriverFinishTime().Equals("00:00"))
+                    if (d.GetDriverFinishTime().Equals("--:--"))
                         d.SetDriverFinishTimeText("Fail");
 
                 canvas.enabled = true;

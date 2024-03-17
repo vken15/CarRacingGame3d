@@ -64,57 +64,92 @@
     <Compile Include="Assets\_Project\Scripts\SpawnCars.cs" />
     <Compile Include="Assets\_Project\Scripts\AI\CarAIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\NameplateUIHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\Item\RotateObject.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\CarSelectUIHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\UnityServices\Lobbies\LobbyServiceFacade.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\PopupManager.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\GameServerBroadcasting.cs" />
+    <Compile Include="Assets\_Project\Scripts\Utils\NetcodeHooks.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkTimer.cs" />
     <Compile Include="Assets\_Project\Scripts\CheckPoint.cs" />
     <Compile Include="Assets\_Project\Scripts\ScriptableObject\MapData.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionMethod.cs" />
+    <Compile Include="Assets\_Project\Scripts\UnityServices\AuthenticationServiceFacade.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\MainMenuUIHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\OnlineState.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\DiscoveryResponseData.cs" />
-    <Compile Include="Assets\_Project\Scripts\Model\Driver.cs" />
+    <Compile Include="Assets\_Project\Scripts\UnityServices\Lobbies\LobbyAPIInterface.cs" />
     <Compile Include="Assets\_Project\Scripts\AntiStuckSystem.cs" />
     <Compile Include="Assets\_Project\Scripts\Enum.cs" />
+    <Compile Include="Assets\_Project\Scripts\UnityServices\Lobbies\LocalLobbyUser.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\CircularBuffer.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\SessionPlayerData.cs" />
     <Compile Include="Assets\_Project\Scripts\AI\DrawPathHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\GameManager.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\ConnectionStatusMessageUIManager.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\ConnectionNotificationManager.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\NetworkDiscovery.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\HostSettingHandler.cs" />
-    <Compile Include="Assets\_Project\Scripts\UI\NetworkManagerUI.cs" />
-    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionNotificationManager.cs" />
     <Compile Include="Assets\_Project\Scripts\Item\ItemController.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\ConnectionState.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CarLapCounter.cs" />
     <Compile Include="Assets\_Project\Scripts\Portal\Portal.cs" />
     <Compile Include="Assets\_Project\Scripts\Utils\Vector3Extensions.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\CarSelection.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CarController.cs" />
-    <Compile Include="Assets\_Project\Scripts\Multiplayer\RoomControl.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\NetworkManagerUI.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\ClientConnectedState.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\PlayerSeatUIHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\PostGameUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CameraFollow.cs" />
+    <Compile Include="Assets\_Project\Scripts\UnityServices\Lobbies\OnlineLobbyControl.cs" />
     <Compile Include="Assets\_Project\Scripts\Utils\Timer.cs" />
-    <Compile Include="Assets\_Project\Scripts\Item\ItemBox.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\ClientConnectingState.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\HostingState.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\LobbyControl.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\RuntimeCollection.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\MapIndexUI.cs" />
     <Compile Include="Assets\_Project\Scripts\Portal\PortalCamera.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\StartingHostState.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\LoadingSpinner.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\GameFinishMenuUIHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\PersistentPlayerRuntimeCollection.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ServerRoomState.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\UdpConnection.cs" />
     <Compile Include="Assets\_Project\Scripts\Utils\ClientNetworkTransform.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\MapSelection.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\DiscoveryBroadcastData.cs" />
     <Compile Include="Assets\_Project\Scripts\SpeedBoard.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\ClientReconnectingState.cs" />
+    <Compile Include="Assets\_Project\Scripts\Driver.cs" />
+    <Compile Include="Assets\_Project\Scripts\Utils\SessionManager.cs" />
     <Compile Include="Assets\_Project\Scripts\SceneTransitionHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\UnityServices\Lobbies\LocalLobby.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\OfflineState.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\PopupPanel.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\RaceTimeUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\CountdownUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\ScriptableObject\CarData.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\SpecialFuelUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\LapCountUIHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\UnityServices\Lobbies\UpdateRunner.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\ClientServerInfo.cs" />
     <Compile Include="Assets\_Project\Scripts\Portal\PortalableObject.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\LeaderboardUIHandler.cs" />
-    <Compile Include="Assets\_Project\Scripts\UI\LobbyRoomUI.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\SetLeaderboardItemInfo.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CarInputHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\PersistentPlayer.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ProfileManager.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\ExampleNetworkDiscoveryHud.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionManager.cs" />
     <Compile Include="Assets\_Project\Scripts\InputManager.cs" />
     <Compile Include="Assets\_Project\Scripts\PositionHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\ExampleNetworkDiscovery.cs" />
     <Compile Include="Assets\_Project\Scripts\Startup.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\RoomItemUI.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkRoom.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ClientRoomState.cs" />
+    <Compile Include="Assets\_Project\Scripts\Utils\ClientPrefs.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\NitroParticleHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\AI\WayPointNode.cs" />
     <Compile Include="Assets\Controls.cs" />
@@ -489,6 +524,10 @@
     </Reference>
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.14f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>Library\PackageCache\com.unity.services.wire@1.2.2\Plugins\websocket-sharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DelaunayER">
@@ -1067,6 +1106,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Services.Relay">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Relay.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.Purchasing.SecurityCore">
       <HintPath>Library\ScriptAssemblies\UnityEngine.Purchasing.SecurityCore.dll</HintPath>
       <Private>False</Private>
@@ -1177,6 +1220,10 @@
     </Reference>
     <Reference Include="Unity.Multiplayer.Tools.NetVis.Editor.Visualization">
       <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetVis.Editor.Visualization.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Services.Lobbies">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Lobbies.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
@@ -1367,6 +1414,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Services.QoS">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.QoS.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Multiplayer.Tools.NetworkProfiler.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.Multiplayer.Tools.NetworkProfiler.Runtime.dll</HintPath>
       <Private>False</Private>
@@ -1405,6 +1456,10 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.State.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Services.Authentication">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Authentication.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Mathematics">

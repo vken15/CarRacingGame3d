@@ -94,7 +94,7 @@ namespace CarRacingGame3d
 
             //Both client and host/server will set the scene state to "ingame" which places the PlayerControl into the SceneTransitionHandler.SceneStates.INGAME
             //and in turn makes the players visible and allows for the players to be controlled.
-            SceneTransitionHandler.sceneTransitionHandler.SetSceneState(SceneTransitionHandler.SceneStates.Ingame);
+            SceneTransitionHandler.Instance.SetSceneState(SceneTransitionHandler.SceneStates.Ingame);
 
             if (IsServer)
             {
@@ -117,9 +117,8 @@ namespace CarRacingGame3d
             {
                 if (IsCurrentGameOver()) return;
 
-                if (!raceOverCountdown.Value && GameManager.instance.GetGameState() == GameStates.raceOverCountDown && IsServer)
+                if (!raceOverCountdown.Value && GameManager.instance.GetGameState() == GameStates.RaceOverCountDown && IsServer)
                 {
-                    print("RUN");
                     raceOverCountdown.Value = true;
                     m_TimeRemaining = m_DelayedStartTime = 10.0f;
                     m_ReplicatedTimeSent = false;
@@ -130,7 +129,7 @@ namespace CarRacingGame3d
             }
             else
             {
-                if (!m_raceOverCountdown && GameManager.instance.GetGameState() == GameStates.raceOverCountDown)
+                if (!m_raceOverCountdown && GameManager.instance.GetGameState() == GameStates.RaceOverCountDown)
                 {
                     m_raceOverCountdown = true;
                     StartCoroutine(CountDownCO(10, true));
@@ -163,12 +162,10 @@ namespace CarRacingGame3d
         {
             //If the game has started, then don't bother with the rest of the count down checks.
             if ((HasGameStarted() && !HasRaceOverCountDown()) || (HasRaceOverCountDown() && IsCurrentGameOver())) return false;
-            Debug.Log("B1");
             if (IsServer)
             {
-                m_CountdownStarted.Value = SceneTransitionHandler.sceneTransitionHandler.AllClientsAreLoaded();
+                m_CountdownStarted.Value = SceneTransitionHandler.Instance.AllClientsAreLoaded();
                 //While we are counting down, continually set the replicated time remaining value for clients (client should only receive the update once)
-                Debug.Log("B2 " + m_CountdownStarted.Value);
                 if (m_CountdownStarted.Value && !m_ReplicatedTimeSent)
                 {
                     SetReplicatedTimeRemainingClientRPC(m_DelayedStartTime);
@@ -275,7 +272,7 @@ namespace CarRacingGame3d
 
             while (true)
             {
-                if (state && GameManager.instance.GetGameState() == GameStates.raceOver)
+                if (state && GameManager.instance.GetGameState() == GameStates.RaceOver)
                 {
                     gameObject.SetActive(false);
                 }

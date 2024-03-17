@@ -7,7 +7,7 @@ namespace CarRacingGame3d
 {
     public class SceneTransitionHandler : NetworkBehaviour
     {
-        static public SceneTransitionHandler sceneTransitionHandler { get; internal set; }
+        static public SceneTransitionHandler Instance { get; internal set; }
 
         [SerializeField]
         private string DefaultMainMenu = "Menu";
@@ -44,11 +44,11 @@ namespace CarRacingGame3d
         /// </summary>
         private void Awake()
         {
-            if (sceneTransitionHandler != this && sceneTransitionHandler != null)
+            if (Instance != this && Instance != null)
             {
-                GameObject.Destroy(sceneTransitionHandler.gameObject);
+                Destroy(Instance.gameObject);
             }
-            sceneTransitionHandler = this;
+            Instance = this;
             SetSceneState(SceneStates.Init);
             DontDestroyOnLoad(this);
         }
@@ -96,9 +96,10 @@ namespace CarRacingGame3d
 
         public void CancelCallbacks()
         {
-            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnLoadComplete;
             OnClientLoadedScene = null;
             SetSceneState(SceneStates.Start);
+            if (NetworkManager.Singleton.SceneManager != null)
+                NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnLoadComplete;
         }
 
         /// <summary>
@@ -141,7 +142,7 @@ namespace CarRacingGame3d
             NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnLoadComplete;
             OnClientLoadedScene = null;
             SetSceneState(SceneStates.Start);
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }

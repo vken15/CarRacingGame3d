@@ -572,7 +572,12 @@ namespace CarRacingGame3d
 
         public bool IsNitro()
         {
-            return driverInput.Nitro && !isRechargeNitro && driverInput.Move.y >= 0.0f && GameManager.instance.GetGameState() != GameStates.countdown;
+            return driverInput.Nitro && !isRechargeNitro && driverInput.Move.y >= 0.0f && GameManager.instance.GetGameState() != GameStates.Countdown;
+        }
+
+        public float GetNitroFuelPercent()
+        {
+            return nitroFuel / maxNitroFuel;
         }
 
         void SwitchAuthorityMode(AuthorityMode mode)

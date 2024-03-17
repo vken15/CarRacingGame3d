@@ -1329,6 +1329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19aadb42a7098694a9a922b8652d1f37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  warningPrefab: {fileID: 7042099274407609034, guid: 1b9b13b3e5485c24bafc599934fc4837, type: 3}
   carPosition: 0
 --- !u!1 &3953138174495460376
 GameObject:
@@ -1937,7 +1938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3708942953
+  GlobalObjectIdHash: 1485866544
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0

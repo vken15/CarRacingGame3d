@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Tab",
+                    "type": "Button",
+                    "id": "ac09e896-2a00-4a97-8173-2cd537338206",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ESC",
                     "type": "Button",
                     "id": "80caff6c-1a7e-4ebf-8c45-23b62ee47f6c",
@@ -148,6 +157,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4da85cc2-cdaa-4369-95c8-97327a5ab074",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

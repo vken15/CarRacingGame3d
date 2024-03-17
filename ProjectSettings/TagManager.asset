@@ -11,6 +11,7 @@ TagManager:
   - Terrain
   - WrongWayWarning
   - ItemBox
+  - CarBody
   layers:
   - Default
   - TransparentFX
