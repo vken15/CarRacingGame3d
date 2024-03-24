@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace CarRacingGame3d
 {
@@ -16,12 +13,14 @@ namespace CarRacingGame3d
 
     public class CarInputHandler : NetworkBehaviour
     {
+        [SerializeField] Image minimapIcon;
+
         public int playerNumber = 1;
 
         private CarController carController;
         private ItemController itemController;
-
         private Controls control;
+        private readonly Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan, Color.black };
 
         // Awake is called when the script instance is being loaded
         private void Awake()
@@ -55,6 +54,11 @@ namespace CarRacingGame3d
                 transform.position += transform.forward * 20f;
             }
 
+        }
+    
+        public void SetMinimapColor()
+        {
+            minimapIcon.color = playerColors[playerNumber];
         }
     }
 }

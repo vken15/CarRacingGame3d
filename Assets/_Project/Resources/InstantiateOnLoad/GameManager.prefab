@@ -44,9 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de261eb07133d6b47b144b09c6581f60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  networkStatus: 0
+  networkStatus: 1
   gameMode: 1
   map: {fileID: 0}
-  maxPlayer: 2
   maxRound: 1
   currentRound: 1

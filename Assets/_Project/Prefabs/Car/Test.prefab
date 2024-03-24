@@ -155,6 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ac46546c5f5394d88f8b87efbb60b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minimapIcon: {fileID: 7658215275323418815}
   playerNumber: 1
 --- !u!114 &6154689324483912567
 MonoBehaviour:
@@ -198,6 +199,7 @@ MonoBehaviour:
   turnStrength: 100
   brakeAcceleration: 1000
   driftSteerMulti: 1.5
+  driftStiffness: 0.5
   nitroAcceleration: 5000
   maxNitroFuel: 100
   nitroFuel: 100

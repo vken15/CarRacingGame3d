@@ -47,6 +47,7 @@ namespace CarRacingGame3d
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
             if (IsServer)
             {
                 //Get all drivers 

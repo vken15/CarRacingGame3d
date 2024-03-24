@@ -4031,6 +4031,7 @@ MonoBehaviour:
   leaveBtn: {fileID: 1925013035}
   changeMapBtn: {fileID: 1486537679}
   changeCarBtn: {fileID: 1242664582}
+  carSelection: {fileID: 2044946672}
 --- !u!114 &2098052935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4283,6 +4284,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2098052934}
+        m_TargetAssemblyTypeName: CarRacingGame3d.ClientRoomState, Assembly-CSharp
+        m_MethodName: OnPlayerClickedReady
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2098052937}
         m_TargetAssemblyTypeName: CarRacingGame3d.ServerRoomState, Assembly-CSharp
         m_MethodName: OnStartGame

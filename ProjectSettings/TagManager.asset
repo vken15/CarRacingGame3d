@@ -12,6 +12,7 @@ TagManager:
   - WrongWayWarning
   - ItemBox
   - CarBody
+  - Item
   layers:
   - Default
   - TransparentFX

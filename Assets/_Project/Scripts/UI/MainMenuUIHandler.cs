@@ -22,6 +22,7 @@ namespace CarRacingGame3d
         {
             onlineBtn.interactable = false;
             profileCanvas.enabled = false;
+            GameManager.instance.networkStatus = NetworkStatus.offline;
             if (string.IsNullOrEmpty(Application.cloudProjectId))
             {
                 OnSignInFailed();

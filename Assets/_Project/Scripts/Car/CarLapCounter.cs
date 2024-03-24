@@ -108,9 +108,9 @@ namespace CarRacingGame3d
                     }
                 }
                 //Wrong way warning
-                else if ((IsOwner || GameManager.instance.networkStatus == NetworkStatus.offline) && !checkPoint.isFinishLine) //if (passedCheckPointNumber == checkPoint.checkPointNumber + 1)
+                else if ((IsOwner || GameManager.instance.networkStatus == NetworkStatus.offline) && !checkPoint.isFinishLine)
                 {
-                    if (warning != null && (lastWarningNumber == -1 || lastWarningNumber - 1 == checkPoint.checkPointNumber))
+                    if (warning != null && (lastWarningNumber == -1 || lastWarningNumber - 1 == checkPoint.checkPointNumber) && passedCheckPointNumber != checkPoint.checkPointNumber)
                     {
                         lastWarningNumber = checkPoint.checkPointNumber;
                         warning.SetActive(true);

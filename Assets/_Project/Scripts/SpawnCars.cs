@@ -8,9 +8,11 @@ namespace CarRacingGame3d
 {
     public class SpawnCars : NetworkBehaviour
     {
+        [SerializeField] CameraFollow minimapCameraFollow;
+
         private int numberOfCarsSpawned = 0;
 
-        private Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan, Color.black };
+        private readonly Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan, Color.black };
 
         // Start is called before the first frame update
         private void Start()
@@ -84,6 +86,7 @@ namespace CarRacingGame3d
             Color nameplateColor = Color.black;
             car.name = driver.Name;
             car.GetComponent<CarInputHandler>().playerNumber = driver.PlayerNumber;
+            car.GetComponent<CarInputHandler>().SetMinimapColor();
             car.GetComponent<CarLapCounter>().carPosition = i + 1;
             if (driver.IsAI)
             {
@@ -97,6 +100,8 @@ namespace CarRacingGame3d
                 //car.GetComponent<AStarLite>().enabled = false;
                 car.tag = "Player";
                 nameplateColor = playerColors[driver.PlayerNumber];
+                if (minimapCameraFollow != null)
+                    minimapCameraFollow.SetTarget(car.transform);
             }
 
             car.GetComponentInChildren<NameplateUIHandler>().SetData(driver.Name, nameplateColor);
@@ -106,6 +111,7 @@ namespace CarRacingGame3d
         {
             car.name = name;
             car.GetComponent<CarInputHandler>().playerNumber = playerNumber;
+            car.GetComponent<CarInputHandler>().SetMinimapColor();
             car.GetComponent<CarLapCounter>().carPosition = i + 1;
             car.GetComponent<CarAIHandler>().enabled = false;
             Color nameplateColor = playerColors[playerNumber];
@@ -115,6 +121,9 @@ namespace CarRacingGame3d
             {
                 car.GetComponentInChildren<NameplateUIHandler>().gameObject.SetActive(false);
                 FindObjectOfType<SpecialFuelUIHandler>().controller = car.GetComponent<CarController>();
+
+                if (minimapCameraFollow != null)
+                    minimapCameraFollow.SetTarget(car.transform);
             }
         }
 

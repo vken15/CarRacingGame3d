@@ -10,6 +10,8 @@ namespace CarRacingGame3d
         [SerializeField] private Text driverFinishTimeText;
         [SerializeField] private Text driverScoreText;
 
+        public int playerNumber;
+
         public string GetDriverName()
         {
             return driverNameText.text;

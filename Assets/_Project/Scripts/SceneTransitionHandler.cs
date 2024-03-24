@@ -10,7 +10,7 @@ namespace CarRacingGame3d
         static public SceneTransitionHandler Instance { get; internal set; }
 
         [SerializeField]
-        private string DefaultMainMenu = "Menu";
+        private string DefaultMainMenu = "MainMenu";
 
         [HideInInspector]
         public delegate void ClientLoadedSceneDelegateHandler(ulong clientId);

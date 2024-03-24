@@ -14,16 +14,18 @@ namespace CarRacingGame3d
     {
         public int tick;
         public Vector2 inputVector;
+        public bool brake;
+        public bool nitro;
         public DateTime timeStamp;
-        //public ulong networkObjectId;
-        public Vector3 position;
+        public Vector3 position; //test only
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref tick);
             serializer.SerializeValue(ref inputVector);
+            serializer.SerializeValue(ref brake);
+            serializer.SerializeValue(ref nitro);
             serializer.SerializeValue(ref timeStamp);
-            //serializer.SerializeValue(ref networkObjectId);
             serializer.SerializeValue(ref position);
         }
     }
@@ -35,7 +37,6 @@ namespace CarRacingGame3d
         public Quaternion rotation;
         public Vector3 velocity;
         public Vector3 angularVelocity;
-        //public ulong networkObjectId;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
@@ -44,7 +45,6 @@ namespace CarRacingGame3d
             serializer.SerializeValue(ref rotation);
             serializer.SerializeValue(ref velocity);
             serializer.SerializeValue(ref angularVelocity);
-            //serializer.SerializeValue(ref networkObjectId);
         }
     }
 
@@ -72,6 +72,7 @@ namespace CarRacingGame3d
         [Header("Braking and Drifting")]
         [SerializeField] private float brakeAcceleration = 10000.0f;
         [SerializeField] private float driftSteerMulti = 1.5f;
+        [SerializeField] private float driftStiffness = 0.5f;
 
         [Header("Boost")]
         [SerializeField] private float nitroAcceleration = 5000.0f;
@@ -141,7 +142,6 @@ namespace CarRacingGame3d
 
         StatePayLoad extrapolationState;
         CountdownTimer extrapolationCooldown;
-
         CountdownTimer reconciliationCooldown;
 
         void Awake()
@@ -183,6 +183,7 @@ namespace CarRacingGame3d
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
             if (!IsOwner)
             {
                 playerCamera.Priority = -1;
@@ -217,13 +218,7 @@ namespace CarRacingGame3d
             if (GameManager.instance.networkStatus == NetworkStatus.offline)
             {
                 Nitro();
-                Move(driverInput.Move);
-            }
-
-            //Test
-            if (UnityEngine.Input.GetKey(KeyCode.Q))
-            {
-                transform.position += new Vector3(0,0,100);
+                Move();
             }
         }
 
@@ -300,8 +295,9 @@ namespace CarRacingGame3d
             {
                 tick = currentTick,
                 inputVector = driverInput.Move,
+                brake = driverInput.Brake,
+                nitro = driverInput.Nitro,
                 timeStamp = DateTime.Now,
-                //networkObjectId = NetworkObjectId,
                 position = transform.position
             };
 
@@ -370,7 +366,14 @@ namespace CarRacingGame3d
 
         StatePayLoad ProcessMovement(InputPayLoad input)
         {
-            Move(input.inputVector);
+            driverInput = new DriverInput
+            {
+                Move = input.inputVector,
+                Brake = input.brake,
+                Nitro = input.nitro,
+            };
+
+            Move();
 
             return new()
             {
@@ -383,22 +386,22 @@ namespace CarRacingGame3d
             };
         }
 
-        void Move(Vector2 input)
+        void Move()
         {
             //carRb.isKinematic = false;
-            float motor = maxAcceleration * input.y;
-            float steer = maxSteerAngle * input.x;
-            //float motor = maxAcceleration * driverInput.Move.y;
-            //float steer = maxSteerAngle * driverInput.Move.x;
+            //float motor = maxAcceleration * input.y;
+            //float steer = maxSteerAngle * input.x;
+            float motor = maxAcceleration * driverInput.Move.y;
+            float steer = maxSteerAngle * driverInput.Move.x;
 
             Nitro();
             UpdateWheels(motor, steer);
-            UpdateBanking(input);
+            UpdateBanking();
 
             carVelocity = transform.InverseTransformDirection(carRb.velocity);
 
             if (IsGrounded)
-                GroundedMovement(input);
+                GroundedMovement();
             else
                 AirborneMovement();
 
@@ -411,21 +414,21 @@ namespace CarRacingGame3d
             carRb.velocity = Vector3.Lerp(carRb.velocity, carRb.velocity + Vector3.down * gravity, Time.deltaTime * gravity);
         }
 
-        void GroundedMovement(Vector2 input)
+        void GroundedMovement()
         {
             //Turn
-            if (Mathf.Abs(input.y) > 0.1f || Mathf.Abs(carVelocity.z) > 1)
+            if (Mathf.Abs(driverInput.Move.y) > 0.1f || Mathf.Abs(carVelocity.z) > 1)
             {
                 float turnMulti = Mathf.Clamp01(turnCurve.Evaluate(carVelocity.magnitude / maxSpeed));
-                carRb.AddTorque((Mathf.Sign(carVelocity.z) * input.x * turnMulti * turnStrength) * Vector3.up);
+                carRb.AddTorque((Mathf.Sign(carVelocity.z) * driverInput.Move.x * turnMulti * turnStrength) * Vector3.up);
             }
 
             //Acceleration
             if (!driverInput.Brake)
             {
-                float targetSpeed = input.y < 0.0f 
-                    ? input.y * maxSpeed * 0.5f : driverInput.Nitro 
-                    ? input.y * maxSpeed * nitroSpeedMultiplier : input.y * maxSpeed;
+                float targetSpeed = driverInput.Move.y < 0.0f 
+                    ? driverInput.Move.y * maxSpeed * 0.5f : driverInput.Nitro 
+                    ? driverInput.Move.y * maxSpeed * nitroSpeedMultiplier : driverInput.Move.y * maxSpeed;
                 Vector3 forwardWithoutY = transform.forward.With(y: 0).normalized;
                 carRb.velocity = Vector3.Lerp(carRb.velocity, forwardWithoutY * targetSpeed, networkTimer.MinTimeBetweenTicks);
                 //carRb.MovePosition(transform.position + Vector3.Lerp(carRb.velocity, forwardWithoutY * targetSpeed, networkTimer.MinTimeBetweenTicks));
@@ -440,16 +443,16 @@ namespace CarRacingGame3d
             //Shift center of mass
             float speed = carRb.velocity.magnitude;
             Vector3 centerOfMassAdjustment = (speed > thresholdSpeed)
-                ? new Vector3(0.0f, 0.0f, Mathf.Abs(input.y) > 0.1f ? Mathf.Sign(input.y) * centerOfMassOffset : 0.0f)
+                ? new Vector3(0.0f, 0.0f, Mathf.Abs(driverInput.Move.y) > 0.1f ? Mathf.Sign(driverInput.Move.y) * centerOfMassOffset : 0.0f)
                 : Vector3.zero;
             carRb.centerOfMass = originalCenterOfMass + centerOfMassAdjustment;
         }
 
-        void UpdateBanking(Vector2 input)
+        void UpdateBanking()
         {
             // Bank the car in the opposite direction of the turn
-            float targetBankAngle = input.x * -maxBankAngle;
             //float targetBankAngle = input.x * -maxBankAngle;
+            float targetBankAngle = driverInput.Move.x * -maxBankAngle;
             Vector3 currentEuler = transform.localEulerAngles;
             currentEuler.z = Mathf.LerpAngle(currentEuler.z, targetBankAngle, Time.deltaTime * bankSpeed);
             transform.localEulerAngles = currentEuler;
@@ -522,9 +525,27 @@ namespace CarRacingGame3d
 
         WheelFrictionCurve UpdateFriction(WheelFrictionCurve friction)
         {
-            friction.stiffness = driverInput.Brake ? Mathf.SmoothDamp(friction.stiffness, 0.5f, ref driftVelocity, Time.deltaTime * 2.0f) : 1.0f;
+            //friction.stiffness = driverInput.Brake ? Mathf.SmoothDamp(friction.stiffness, 0.5f, ref driftVelocity, Time.deltaTime * 2.0f) : 1.0f;
+            friction.stiffness = Mathf.SmoothDamp(friction.stiffness, driftStiffness, ref driftVelocity, Time.deltaTime * 2.0f);
             return friction;
         }
+
+        void WheelEffects()
+        {
+            foreach (var wheel in wheels)
+            {
+                if (driverInput.Brake && wheel.axel == Axel.Rear && wheel.wheelCollider.isGrounded == true && (carRb.velocity.magnitude >= 10.0f || !IsOwner))
+                {
+                    wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = true;
+                    wheel.smokeParticle.Emit(1);
+                }
+                else
+                {
+                    wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = false;
+                }
+            }
+        }
+
 
         void Nitro()
         {
@@ -546,30 +567,6 @@ namespace CarRacingGame3d
             }
         }
 
-        void WheelEffects()
-        {
-            foreach (var wheel in wheels)
-            {
-                if (driverInput.Brake && wheel.axel == Axel.Rear && wheel.wheelCollider.isGrounded == true && carRb.velocity.magnitude >= 10.0f)
-                {
-                    wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = true;
-                    wheel.smokeParticle.Emit(1);
-                }
-                else
-                {
-                    wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = false;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void SetInput(DriverInput input)
-        {
-            driverInput = input;
-        }
-
         public bool IsNitro()
         {
             return driverInput.Nitro && !isRechargeNitro && driverInput.Move.y >= 0.0f && GameManager.instance.GetGameState() != GameStates.Countdown;
@@ -579,6 +576,17 @@ namespace CarRacingGame3d
         {
             return nitroFuel / maxNitroFuel;
         }
+
+        public void ReFillFuel(float amount)
+        {
+            nitroFuel = Mathf.Clamp(nitroFuel + maxNitroFuel * amount, nitroFuel, maxNitroFuel);
+        }
+
+        public void SetInput(DriverInput input)
+        {
+            driverInput = input;
+        }
+
 
         void SwitchAuthorityMode(AuthorityMode mode)
         {

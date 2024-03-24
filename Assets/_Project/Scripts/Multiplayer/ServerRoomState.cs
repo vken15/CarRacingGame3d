@@ -13,13 +13,13 @@ namespace CarRacingGame3d
     {
         [SerializeField] NetcodeHooks netcodeHooks;
 
-        public NetworkRoom networkRoom { get; private set; }
+        public NetworkRoom NetworkRoom { get; private set; }
 
         Coroutine m_WaitToEndLobbyCoroutine;
 
         private void Awake()
         {
-            networkRoom = GetComponent<NetworkRoom>();
+            NetworkRoom = GetComponent<NetworkRoom>();
 
             netcodeHooks.OnNetworkSpawnHook += OnNetworkSpawn;
             netcodeHooks.OnNetworkDespawnHook += OnNetworkDespawn;
@@ -42,10 +42,10 @@ namespace CarRacingGame3d
                 throw new Exception($"OnClientChangedSeat: client ID {clientId} is not a lobby player and cannot change seats! Shouldn't be here!");
             }
 
-            networkRoom.LobbyPlayers[id] = new NetworkRoom.LobbyPlayerState(clientId,
-                networkRoom.LobbyPlayers[id].PlayerName,
-                networkRoom.LobbyPlayers[id].PlayerNumber,
-                lockedIn ? SeatState.LockedIn : SeatState.Active, networkRoom.LobbyPlayers[id].SeatId, carId);
+            NetworkRoom.LobbyPlayers[id] = new NetworkRoom.LobbyPlayerState(clientId,
+                NetworkRoom.LobbyPlayers[id].PlayerName,
+                NetworkRoom.LobbyPlayers[id].PlayerNumber,
+                lockedIn ? SeatState.LockedIn : SeatState.Active, NetworkRoom.LobbyPlayers[id].SeatId, carId);
         }
 
         /// <summary>
@@ -53,9 +53,9 @@ namespace CarRacingGame3d
         /// </summary>
         int FindLobbyPlayerId(ulong clientId)
         {
-            for (int i = 0; i < networkRoom.LobbyPlayers.Count; ++i)
+            for (int i = 0; i < NetworkRoom.LobbyPlayers.Count; ++i)
             {
-                if (networkRoom.LobbyPlayers[i].ClientId == clientId)
+                if (NetworkRoom.LobbyPlayers[i].ClientId == clientId)
                     return i;
             }
             return -1;
@@ -70,13 +70,13 @@ namespace CarRacingGame3d
             {
                 StopCoroutine(m_WaitToEndLobbyCoroutine);
             }
-            networkRoom.IsLobbyClosed.Value = false;
+            NetworkRoom.IsLobbyClosed.Value = false;
         }
 
         void SaveLobbyResults()
         {
             GameManager.instance.ClearDriverList();
-            foreach (NetworkRoom.LobbyPlayerState playerInfo in networkRoom.LobbyPlayers)
+            foreach (NetworkRoom.LobbyPlayerState playerInfo in NetworkRoom.LobbyPlayers)
             {
                 GameManager.instance.AddDriverToList(playerInfo.PlayerNumber, playerInfo.PlayerName, playerInfo.CarId, false, playerInfo.ClientId);
                 SessionPlayerData? sessionPlayerData = SessionManager<SessionPlayerData>.Instance.GetPlayerData(playerInfo.ClientId);
@@ -101,9 +101,9 @@ namespace CarRacingGame3d
                 NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnectCallback;
                 SceneTransitionHandler.Instance.OnClientLoadedScene -= OnClientLoadedScene;
             }
-            if (networkRoom)
+            if (NetworkRoom)
             {
-                networkRoom.OnClientReady -= OnClientReady;
+                NetworkRoom.OnClientReady -= OnClientReady;
             }
         }
 
@@ -118,7 +118,7 @@ namespace CarRacingGame3d
                 ConnectionManager.instance.GameStarted = false;
 
                 NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnectCallback;
-                networkRoom.OnClientReady += OnClientReady;
+                NetworkRoom.OnClientReady += OnClientReady;
                 SceneTransitionHandler.Instance.OnClientLoadedScene += OnClientLoadedScene;
             }
         }
@@ -144,7 +144,7 @@ namespace CarRacingGame3d
         bool IsPlayerNumberAvailable(int playerNumber)
         {
             bool found = false;
-            foreach (NetworkRoom.LobbyPlayerState playerState in networkRoom.LobbyPlayers)
+            foreach (NetworkRoom.LobbyPlayerState playerState in NetworkRoom.LobbyPlayers)
             {
                 if (playerState.PlayerNumber == playerNumber)
                 {
@@ -159,7 +159,7 @@ namespace CarRacingGame3d
         void SeatNewPlayer(ulong clientId)
         {
             // If lobby is closing and waiting to start the game, cancel to allow that new player to select a character
-            if (networkRoom.IsLobbyClosed.Value)
+            if (NetworkRoom.IsLobbyClosed.Value)
             {
                 CancelCloseLobby();
             }
@@ -180,9 +180,9 @@ namespace CarRacingGame3d
                 }
 
                 if (NetworkManager.Singleton.IsHost && clientId == NetworkManager.Singleton.LocalClientId)
-                    networkRoom.LobbyPlayers.Add(new NetworkRoom.LobbyPlayerState(clientId, playerData.PlayerName, playerData.PlayerNumber, SeatState.Host, playerData.PlayerNumber - 1));
+                    NetworkRoom.LobbyPlayers.Add(new NetworkRoom.LobbyPlayerState(clientId, playerData.PlayerName, playerData.PlayerNumber, SeatState.Host, playerData.PlayerNumber - 1));
                 else
-                    networkRoom.LobbyPlayers.Add(new NetworkRoom.LobbyPlayerState(clientId, playerData.PlayerName, playerData.PlayerNumber, SeatState.Active, playerData.PlayerNumber - 1));
+                    NetworkRoom.LobbyPlayers.Add(new NetworkRoom.LobbyPlayerState(clientId, playerData.PlayerName, playerData.PlayerNumber, SeatState.Active, playerData.PlayerNumber - 1));
 
                 SessionManager<SessionPlayerData>.Instance.SetPlayerData(clientId, playerData);
             }
@@ -191,11 +191,11 @@ namespace CarRacingGame3d
         void OnClientDisconnectCallback(ulong clientId)
         {
             // clear this client's PlayerNumber and any associated visuals (so other players know they're gone).
-            for (int i = 0; i < networkRoom.LobbyPlayers.Count; ++i)
+            for (int i = 0; i < NetworkRoom.LobbyPlayers.Count; ++i)
             {
-                if (networkRoom.LobbyPlayers[i].ClientId == clientId)
+                if (NetworkRoom.LobbyPlayers[i].ClientId == clientId)
                 {
-                    networkRoom.LobbyPlayers.RemoveAt(i);
+                    NetworkRoom.LobbyPlayers.RemoveAt(i);
                     break;
                 }
             }
@@ -209,14 +209,14 @@ namespace CarRacingGame3d
         /// </summary>
         public void OnStartGame()
         {
-            foreach (NetworkRoom.LobbyPlayerState playerInfo in networkRoom.LobbyPlayers)
+            foreach (NetworkRoom.LobbyPlayerState playerInfo in NetworkRoom.LobbyPlayers)
             {
                 if (playerInfo.SeatState != SeatState.LockedIn && playerInfo.SeatState != SeatState.Host)
                     return; // nope, at least one player isn't locked in yet!
             }
 
             // everybody's ready at the same time! Lock it down!
-            networkRoom.IsLobbyClosed.Value = true;
+            NetworkRoom.IsLobbyClosed.Value = true;
 
             // remember our choices so the next scene can use the info
             SaveLobbyResults();

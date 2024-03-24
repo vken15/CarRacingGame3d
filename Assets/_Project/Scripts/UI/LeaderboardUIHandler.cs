@@ -47,6 +47,7 @@ namespace CarRacingGame3d
                 setLeaderboardItemInfo[i].SetPositionText($"{i + 1}.");
                 setLeaderboardItemInfo[i].SetDriverFinishTimeText("--:--");
                 setLeaderboardItemInfo[i].SetDriverScoreText("0");
+                setLeaderboardItemInfo[i].playerNumber = carInput.playerNumber;
             }
 
             Canvas.ForceUpdateCanvases();
@@ -68,16 +69,19 @@ namespace CarRacingGame3d
 
             //Update the leaderboard items
             for (int i = 0; i < lapCounters.Count; i++)
-                setLeaderboardItemInfo[i].transform.SetSiblingIndex(i);
-
-            for (int i = 0; i < setLeaderboardItemInfo.Length; i++)
-                setLeaderboardItemInfo[i].SetPositionText($"{i + 1}.");
+                for (int j = 0; j < setLeaderboardItemInfo.Length; j++)
+                    if (lapCounters[i] != null && lapCounters[i].GetComponent<CarInputHandler>().playerNumber == setLeaderboardItemInfo[j].playerNumber)
+                    {
+                        setLeaderboardItemInfo[j].SetPositionText($"{i + 1}.");
+                        setLeaderboardItemInfo[j].transform.SetSiblingIndex(i);
+                        break;
+                    }
         }
 
         public void UpdateTimer(CarLapCounter lapCounter, float time)
         {
             foreach (SetLeaderboardItemInfo d in setLeaderboardItemInfo)
-                if (d.GetDriverName() == lapCounter.GetComponent<CarController>().gameObject.name)
+                if (d.playerNumber == lapCounter.GetComponent<CarInputHandler>().playerNumber)
                 {
                     int raceTimeMinutes = (int)Mathf.Floor(time / 60);
                     int raceTimeSeconds = (int)Mathf.Floor(time % 60);

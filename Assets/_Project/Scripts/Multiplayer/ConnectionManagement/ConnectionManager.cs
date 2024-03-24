@@ -82,16 +82,6 @@ namespace CarRacingGame3d
 
         void Start()
         {
-            List<ConnectionState> states = new() 
-            { 
-                m_Offline, 
-                m_ClientConnecting, 
-                m_ClientConnected, 
-                m_ClientReconnecting, 
-                m_StartingHost, 
-                m_Hosting 
-            };
-
             m_CurrentState = m_Offline;
 
             NetworkManager.OnClientConnectedCallback += OnClientConnectedCallback;

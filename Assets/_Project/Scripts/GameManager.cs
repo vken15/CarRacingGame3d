@@ -22,6 +22,7 @@ namespace CarRacingGame3d
         //
         private readonly List<Driver> driverList = new();
         private ushort numberOfLaps = 2;
+        public int numberOfCarsRaceCompleteToEnd = 0;
         private ushort numberOfCarsRaceComplete = 0;
         public MapData map = null;
 
@@ -43,12 +44,6 @@ namespace CarRacingGame3d
                 return;
             }
             DontDestroyOnLoad(gameObject);
-        }
-
-        private void Start()
-        {
-            //driverList.Add(new Driver(1, "P1", 1, false, AIDifficult.Normal, 0));
-            //driverList.Add(new Driver(2, "P2", 1, true, AIDifficult.Normal, 0));
         }
         
         private void LoadMap()
@@ -84,10 +79,14 @@ namespace CarRacingGame3d
         public void OnRaceCompleted()
         {
             numberOfCarsRaceComplete++;
-            if (numberOfCarsRaceComplete >= driverList.Count)
-                OnRaceOver();
-            else
+
+            if (driverList.Count > 0)
+                numberOfCarsRaceCompleteToEnd = driverList.Count;
+
+            if (gameMode == GameMode.Round && numberOfCarsRaceComplete < numberOfCarsRaceCompleteToEnd)
                 ChangeGameState(GameStates.RaceOverCountDown);
+            else
+                OnRaceOver();
             Debug.Log("Race completed");
         }
         

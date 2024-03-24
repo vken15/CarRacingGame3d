@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -24,12 +25,15 @@ namespace CarRacingGame3d
         [SerializeField] private GameObject changeMapBtn;
         [SerializeField] private GameObject changeCarBtn;
 
+        [SerializeField] private CarSelection carSelection;
+
         bool hasLocalPlayerLockedIn = false;
         ushort carId = 1;
+        int maxPlayer = 8;
 
         private void Awake()
         {
-            int maxPlayer = ConnectionManager.instance.MaxConnectedPlayers;
+            maxPlayer = ConnectionManager.instance.MaxConnectedPlayers;
             for (int i = 0; i < playerSeats.Count; ++i)
             {
                 if (i < maxPlayer)
@@ -120,17 +124,17 @@ namespace CarRacingGame3d
         /// </summary>
         void UpdateSeats()
         {
-            NetworkRoom.LobbyPlayerState[] curSeats = new NetworkRoom.LobbyPlayerState[playerSeats.Count];
+            NetworkRoom.LobbyPlayerState[] curSeats = new NetworkRoom.LobbyPlayerState[maxPlayer];
             foreach (NetworkRoom.LobbyPlayerState playerState in networkRoom.LobbyPlayers)
             {
                 if (playerState.SeatId == -1 || playerState.SeatState == SeatState.Inactive)
                     continue; // this player isn't seated at all!
-
+                
                 curSeats[playerState.SeatId] = playerState;
             }
 
             // now actually update the seats in the UI
-            for (int i = 0; i < playerSeats.Count; ++i)
+            for (int i = 0; i < maxPlayer; ++i)
             {
                 playerSeats[i].SetState(curSeats[i].SeatState, curSeats[i].PlayerNumber, curSeats[i].PlayerName);
             }
@@ -147,6 +151,7 @@ namespace CarRacingGame3d
                 changeCarBtn.GetComponent<Button>().interactable = false;
                 changeMapBtn.GetComponent<Button>().interactable = false;
                 readyBtn.GetComponent<Button>().interactable = false;
+                GameManager.instance.numberOfCarsRaceCompleteToEnd = networkRoom.LobbyPlayers.Count;
             }
         }
 
@@ -169,7 +174,7 @@ namespace CarRacingGame3d
 
         public void OnConfirmCarChanged()
         {
-            carId = FindAnyObjectByType<CarSelection>().GetCarIDData();
+            carId = carSelection.GetCarIDData();
         }
     }
 }

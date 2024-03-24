@@ -151,6 +151,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""d2961a41-4ab3-40b6-88d0-cc9927677da6"",
+                    ""path"": ""<Keyboard>/rightShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Nitro"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c959f87b-d880-446a-b002-753e6d6e959c"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",

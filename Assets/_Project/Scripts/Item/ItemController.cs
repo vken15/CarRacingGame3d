@@ -1,16 +1,59 @@
-using System;
 using System.Collections;
 using Unity.Netcode;
+using Unity.Services.Analytics;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CarRacingGame3d
 {
     public class ItemController : NetworkBehaviour
     {
-        GameObject[] itemGameObjects;
+        GameObject itemGameObjects;
 
-        private int index = 0;
+        Image itemImage;
+        VerticalLayoutGroup itemLayoutGroup;
+        ItemData[] itemDatas;
+
+        private int itemIndex = 0;
         private bool hasItem = false;
+
+        CarController carController;
+
+        void Awake()
+        {
+            carController = GetComponent<CarController>();
+
+            //Load the item data
+            itemDatas = Resources.LoadAll<ItemData>("ItemData/");
+
+            if (GameManager.instance.networkStatus == NetworkStatus.online) return;
+
+            itemImage = GameObject.FindGameObjectWithTag("Item").GetComponent<Image>();
+            itemLayoutGroup = itemImage.GetComponentInParent<VerticalLayoutGroup>();
+            itemLayoutGroup.gameObject.SetActive(false);
+        }
+
+        void Start()
+        {
+            if (!IsOwner) return;
+
+            StartCoroutine(SetUp());
+        }
+
+
+        /// <summary>
+        /// This script spawn before the game object with tag 'Item' spawn so we wait for a second
+        /// before setting up.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator SetUp()
+        {
+            yield return new WaitForSeconds(1);
+
+            itemImage = GameObject.FindGameObjectWithTag("Item").GetComponent<Image>();
+            itemLayoutGroup = itemImage.GetComponentInParent<VerticalLayoutGroup>();
+            itemLayoutGroup.gameObject.SetActive(false);
+        }
 
         private IEnumerator OnTriggerEnter(Collider other)
         {
@@ -23,7 +66,7 @@ namespace CarRacingGame3d
                 other.GetComponentInChildren<MeshRenderer>().enabled = false;
                 other.GetComponentInChildren<ParticleSystemRenderer>().enabled = false;
                 //Get item
-                GetItem();
+                StartCoroutine(GetItem());
                 //Respawn item box
                 yield return new WaitForSeconds(1);
                 other.GetComponent<Animator>().SetBool("Enlarge", true);
@@ -34,21 +77,37 @@ namespace CarRacingGame3d
             }
         }
 
-        private void GetItem()
+        private IEnumerator GetItem()
         {
             if (!hasItem)
             {
                 //Random item
-                //index = UnityEngine.Random.Range(0, itemGameObjects.Length);
+                itemIndex = Random.Range(0, itemDatas.Length - 1);
+                itemGameObjects = Instantiate(itemDatas[itemIndex].Item, carController.transform);
                 //Set sprite
                 if (IsServer)
                 {
-                    SendItemToClientRpc(index, DateTime.Now.Millisecond);
+                    SendItemToClientRpc(itemIndex);
                 } else if (GameManager.instance.networkStatus == NetworkStatus.offline)
                 {
-                    StartCoroutine(ShowItem(index, 3));
+                    itemImage.sprite = itemDatas[itemIndex].ItemSprite;
                 }
+
+                if (itemLayoutGroup != null)
+                {
+                    itemLayoutGroup.gameObject.SetActive(true);
+                    itemLayoutGroup.GetComponent<Animator>().SetBool("Random", true);
+                }
+
+                yield return new WaitForSeconds(4);
+                if (itemLayoutGroup != null)
+                {
+                    itemLayoutGroup.GetComponent<Animator>().SetBool("Random", false);
+                }
+                //itemGameObjects.SetActive(true);
+                hasItem = true;
             }
+            Debug.Log($"{hasItem} {itemImage == null}");
         }
 
         public void UseItem()
@@ -56,23 +115,24 @@ namespace CarRacingGame3d
             if (hasItem)
             {
                 hasItem = false;
-
+                itemGameObjects.GetComponent<BaseItem>().UseItem(carController);
                 //Item disappear
+                itemLayoutGroup.gameObject.SetActive(false);
             }
         }
 
-        private IEnumerator ShowItem(int index, float t)
+        private void ShowItem(int index)
         {
-            yield return new WaitForSeconds(t);
-            itemGameObjects[index].SetActive(true);
-            hasItem = true;
+            
         }
 
         [ClientRpc]
-        void SendItemToClientRpc(int index, int time)
+        void SendItemToClientRpc(int index)
         {
-            float t = (DateTime.Now.Millisecond - time) / 1000.0f;
-            StartCoroutine(ShowItem(index, 3.0f - t));
+            //ShowItem(index);
+            itemIndex = index;
+            if (itemImage != null)
+                itemImage.sprite = itemDatas[itemIndex].ItemSprite;
         }
     }
 }
