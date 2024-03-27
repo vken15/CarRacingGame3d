@@ -114,12 +114,11 @@ namespace CarRacingGame3d
         private ClientNetworkTransform clientNetworkTransform;
 
         public Transform jumpAnchor;
-        public bool IsGrounded = true;
 
         //Netcode general
         NetworkTimer networkTimer;
-        const float k_serverTickRate = 60.0f; //60 fps
-        const int k_bufferSize = 1024;
+        const float serverTickRate = 60.0f; //60 fps
+        const int bufferSize = 1024;
 
         //Netcode client specific
         CircularBuffer<InputPayLoad> clientInputBuffer;
@@ -156,11 +155,11 @@ namespace CarRacingGame3d
             sidewaysFrictionRear = wheel.wheelCollider.sidewaysFriction;
             forwardFrictionRear = wheel.wheelCollider.forwardFriction;
 
-            networkTimer = new(k_serverTickRate);
-            clientInputBuffer = new CircularBuffer<InputPayLoad>(k_bufferSize);
-            clientStateBuffer = new CircularBuffer<StatePayLoad>(k_bufferSize);
+            networkTimer = new(serverTickRate);
+            clientInputBuffer = new CircularBuffer<InputPayLoad>(bufferSize);
+            clientStateBuffer = new CircularBuffer<StatePayLoad>(bufferSize);
 
-            serverStateBuffer = new CircularBuffer<StatePayLoad>(k_bufferSize);
+            serverStateBuffer = new CircularBuffer<StatePayLoad>(bufferSize);
             serverInputQueue = new Queue<InputPayLoad>();
 
             reconciliationCooldown = new(reconciliationCooldownTime);
@@ -232,7 +231,7 @@ namespace CarRacingGame3d
             {
                 inputPayLoad = serverInputQueue.Dequeue();
 
-                bufferIndex = inputPayLoad.tick % k_bufferSize;
+                bufferIndex = inputPayLoad.tick % bufferSize;
 
                 StatePayLoad statePayLoad = ProcessMovement(inputPayLoad);
                 serverStateBuffer.Add(statePayLoad, bufferIndex);
@@ -289,7 +288,7 @@ namespace CarRacingGame3d
             if (!IsClient || !IsOwner) return;
 
             var currentTick = networkTimer.CurrentTick;
-            var bufferIndex = currentTick % k_bufferSize;
+            var bufferIndex = currentTick % bufferSize;
 
             InputPayLoad inputPayLoad = new()
             {
@@ -325,7 +324,7 @@ namespace CarRacingGame3d
             float postitionError;
             int bufferIndex;
 
-            bufferIndex = lastServerState.tick % k_bufferSize;
+            bufferIndex = lastServerState.tick % bufferSize;
 
             if (bufferIndex - 1 < 0) return;
 
@@ -350,14 +349,14 @@ namespace CarRacingGame3d
 
             if (!rewindState.Equals(lastServerState)) return;
 
-            clientStateBuffer.Add(rewindState, rewindState.tick % k_bufferSize);
+            clientStateBuffer.Add(rewindState, rewindState.tick % bufferSize);
 
             // Replay all inputs from the rewind state to the current state
             int tickToReplay = lastServerState.tick;
 
             while (tickToReplay < networkTimer.CurrentTick)
             {
-                int bufferIndex = tickToReplay % k_bufferSize;
+                int bufferIndex = tickToReplay % bufferSize;
                 StatePayLoad statePayLoad = ProcessMovement(clientInputBuffer.Get(bufferIndex));
                 clientStateBuffer.Add(statePayLoad, bufferIndex);
                 tickToReplay++;
@@ -400,7 +399,7 @@ namespace CarRacingGame3d
 
             carVelocity = transform.InverseTransformDirection(carRb.velocity);
 
-            if (IsGrounded)
+            if (IsGrounded())
                 GroundedMovement();
             else
                 AirborneMovement();
@@ -519,7 +518,6 @@ namespace CarRacingGame3d
             {
                 wheel.forwardFriction = UpdateFriction(wheel.forwardFriction);
                 wheel.sidewaysFriction = UpdateFriction(wheel.sidewaysFriction);
-                IsGrounded = true;
             }
         }
 
@@ -546,6 +544,14 @@ namespace CarRacingGame3d
             }
         }
 
+        private bool IsGrounded()
+        {
+            if (!Physics.Raycast(transform.position, -transform.up, 5))
+            {
+                return false;
+            }
+            return true;
+        }
 
         void Nitro()
         {
@@ -586,7 +592,6 @@ namespace CarRacingGame3d
         {
             driverInput = input;
         }
-
 
         void SwitchAuthorityMode(AuthorityMode mode)
         {

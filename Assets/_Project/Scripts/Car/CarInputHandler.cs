@@ -47,13 +47,6 @@ namespace CarRacingGame3d
 
             if (control.Player.Item.IsPressed())
                 itemController.UseItem();
-
-            //Test
-            if (control.Player.ESC.IsPressed())
-            {
-                transform.position += transform.forward * 20f;
-            }
-
         }
     
         public void SetMinimapColor()
