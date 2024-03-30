@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -13,8 +12,6 @@ namespace CarRacingGame3d
     /// </summary>
     class ClientReconnectingState : ClientConnectingState
     {
-        //IPublisher<ReconnectMessage> m_ReconnectMessagePublisher;
-
         Coroutine m_ReconnectCoroutine;
         int m_NbAttempts;
 
@@ -34,7 +31,6 @@ namespace CarRacingGame3d
                 ConnectionManager.instance.StopCoroutine(m_ReconnectCoroutine);
                 m_ReconnectCoroutine = null;
             }
-            //m_ReconnectMessagePublisher.Publish(new ReconnectMessage(ConnectionManager.instance.NbReconnectAttempts, ConnectionManager.instance.NbReconnectAttempts));
             ConnectionStatusMessageUIManager.instance.OnReconnectMessage(new ReconnectMessage(ConnectionManager.instance.NbReconnectAttempts, ConnectionManager.instance.NbReconnectAttempts));
         }
 
@@ -55,7 +51,6 @@ namespace CarRacingGame3d
                 else
                 {
                     var connectStatus = JsonUtility.FromJson<ConnectStatus>(disconnectReason);
-                    //m_ConnectStatusPublisher.Publish(connectStatus);
                     ConnectionStatusMessageUIManager.instance.OnConnectStatus(connectStatus);
                     switch (connectStatus)
                     {
@@ -75,13 +70,11 @@ namespace CarRacingGame3d
             {
                 if (string.IsNullOrEmpty(disconnectReason))
                 {
-                    //m_ConnectStatusPublisher.Publish(ConnectStatus.GenericDisconnect);
                     ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.GenericDisconnect);
                 }
                 else
                 {
                     var connectStatus = JsonUtility.FromJson<ConnectStatus>(disconnectReason);
-                    //m_ConnectStatusPublisher.Publish(connectStatus);
                     ConnectionStatusMessageUIManager.instance.OnConnectStatus(connectStatus);
                 }
 
@@ -106,7 +99,6 @@ namespace CarRacingGame3d
 
             yield return new WaitWhile(() => ConnectionManager.instance.NetworkManager.ShutdownInProgress); // wait until NetworkManager completes shutting down
             Debug.Log($"Reconnecting attempt {m_NbAttempts + 1}/{ConnectionManager.instance.NbReconnectAttempts}...");
-            //m_ReconnectMessagePublisher.Publish(new ReconnectMessage(m_NbAttempts, ConnectionManager.instance.NbReconnectAttempts));
             ConnectionStatusMessageUIManager.instance.OnReconnectMessage(new ReconnectMessage(m_NbAttempts, ConnectionManager.instance.NbReconnectAttempts));
 
             // If first attempt, wait some time before attempting to reconnect to give time to services to update

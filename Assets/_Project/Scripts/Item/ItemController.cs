@@ -117,19 +117,15 @@ namespace CarRacingGame3d
                 hasItem = false;
                 itemGameObjects.GetComponent<BaseItem>().UseItem(carController);
                 //Item disappear
-                itemLayoutGroup.gameObject.SetActive(false);
+                if (itemLayoutGroup != null) {
+                    itemLayoutGroup.gameObject.SetActive(false);
+                }
             }
-        }
-
-        private void ShowItem(int index)
-        {
-            
         }
 
         [ClientRpc]
         void SendItemToClientRpc(int index)
         {
-            //ShowItem(index);
             itemIndex = index;
             if (itemImage != null)
                 itemImage.sprite = itemDatas[itemIndex].ItemSprite;

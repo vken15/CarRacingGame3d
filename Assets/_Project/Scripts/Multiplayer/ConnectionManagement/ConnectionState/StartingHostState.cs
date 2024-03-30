@@ -27,7 +27,6 @@ namespace CarRacingGame3d
 
         public override void OnServerStarted()
         {
-            //m_ConnectStatusPublisher.Publish(ConnectStatus.Success);
             ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.Success);
             ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Hosting);
         }
@@ -79,7 +78,6 @@ namespace CarRacingGame3d
 
         void StartHostFailed()
         {
-            //m_ConnectStatusPublisher.Publish(ConnectStatus.StartHostFailed);
             ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.StartHostFailed);
             ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
         }

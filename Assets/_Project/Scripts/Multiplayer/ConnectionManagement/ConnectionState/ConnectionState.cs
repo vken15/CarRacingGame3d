@@ -2,18 +2,11 @@ using Unity.Netcode;
 
 namespace CarRacingGame3d
 {
-    //public interface IPublisher<T>
-    //{
-    //    void Publish(T message);
-    //}
-
     /// <summary>
     /// Base class representing a connection state.
     /// </summary>
     abstract class ConnectionState
     {
-        //protected IPublisher<ConnectStatus> m_ConnectStatusPublisher;
-
         public abstract void Enter();
 
         public abstract void Exit();

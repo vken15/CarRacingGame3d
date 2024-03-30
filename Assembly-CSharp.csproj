@@ -64,6 +64,7 @@
     <Compile Include="Assets\_Project\Scripts\SpawnCars.cs" />
     <Compile Include="Assets\_Project\Scripts\AI\CarAIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\NameplateUIHandler.cs" />
+    <Compile Include="Assets\USED RESOURCES\Fence Layout Tool\FenceLayout.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\CarSelectUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\UnityServices\Lobbies\LobbyAPIInterface.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\PopupManager.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Assets\_Project\Scripts\UI\PostGameUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CameraFollow.cs" />
     <Compile Include="Assets\_Project\Scripts\Utils\Timer.cs" />
+    <Compile Include="Assets\USED RESOURCES\Fence Layout Tool\FenceLayoutEditor.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\ClientConnectingState.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\HostingState.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\LobbyControl.cs" />

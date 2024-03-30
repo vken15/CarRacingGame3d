@@ -4,15 +4,25 @@ using UnityEngine.UI;
 
 namespace CarRacingGame3d
 {
-    public struct DriverInput
+    public struct DriverInput : INetworkSerializable
     {
         public Vector2 Move;
         public bool Brake;
         public bool Nitro;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref Move);
+            serializer.SerializeValue(ref Brake);
+            serializer.SerializeValue(ref Nitro);
+        }
     }
 
     public class CarInputHandler : NetworkBehaviour
     {
+        private readonly NetworkVariable<DriverInput> playerInput = new(writePerm: NetworkVariableWritePermission.Owner);
+        private readonly NetworkVariable<bool> itemInput = new(writePerm: NetworkVariableWritePermission.Owner);
+
         [SerializeField] Image minimapIcon;
 
         public int playerNumber = 1;
@@ -36,19 +46,43 @@ namespace CarRacingGame3d
             if (GameManager.instance.GetGameState() == GameStates.Countdown) return;
             if (GameManager.instance.networkStatus == NetworkStatus.online && !IsOwner) return;
 
-            DriverInput playerInput = new()
+            playerInput.Value = new()
             {
                 Move = control.Player.Move.ReadValue<Vector2>(),
                 Brake = control.Player.Brake.IsPressed(),
-                Nitro = control.Player.Nitro.IsPressed()
+                Nitro = control.Player.Nitro.IsPressed(),
             };
 
-            carController.SetInput(playerInput);
+            itemInput.Value = control.Player.Item.IsPressed();
+
+            if (GameManager.instance.networkStatus == NetworkStatus.online) return;
 
             if (control.Player.Item.IsPressed())
                 itemController.UseItem();
+
+            carController.SetInput(playerInput.Value);
         }
-    
+
+        public override void OnNetworkSpawn()
+        {
+            if (!IsServer) return;
+            PlayerClientRPC();
+        }
+
+        [ClientRpc]
+        private void PlayerClientRPC()
+        {
+            playerInput.OnValueChanged += (DriverInput prevValue, DriverInput newValue) =>
+            {
+                carController.SetInput(newValue);
+            };
+            itemInput.OnValueChanged += (bool prevValue, bool newValue) =>
+            {
+                if (newValue)
+                    itemController.UseItem();
+            };
+        }
+
         public void SetMinimapColor()
         {
             minimapIcon.color = playerColors[playerNumber];

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6806035698680141}
   - component: {fileID: 5973113606433508915}
   m_Layer: 0
-  m_Name: ItemBox_color
+  m_Name: ItemBoxColor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 4313323823476491405}
   - component: {fileID: 367071629354396628}
   m_Layer: 0
-  m_Name: ItemBox_simbol
+  m_Name: ItemBoxSimbol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

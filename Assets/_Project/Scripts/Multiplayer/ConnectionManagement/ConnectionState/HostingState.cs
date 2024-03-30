@@ -9,8 +9,6 @@ namespace CarRacingGame3d
     /// </summary>
     class HostingState : OnlineState
     {
-        //IPublisher<ConnectionEventMessage> m_ConnectionEventPublisher;
-
         // used in ApprovalCheck. This is intended as a bit of light protection against DOS attacks that rely on sending silly big buffers of garbage.
         const int k_MaxConnectPayload = 1024;
 
@@ -83,7 +81,6 @@ namespace CarRacingGame3d
 
         public override void OnServerStopped()
         {
-            //m_ConnectStatusPublisher.Publish(ConnectStatus.GenericDisconnect);
             ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.GenericDisconnect);
             ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
         }

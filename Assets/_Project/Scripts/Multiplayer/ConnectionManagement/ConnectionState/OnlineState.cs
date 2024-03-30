@@ -8,7 +8,6 @@ namespace CarRacingGame3d
         public override void OnUserRequestedShutdown()
         {
             // This behaviour will be the same for every online state
-            //m_ConnectStatusPublisher.Publish(ConnectStatus.UserRequestedDisconnect);
             ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.UserRequestedDisconnect);
             ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
         }

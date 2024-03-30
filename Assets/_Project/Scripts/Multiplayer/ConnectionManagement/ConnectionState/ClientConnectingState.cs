@@ -29,7 +29,6 @@ namespace CarRacingGame3d
 
         public override void OnClientConnected(ulong _)
         {
-            //m_ConnectStatusPublisher.Publish(ConnectStatus.Success);
             ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.Success);
             ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_ClientConnected);
         }
@@ -45,14 +44,12 @@ namespace CarRacingGame3d
             var disconnectReason = ConnectionManager.instance.NetworkManager.DisconnectReason;
             if (string.IsNullOrEmpty(disconnectReason))
             {
-                //m_ConnectStatusPublisher.Publish(ConnectStatus.StartClientFailed);
                 ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.StartClientFailed);
             }
             else
             {
                 var connectStatus = JsonUtility.FromJson<ConnectStatus>(disconnectReason);
                 ConnectionStatusMessageUIManager.instance.OnConnectStatus(connectStatus);
-                //m_ConnectStatusPublisher.Publish(connectStatus);
             }
             ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
         }

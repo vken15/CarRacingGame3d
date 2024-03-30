@@ -60,10 +60,9 @@ GameObject:
   - component: {fileID: 6986412475380431069}
   - component: {fileID: 6154689324483912567}
   - component: {fileID: 3646104775883775409}
-  - component: {fileID: 8947582610448468167}
-  - component: {fileID: -123159116177930663}
   - component: {fileID: 5730062209098203492}
   - component: {fileID: 7218791992974546789}
+  - component: {fileID: 2940360617124650579}
   m_Layer: 0
   m_Name: Test
   m_TagString: Player
@@ -198,18 +197,18 @@ MonoBehaviour:
     m_RotationOrder: 4
   turnStrength: 100
   brakeAcceleration: 1000
-  driftSteerMulti: 1.5
-  driftStiffness: 0.5
+  driftSteerMulti: 1.6
+  driftStiffness: 1.8
   nitroAcceleration: 5000
   maxNitroFuel: 100
   nitroFuel: 100
   nitroSpeedMultiplier: 1.2
   centerOfMass: {x: 0, y: 0, z: 0}
-  downForce: 33
+  downForce: 66
   lateralGScale: 3.3
   gravity: -9.81
-  maxBankAngle: 5
-  bankSpeed: 2
+  maxBankAngle: 25
+  bankSpeed: 3
   style: 1
   wheels:
   - wheelModels:
@@ -239,13 +238,6 @@ MonoBehaviour:
   playerCamera: {fileID: 3623514334117674441}
   playerAudioListener: {fileID: 3952352803115760214}
   jumpAnchor: {fileID: 3218955992553397246}
-  IsGrounded: 1
-  reconciliationThreshold: 50
-  reconciliationCooldownTime: 1
-  extrapolationLimit: 0
-  extrapolationMulti: 1.2
-  serverCube: {fileID: 5709254303057676746}
-  clientCube: {fileID: 7375239574026279660}
 --- !u!114 &3646104775883775409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,49 +258,6 @@ MonoBehaviour:
   sideSensorPosition: 1.15
   sensorAngle: 30
   sensorLength: 5
---- !u!114 &8947582610448468167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1807365943919398502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cef171bfcd266aa4885cdca5d341e34d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.025
-  RotAngleThreshold: 0.15
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 1
-  InLocalSpace: 0
-  Interpolate: 0
-  SlerpPosition: 0
-  authorityMode: 1
---- !u!114 &-123159116177930663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1807365943919398502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5730062209098203492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +284,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f608d5bc74eb6b64183e0c34be59043c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2940360617124650579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1807365943919398502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &2689048875606975299
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,7 +970,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8431152765193971615
 Transform:
   m_ObjectHideFlags: 0
@@ -1107,7 +1086,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7154174099157656844
 Transform:
   m_ObjectHideFlags: 0

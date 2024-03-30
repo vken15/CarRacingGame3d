@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Unity.Collections;
+﻿using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -49,14 +47,6 @@ namespace CarRacingGame3d
             // when this element is added to the runtime collection. If this was done in OnEnable() there is a chance
             // that OwnerClientID could be its default value (0).
             m_PersistentPlayerRuntimeCollection.Add(this);
-            //if (IsServer)
-            //{
-            //    var sessionPlayerData = SessionManager<SessionPlayerData>.Instance.GetPlayerData(OwnerClientId);
-            //    if (sessionPlayerData.HasValue)
-            //    {
-            //        var playerData = sessionPlayerData.Value;
-            //    }
-            //}
         }
 
         public override void OnDestroy()

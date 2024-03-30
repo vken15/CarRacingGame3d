@@ -33,6 +33,9 @@ namespace CarRacingGame3d
                 case ConnectStatus.ServerFull:
                     PopupManager.ShowPopupPanel("Connection Failed", "The Host is full and cannot accept any additional connections.");
                     break;
+                case ConnectStatus.GameStarted:
+                    PopupManager.ShowPopupPanel("Connection Failed", "The game has already started!.");
+                    break;
                 case ConnectStatus.Success:
                     break;
                 case ConnectStatus.LoggedInAgain:

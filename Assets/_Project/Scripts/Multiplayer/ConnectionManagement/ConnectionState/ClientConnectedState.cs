@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace CarRacingGame3d
@@ -24,14 +23,12 @@ namespace CarRacingGame3d
             var disconnectReason = ConnectionManager.instance.NetworkManager.DisconnectReason;
             if (string.IsNullOrEmpty(disconnectReason))
             {
-                //m_ConnectStatusPublisher.Publish(ConnectStatus.Reconnecting);
                 ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.Reconnecting);
                 ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_ClientReconnecting);
             }
             else
             {
                 var connectStatus = JsonUtility.FromJson<ConnectStatus>(disconnectReason);
-                //m_ConnectStatusPublisher.Publish(connectStatus);
                 ConnectionStatusMessageUIManager.instance.OnConnectStatus(connectStatus);
                 ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
             }

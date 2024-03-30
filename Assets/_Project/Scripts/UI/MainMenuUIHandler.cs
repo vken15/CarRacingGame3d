@@ -1,8 +1,5 @@
 using CarRacingGame3d.UnityServices;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -17,6 +14,7 @@ namespace CarRacingGame3d
         [SerializeField] Canvas profileCanvas;
         [SerializeField] CanvasGroup mainMenuCanvas;
         [SerializeField] TMP_InputField profileInput;
+        [SerializeField] GameObject signInSpinner;
 
         void Awake()
         {
@@ -70,7 +68,7 @@ namespace CarRacingGame3d
         {
             onlineBtn.interactable = true;
             //m_UGSSetupTooltipDetector.enabled = false;
-            //m_SignInSpinner.SetActive(false);
+            signInSpinner.SetActive(false);
 
             Debug.Log($"Signed in. Unity Player ID {AuthenticationService.Instance.PlayerId}");
 
@@ -88,20 +86,20 @@ namespace CarRacingGame3d
                 //m_UGSSetupTooltipDetector.enabled = true;
             }
 
-            //if (m_SignInSpinner)
-            //{
-            //    m_SignInSpinner.SetActive(false);
-            //}
+            if (signInSpinner)
+            {
+                signInSpinner.SetActive(false);
+            }
         }
 
         async void OnProfileChanged()
         {
             onlineBtn.interactable = false;
-            //m_SignInSpinner.SetActive(true);
+            signInSpinner.SetActive(true);
             await AuthenticationServiceFacade.Instance.SwitchProfileAndReSignInAsync(ProfileManager.Instance.Profile);
 
             onlineBtn.interactable = true;
-            //m_SignInSpinner.SetActive(false);
+            signInSpinner.SetActive(false);
 
             Debug.Log($"Signed in. Unity Player ID {AuthenticationService.Instance.PlayerId}");
 

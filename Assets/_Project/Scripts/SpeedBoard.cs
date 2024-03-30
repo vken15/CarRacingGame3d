@@ -8,19 +8,16 @@ namespace CarRacingGame3d
     {
         [SerializeField] private float speedBoost;
         [SerializeField] private float jumpBoost;
+        [SerializeField] private bool speedUp = true;
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("CarBody"))
             {
                 Rigidbody rb = other.GetComponentInParent<Rigidbody>();
-                var force = other.transform.forward * speedBoost;
-                //var force = transform.forward * -speedBoost;
+                var force = speedUp ? transform.forward * -speedBoost : transform.forward * speedBoost;
                 rb.AddForce(force, ForceMode.Acceleration);
-
-                var jumpForce = other.transform.up * jumpBoost;
-                var pos = other.GetComponentInParent<CarController>().jumpAnchor.position;
-                rb.AddForceAtPosition(jumpForce, pos, ForceMode.Impulse);
+                rb.AddForceAtPosition(other.transform.up * jumpBoost, other.GetComponentInParent<CarController>().jumpAnchor.position, ForceMode.Impulse);
             }
         }
     }
