@@ -312,6 +312,37 @@ namespace CarRacingGame3d
             nitroFuel = Mathf.Clamp(nitroFuel + maxNitroFuel * amount, nitroFuel, maxNitroFuel);
         }
 
+        private float GetLateralVelocity()
+        {
+            return Vector3.Dot(transform.right, carRb.velocity);
+        }
+
+        public float GetVelocityMagnitude()
+        {
+            return carRb.velocity.magnitude;
+        }
+
+        public bool IsTireScreeching(out float lateralVelocity, out bool isBraking)
+        {
+            lateralVelocity = GetLateralVelocity();
+            isBraking = false;
+            if (!IsGrounded())
+            {
+                return false;
+            }
+
+            if (driverInput.Move.y < 0 && Vector2.Dot(transform.forward, carRb.velocity) > 0)
+            {
+                isBraking = true;
+                return true;
+            }
+
+            if (Mathf.Abs(GetLateralVelocity()) > 4.0f)
+                return true;
+
+            return false;
+        }
+
         public void SetInput(DriverInput input)
         {
             driverInput = input;

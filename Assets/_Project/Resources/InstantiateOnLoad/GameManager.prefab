@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   networkStatus: 1
   gameMode: 1
+  numberOfCarsRaceCompleteToEnd: 0
   map: {fileID: 0}
   maxRound: 1
   currentRound: 1

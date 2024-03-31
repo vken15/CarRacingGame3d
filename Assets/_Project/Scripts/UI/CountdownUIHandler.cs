@@ -9,7 +9,7 @@ namespace CarRacingGame3d
     public class CountdownUIHandler : NetworkBehaviour
     {
         [SerializeField] private TMP_Text countdownText;
-        //[SerializeField] private AudioSource countdownAudioSource;
+        [SerializeField] private AudioSource countdownAudioSource;
         //[SerializeField] private AudioSource bgmAudioSource;
 
         [SerializeField]
@@ -210,7 +210,7 @@ namespace CarRacingGame3d
             {
                 if (m_TimeRemaining == 3.0f)
                 {
-                    //countdownAudioSource.Play();
+                    countdownAudioSource.Play();
                 }
 
                 m_TimeRemaining -= Time.deltaTime;
@@ -277,10 +277,10 @@ namespace CarRacingGame3d
                     gameObject.SetActive(false);
                 }
 
-                //if (count == 3)
-                //{
-                //    countdownAudioSource.Play();
-                //}
+                if (count == 3)
+                {
+                    countdownAudioSource.Play();
+                }
 
                 if (count != 0)
                 {

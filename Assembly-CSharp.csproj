@@ -103,6 +103,7 @@
     <Compile Include="Assets\_Project\Scripts\Car\CarController.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\NetworkManagerUI.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\ClientConnectedState.cs" />
+    <Compile Include="Assets\_Project\Scripts\Car\CarSoundEffectHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\PlayerSeatUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\PostGameUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CameraFollow.cs" />
