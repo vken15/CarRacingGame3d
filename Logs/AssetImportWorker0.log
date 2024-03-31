@@ -251,3 +251,136 @@ Received Import Request.
 Start importing Assets/_Project/Prefabs/Car/Test.prefab using Guid(8f040dddc0077f04789e70beb46e4ac7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '38b80b42955e0bc442c028cf41d7c7d1') in 0.044229 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 267
+========================================================================
+Received Import Request.
+  Time since last request: 1454.057676 seconds.
+  path: Assets/_Project/Materials/Shield/BubbleShield_Mat.mat
+  artifactKey: Guid(2f961cda6ee8c7244841e79cb76f6b81) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Materials/Shield/BubbleShield_Mat.mat using Guid(2f961cda6ee8c7244841e79cb76f6b81) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '52a95e8a71752b4b9edac4fee2102137') in 0.109588 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 8.73 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 15 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 17 unused Assets / (1.6 MB). Loaded Objects now: 9257.
+Memory consumption went from 236.7 MB to 235.1 MB.
+Total: 157.428600 ms (FindLiveObjects: 5.529500 ms CreateObjectMapping: 0.543800 ms MarkObjects: 150.323100 ms  DeleteObjects: 1.030600 ms)
+
+Prepare: number of updated asset objects reloaded= 1
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 545.613348 seconds.
+  path: Assets/Settings/Ultra_PipelineAsset_ForwardRenderer.asset
+  artifactKey: Guid(317ff65061e0d5c4f9f975e67dce8137) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Settings/Ultra_PipelineAsset_ForwardRenderer.asset using Guid(317ff65061e0d5c4f9f975e67dce8137) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e80dc3f520141df05c458d3e23a69f4e') in 0.132865 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 190.404891 seconds.
+  path: Assets/Settings/Ultra_PipelineAsset_ForwardRenderer.asset
+  artifactKey: Guid(317ff65061e0d5c4f9f975e67dce8137) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Settings/Ultra_PipelineAsset_ForwardRenderer.asset using Guid(317ff65061e0d5c4f9f975e67dce8137) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1e7998ea81a27d720fffe03bc7097b4e') in 0.001636 seconds
+Number of updated asset objects reloaded before import = 1
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 9.38 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 15 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 15 unused Assets / (1.6 MB). Loaded Objects now: 9257.
+Memory consumption went from 236.7 MB to 235.1 MB.
+Total: 11.474700 ms (FindLiveObjects: 0.696200 ms CreateObjectMapping: 0.466900 ms MarkObjects: 9.770200 ms  DeleteObjects: 0.539800 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 77.957483 seconds.
+  path: Assets/_Project/Prefabs/Bubble Shield.prefab
+  artifactKey: Guid(aad40e69c6a02f74582832cdc7461185) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Prefabs/Bubble Shield.prefab using Guid(aad40e69c6a02f74582832cdc7461185) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '13adfa56771c5049e3b443e2834b26a3') in 0.168437 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 10
+========================================================================
+Received Import Request.
+  Time since last request: 74.582034 seconds.
+  path: Assets/_Project/Prefabs/Bubble Shield.prefab
+  artifactKey: Guid(aad40e69c6a02f74582832cdc7461185) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Prefabs/Bubble Shield.prefab using Guid(aad40e69c6a02f74582832cdc7461185) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7a561c3a9f69da35d1654972f9924b23') in 0.018085 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 10
+========================================================================
+Received Import Request.
+  Time since last request: 20.650928 seconds.
+  path: Assets/_Project/Prefabs/Bubble Shield.prefab
+  artifactKey: Guid(aad40e69c6a02f74582832cdc7461185) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Prefabs/Bubble Shield.prefab using Guid(aad40e69c6a02f74582832cdc7461185) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '84346ba76a1fa3321cc6f435820abe63') in 0.010931 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 10
+========================================================================
+Received Import Request.
+  Time since last request: 16.989538 seconds.
+  path: Assets/_Project/Prefabs/Bubble Shield.prefab
+  artifactKey: Guid(aad40e69c6a02f74582832cdc7461185) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Prefabs/Bubble Shield.prefab using Guid(aad40e69c6a02f74582832cdc7461185) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6f4355a0acfd5bf295adc85046045ef3') in 0.015252 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 10
+========================================================================
+Received Import Request.
+  Time since last request: 24.509767 seconds.
+  path: Assets/_Project/Prefabs/Bubble Shield.prefab
+  artifactKey: Guid(aad40e69c6a02f74582832cdc7461185) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Prefabs/Bubble Shield.prefab using Guid(aad40e69c6a02f74582832cdc7461185) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '024ff63864c9c166ce37416a61774b1f') in 0.010717 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 10
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 6.45 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 15 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 15 unused Assets / (1.6 MB). Loaded Objects now: 9260.
+Memory consumption went from 236.8 MB to 235.2 MB.
+Total: 9.815000 ms (FindLiveObjects: 0.688700 ms CreateObjectMapping: 0.380800 ms MarkObjects: 8.265700 ms  DeleteObjects: 0.478300 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
