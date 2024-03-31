@@ -74,6 +74,7 @@ namespace CarRacingGame3d
         const float serverTickRate = 60.0f;
 
         public Transform jumpAnchor;
+        public bool Immunity;
         NetworkTimer networkTimer;
 
         void Awake()
@@ -247,7 +248,6 @@ namespace CarRacingGame3d
 
         WheelFrictionCurve UpdateFriction(WheelFrictionCurve friction)
         {
-            //friction.stiffness = driverInput.Brake ? Mathf.SmoothDamp(friction.stiffness, 0.5f, ref driftVelocity, Time.deltaTime * 2.0f) : 1.0f;
             friction.stiffness = Mathf.SmoothDamp(friction.stiffness, driftStiffness, ref driftVelocity, Time.deltaTime * 2.0f);
             return friction;
         }

@@ -238,6 +238,7 @@ MonoBehaviour:
   playerCamera: {fileID: 3623514334117674441}
   playerAudioListener: {fileID: 3952352803115760214}
   jumpAnchor: {fileID: 3218955992553397246}
+  Immunity: 0
 --- !u!114 &3646104775883775409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,7 +494,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 183
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2003,7 +2004,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1793539200835202051, guid: 0809492e0e99fa04b9aee31b8c12698e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 200768368070821184}
+      addedObject: {fileID: 107345472585774183}
   m_SourcePrefab: {fileID: 100100000, guid: 0809492e0e99fa04b9aee31b8c12698e, type: 3}
 --- !u!4 &3125758261710333865 stripped
 Transform:
@@ -2015,8 +2016,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1793539200835202051, guid: 0809492e0e99fa04b9aee31b8c12698e, type: 3}
   m_PrefabInstance: {fileID: 4010424307819756763}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &200768368070821184
-MeshCollider:
+--- !u!65 &107345472585774183
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2033,10 +2034,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -8765065844996121515, guid: 7629da1901248bc49b02c95f7524fc8d, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.016554162, y: 0.009675487, z: 0.034320034}
+  m_Center: {x: -0.000043209864, y: -0.00045573327, z: -0.0006561406}
 --- !u!1 &5833853428154901381 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7444979462576152414, guid: 0809492e0e99fa04b9aee31b8c12698e, type: 3}

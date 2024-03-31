@@ -20,6 +20,9 @@ namespace CarRacingGame3d
         private LapCountUIHandler lapsCountUIHandler;
         private int lastWarningNumber = -1;
         private GameObject warning;
+        private Vector3 lastPassedCheckPointPosition;
+        private Quaternion lastPassedCheckPointRotation;
+        private Rigidbody carRb;
 
         public int carPosition = 0;
         public event Action<CarLapCounter> OnPassCheckPoint;
@@ -27,6 +30,9 @@ namespace CarRacingGame3d
         private void Start()
         {
             lapsToCompleted = GameManager.instance.GetNumberOfLaps();
+            carRb = GetComponent<Rigidbody>();
+            lastPassedCheckPointPosition = transform.position;
+            lastPassedCheckPointRotation = transform.rotation;
 
             if (IsOwner || GameManager.instance.networkStatus == NetworkStatus.offline)
                 warning = Instantiate(warningPrefab);
@@ -38,6 +44,19 @@ namespace CarRacingGame3d
                 lapsCountUIHandler = FindFirstObjectByType<LapCountUIHandler>();
             }
         }
+
+        private void Update()
+        {
+            if ((transform.position - lastPassedCheckPointPosition).magnitude >= 300)
+            {
+                transform.SetPositionAndRotation(lastPassedCheckPointPosition, lastPassedCheckPointRotation);
+                carRb.velocity = new Vector3(0,0,0);
+                carRb.angularVelocity = new Vector3(0,0,0);
+                lastWarningNumber = -1;
+                warning.SetActive(false);
+            }
+        }
+
         public int GetNumberOfCheckPointsPassed()
         {
             return numberOfPassedCheckPoints;
@@ -67,6 +86,8 @@ namespace CarRacingGame3d
                     passedCheckPointNumber = checkPoint.checkPointNumber;
                     numberOfPassedCheckPoints++;
                     timeAtLastPassedCheckPoint = Time.time;
+                    lastPassedCheckPointPosition = checkPoint.transform.position;
+                    lastPassedCheckPointRotation = checkPoint.transform.rotation;
                     if (warning != null)
                     {
                         warning.SetActive(false);

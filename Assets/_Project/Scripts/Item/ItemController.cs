@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using Unity.Services.Analytics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,7 @@ namespace CarRacingGame3d
 
         private int itemIndex = 0;
         private bool hasItem = false;
+        private bool waiting = false;
 
         CarController carController;
 
@@ -79,17 +81,18 @@ namespace CarRacingGame3d
 
         private IEnumerator GetItem()
         {
-            if (!hasItem)
+            if (!hasItem && !waiting)
             {
                 //Random item
-                itemIndex = Random.Range(0, itemDatas.Length - 1);
-                itemGameObjects = Instantiate(itemDatas[itemIndex].Item, carController.transform);
+                itemIndex = Random.Range(0, itemDatas.Length);
+                
                 //Set sprite
                 if (IsServer)
                 {
                     SendItemToClientRpc(itemIndex);
                 } else if (GameManager.instance.networkStatus == NetworkStatus.offline)
                 {
+                    itemGameObjects = Instantiate(itemDatas[itemIndex].Item, carController.transform);
                     itemImage.sprite = itemDatas[itemIndex].ItemSprite;
                 }
 
@@ -99,6 +102,8 @@ namespace CarRacingGame3d
                     itemLayoutGroup.GetComponent<Animator>().SetBool("Random", true);
                 }
 
+                waiting = true;
+
                 yield return new WaitForSeconds(4);
                 if (itemLayoutGroup != null)
                 {
@@ -106,8 +111,8 @@ namespace CarRacingGame3d
                 }
                 //itemGameObjects.SetActive(true);
                 hasItem = true;
+                waiting = false;
             }
-            Debug.Log($"{hasItem} {itemImage == null}");
         }
 
         public void UseItem()
@@ -127,6 +132,7 @@ namespace CarRacingGame3d
         void SendItemToClientRpc(int index)
         {
             itemIndex = index;
+            itemGameObjects = Instantiate(itemDatas[itemIndex].Item, carController.transform);
             if (itemImage != null)
                 itemImage.sprite = itemDatas[itemIndex].ItemSprite;
         }

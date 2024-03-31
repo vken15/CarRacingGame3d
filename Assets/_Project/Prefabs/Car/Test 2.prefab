@@ -198,7 +198,7 @@ MonoBehaviour:
   turnStrength: 100
   brakeAcceleration: 1000
   driftSteerMulti: 1.6
-  driftStiffness: 1.8
+  driftStiffness: 1.7
   nitroAcceleration: 5000
   maxNitroFuel: 100
   nitroFuel: 100
@@ -238,6 +238,7 @@ MonoBehaviour:
   playerCamera: {fileID: 3623514334117674441}
   playerAudioListener: {fileID: 3952352803115760214}
   jumpAnchor: {fileID: 3218955992553397246}
+  Immunity: 0
 --- !u!114 &3646104775883775409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,7 +494,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 183
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2009,7 +2010,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5899182572899620643, guid: a82f70a5f0178974093910fc6fd84c38, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 441562857894638867}
+      addedObject: {fileID: 1293275459432051120}
   m_SourcePrefab: {fileID: 100100000, guid: a82f70a5f0178974093910fc6fd84c38, type: 3}
 --- !u!1 &1188538932605111964 stripped
 GameObject:
@@ -2026,8 +2027,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5899182572899620643, guid: a82f70a5f0178974093910fc6fd84c38, type: 3}
   m_PrefabInstance: {fileID: 7180840428171409971}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &441562857894638867
-MeshCollider:
+--- !u!65 &1293275459432051120
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2044,10 +2045,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2959467708922500008, guid: 9ec6a8fc6925acb4abc5500eeecb8270, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 2.0594356, y: 0.9786991, z: 4.162944}
+  m_Center: {x: 6.617008e-17, y: 0.8042537, z: -0.023304017}
 --- !u!4 &4405137667407670931 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6810930330064475296, guid: a82f70a5f0178974093910fc6fd84c38, type: 3}
