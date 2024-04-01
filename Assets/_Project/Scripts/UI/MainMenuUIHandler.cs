@@ -15,6 +15,7 @@ namespace CarRacingGame3d
         [SerializeField] CanvasGroup mainMenuCanvas;
         [SerializeField] TMP_InputField profileInput;
         [SerializeField] GameObject signInSpinner;
+        [SerializeField] private Canvas optionCanvas;
 
         void Awake()
         {
@@ -139,6 +140,11 @@ namespace CarRacingGame3d
             }
             profileCanvas.enabled = false;
             mainMenuCanvas.interactable = true;
+        }
+
+        public void OnOptions()
+        {
+            optionCanvas.enabled = true;
         }
 
         public void OnQuit()

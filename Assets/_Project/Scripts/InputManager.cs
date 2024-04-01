@@ -31,7 +31,7 @@ namespace CarRacingGame3d
 
         private void LoadRebindInputs()
         {
-            string rebinds = PlayerPrefs.GetString("rebinds");
+            string rebinds = ClientPrefs.GetRebinds();
             if (!string.IsNullOrEmpty(rebinds))
             {
                 controllers.LoadBindingOverridesFromJson(rebinds);
@@ -40,7 +40,7 @@ namespace CarRacingGame3d
         private void OnDisable()
         {
             var rebinds = controllers.SaveBindingOverridesAsJson();
-            PlayerPrefs.SetString("rebinds", rebinds);
+            ClientPrefs.SetRebinds(rebinds);
         }
     }
 }

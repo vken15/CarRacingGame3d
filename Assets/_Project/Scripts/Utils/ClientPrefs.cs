@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CarRacingGame3d
@@ -11,32 +9,96 @@ namespace CarRacingGame3d
     /// </summary>
     public static class ClientPrefs
     {
-        const string k_MasterVolumeKey = "MasterVolume";
-        const string k_MusicVolumeKey = "MusicVolume";
-        const string k_ClientGUIDKey = "client_guid";
-        const string k_AvailableProfilesKey = "AvailableProfiles";
+        const string masterVolumeKey = "MasterVolume";
+        const string musicVolumeKey = "MusicVolume";
+        const string sfxVolumeKey = "SFXVolume";
+        const string clientGUIDKey = "client_guid";
+        const string availableProfilesKey = "AvailableProfiles";
+        const string resolutionWidthKey = "resolutionWidth";
+        const string resolutionHeightKey = "resolutionHeight";
+        const string fullScreenKey = "fullScreen";
+        const string rebindKey = "rebinds";
 
-        const float k_DefaultMasterVolume = 0.5f;
-        const float k_DefaultMusicVolume = 0.8f;
+        const float defaultMasterVolume = 0.5f;
+        const float defaultMusicVolume = 0.8f;
+        const float defaultSFXVolume = 0.8f;
+        const int defaultResolutionWidth = 1920;
+        const int defaultResolutionHeight = 1080;
+        const int defaultFullScreen = 0;
 
         public static float GetMasterVolume()
         {
-            return PlayerPrefs.GetFloat(k_MasterVolumeKey, k_DefaultMasterVolume);
+            return PlayerPrefs.GetFloat(masterVolumeKey, defaultMasterVolume);
         }
 
         public static void SetMasterVolume(float volume)
         {
-            PlayerPrefs.SetFloat(k_MasterVolumeKey, volume);
+            PlayerPrefs.SetFloat(masterVolumeKey, volume);
         }
 
         public static float GetMusicVolume()
         {
-            return PlayerPrefs.GetFloat(k_MusicVolumeKey, k_DefaultMusicVolume);
+            return PlayerPrefs.GetFloat(musicVolumeKey, defaultMusicVolume);
         }
 
         public static void SetMusicVolume(float volume)
         {
-            PlayerPrefs.SetFloat(k_MusicVolumeKey, volume);
+            PlayerPrefs.SetFloat(musicVolumeKey, volume);
+        }
+
+        public static float GetSFXVolume()
+        {
+            return PlayerPrefs.GetFloat(sfxVolumeKey, defaultSFXVolume);
+        }
+
+        public static void SetSFXVolume(float volume)
+        {
+            PlayerPrefs.SetFloat(sfxVolumeKey, volume);
+        }
+
+        public static int GetResolutionWidth()
+        {
+            return PlayerPrefs.GetInt(resolutionWidthKey, defaultResolutionWidth);
+        }
+
+        public static void SetResolutionWidth(int width)
+        {
+            PlayerPrefs.SetInt(resolutionWidthKey, width);
+        }
+
+        public static int GetResolutionHeight()
+        {
+            return PlayerPrefs.GetInt(resolutionHeightKey, defaultResolutionHeight);
+        }
+
+        public static void SetResolutionHeight(int height)
+        {
+            PlayerPrefs.SetInt(resolutionHeightKey, height);
+        }
+
+        public static int GetFullScreen()
+        {
+            return PlayerPrefs.GetInt(fullScreenKey, defaultFullScreen);
+        }
+
+        public static void SetFullScreen(int isFullScreen)
+        {
+            PlayerPrefs.SetInt(fullScreenKey, isFullScreen);
+        }
+
+        public static string GetRebinds()
+        {
+            return PlayerPrefs.GetString(rebindKey);
+        }
+
+        public static void SetRebinds(string rebinds)
+        {
+            PlayerPrefs.SetString(rebindKey, rebinds);
+        }
+
+        public static void DeleteRebinds()
+        {
+            PlayerPrefs.DeleteKey(rebindKey);
         }
 
         /// <summary>
@@ -45,26 +107,26 @@ namespace CarRacingGame3d
         /// <returns>The Guid that uniquely identifies this client install, in string form. </returns>
         public static string GetGuid()
         {
-            if (PlayerPrefs.HasKey(k_ClientGUIDKey))
+            if (PlayerPrefs.HasKey(clientGUIDKey))
             {
-                return PlayerPrefs.GetString(k_ClientGUIDKey);
+                return PlayerPrefs.GetString(clientGUIDKey);
             }
 
             var guid = System.Guid.NewGuid();
             var guidString = guid.ToString();
 
-            PlayerPrefs.SetString(k_ClientGUIDKey, guidString);
+            PlayerPrefs.SetString(clientGUIDKey, guidString);
             return guidString;
         }
 
         public static string GetAvailableProfiles()
         {
-            return PlayerPrefs.GetString(k_AvailableProfilesKey, "");
+            return PlayerPrefs.GetString(availableProfilesKey, "");
         }
 
         public static void SetAvailableProfiles(string availableProfiles)
         {
-            PlayerPrefs.SetString(k_AvailableProfilesKey, availableProfiles);
+            PlayerPrefs.SetString(availableProfilesKey, availableProfiles);
         }
     }
 }

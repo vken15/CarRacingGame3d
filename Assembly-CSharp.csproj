@@ -135,6 +135,7 @@
     <Compile Include="Assets\_Project\Scripts\UI\PopupPanel.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\RaceTimeUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\CountdownUIHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\OptionsUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\ScriptableObject\CarData.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\SpecialFuelUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\LapCountUIHandler.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\PersistentPlayer.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ProfileManager.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\ExampleNetworkDiscoveryHud.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\KeyboardBindingsUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionManager.cs" />
     <Compile Include="Assets\_Project\Scripts\InputManager.cs" />
     <Compile Include="Assets\_Project\Scripts\PositionHandler.cs" />
