@@ -33,14 +33,14 @@ namespace CarRacingGame3d
 
         void Start()
         {
-            if (!ProfileManager.Instance.AvailableProfiles.Contains("Tester"))
+            if (!ProfileManager.Instance.AvailableProfile.Contains("Tester"))
             {
                 ProfileManager.Instance.CreateProfile("Tester");
                 ProfileManager.Instance.Profile = "Tester";
                 profileCanvas.enabled = true;
                 mainMenuCanvas.interactable = false;
             }
-            profileInput.text = ProfileManager.Instance.AvailableProfiles[^1];
+            profileInput.text = ProfileManager.Instance.AvailableProfile;
         }
 
         void OnDestroy()
@@ -133,7 +133,7 @@ namespace CarRacingGame3d
         public void OnProfileConfirm()
         {
             Debug.Log($"New profile: {profileInput.text}");
-            if (!ProfileManager.Instance.AvailableProfiles.Contains(profileInput.text))
+            if (!ProfileManager.Instance.AvailableProfile.Contains(profileInput.text))
             {
                 ProfileManager.Instance.CreateProfile(profileInput.text);
                 ProfileManager.Instance.Profile = profileInput.text;

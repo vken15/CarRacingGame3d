@@ -8,15 +8,18 @@ namespace CarRacingGame3d
     /// </summary>
     class OfflineState : ConnectionState
     {
-        const string k_MainMenuSceneName = "MainMenu";
+        const string mainMenuSceneName = "MainMenu";
+        const string lobbySceneName = "Lobby";
+        const string onlineLobbySceneName = "OnlineLobby";
 
         public override void Enter()
         {
             LobbyServiceFacade.Instance.EndTracking();
             ConnectionManager.instance.NetworkManager.Shutdown();
-            if (SceneManager.GetActiveScene().name != k_MainMenuSceneName)
+            var name = SceneManager.GetActiveScene().name;
+            if (name != mainMenuSceneName && name != lobbySceneName && name != onlineLobbySceneName)
             {
-                SceneManager.LoadScene(k_MainMenuSceneName);
+                SceneManager.LoadScene(mainMenuSceneName);
             }
         }
 

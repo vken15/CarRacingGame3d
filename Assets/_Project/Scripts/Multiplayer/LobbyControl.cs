@@ -1,13 +1,11 @@
 using System.Collections.Generic;
-using System.Net.Sockets;
 using System.Net;
+using System.Net.Sockets;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
-using Unity.Netcode.Transports.UTP;
 using UnityEngine.SceneManagement;
-using TMPro;
-using System;
+using UnityEngine.UI;
 
 namespace CarRacingGame3d
 {
@@ -17,12 +15,21 @@ namespace CarRacingGame3d
         [SerializeField] private Button hostBtn;
         [SerializeField] private Button joinBtn;
         [SerializeField] private Button refreshBtn;
+        [SerializeField] private Button joinIPBtn;
         [SerializeField] private Button returnBtn;
+        [SerializeField] private Button connectIPBtn;
+        [SerializeField] private Button cancelJoinIPBtn;
 
         [SerializeField] private GameObject roomGroup;
         [SerializeField] private GameObject roomItem;
         [SerializeField] private GameObject hostCanvas;
+        [SerializeField] private Canvas joinIPCanvas;
         [SerializeField] private TMP_InputField inputName;
+        [SerializeField] private TMP_InputField inputIP;
+        [SerializeField] private TMP_InputField inputPort;
+
+        [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField] private ConnectingUIHandler connectingUI;
 
         [Header("Map prefab")]
         [SerializeField] private GameObject mapPrefab;
@@ -39,15 +46,14 @@ namespace CarRacingGame3d
         [SerializeField] private Text roundText;
         [SerializeField] private Text playerText;
 
-        private List<GameObject> roomList = new();
+        private readonly List<GameObject> roomList = new();
         private MapData[] mapDatas;
         private GameObject mapDisplay;
 
         ExampleNetworkDiscovery m_Discovery;
 
         NetworkManager m_NetworkManager;
-
-        Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new();
+        readonly Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new();
 
         private string iPAddress;
         private int port = 7777;
@@ -60,11 +66,14 @@ namespace CarRacingGame3d
             //Load the map Data
             mapDatas = Resources.LoadAll<MapData>("MapData/");
 
-            inputName.text = "Tester";
+            inputName.text = ProfileManager.Instance.AvailableProfile;
+            inputPort.text = port.ToString();
 
             GameManager.instance.ClearDriverList();
 
+
             string myAddressLocal = "";
+            
             IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
             foreach (IPAddress ip in hostEntry.AddressList)
             {
@@ -75,7 +84,7 @@ namespace CarRacingGame3d
                 }
             }
             if (myAddressLocal == "") myAddressLocal = "127.0.0.1";
-
+            
             refreshBtn.onClick.AddListener(() =>
             {
                 discoveredServers.Clear();
@@ -93,35 +102,15 @@ namespace CarRacingGame3d
                 Destroy(mapDisplay);
                 //ClientSearch();
             });
-
+            
             createHostBtn.onClick.AddListener(() =>
             {
                 ConnectionManager.instance.StartHostIp(inputName.text, myAddressLocal, port);
-                /*
-                UnityTransport transport = (UnityTransport)m_NetworkManager.NetworkConfig.NetworkTransport;
-                transport.SetConnectionData(myAddressLocal, 7777);
-                if (m_NetworkManager.StartHost())
-                {
-                    m_Discovery.StartServer();
-                    SceneTransitionHandler.Instance.RegisterCallbacks();
-                    SceneTransitionHandler.Instance.SwitchScene("Room");
-                }
-                else
-                {
-                    Debug.LogError("Failed to start host.");
-                };
-                */
             });
 
             joinBtn.onClick.AddListener(() =>
             {
                 ConnectionManager.instance.StartClientIp(inputName.text, iPAddress, port);
-                /*
-                if (!m_NetworkManager.StartClient())
-                {
-                    Debug.LogError("Failed to start client.");
-                }
-                */
             });
 
             hostBtn.onClick.AddListener(() => hostCanvas.SetActive(true));
@@ -129,6 +118,31 @@ namespace CarRacingGame3d
             returnBtn.onClick.AddListener(() =>
             {
                 SceneManager.LoadScene("MainMenu");
+            });
+
+            joinIPBtn.onClick.AddListener(() =>
+            {
+                joinIPCanvas.enabled = true;
+            });
+
+            connectIPBtn.onClick.AddListener(() =>
+            {
+                iPAddress = string.IsNullOrEmpty(inputIP.text.ToString()) ? "127.0.0.1" : inputIP.text;
+                int.TryParse(inputPort.text, out port);
+                if (port < 0)
+                {
+                    port = 7777;
+                }
+                ConnectionManager.instance.StartClientIp(inputName.text, iPAddress, port);
+                canvasGroup.interactable = false;
+                hostCanvas.SetActive(false);
+                connectingUI.ShowConnecting();
+            });
+
+            cancelJoinIPBtn.onClick.AddListener(() =>
+            {
+                joinIPCanvas.enabled = false;
+                canvasGroup.interactable = true;
             });
 
             m_Discovery.OnServerFound += OnServerFound;
@@ -151,8 +165,6 @@ namespace CarRacingGame3d
             item.GetComponent<RoomItemUI>().SetPlayerNumber(response.CurrentPlayer, response.MaxPlayer);
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
-                //UnityTransport transport = (UnityTransport)m_NetworkManager.NetworkConfig.NetworkTransport;
-                //transport.SetConnectionData(sender.Address.ToString(), response.Port);
                 mapDisplay = Instantiate(mapPrefab, spawnOnTransform);
                 mapDisplay.GetComponent<Button>().enabled = false;
                 foreach (var mapData in mapDatas)
@@ -160,6 +172,7 @@ namespace CarRacingGame3d
                     if (mapData.MapID == response.MapId)
                     {
                         GameManager.instance.map = mapData;
+                        GameManager.instance.SetNumberOfLaps(mapData.NumberOfLaps);
                         mapDisplay.GetComponent<Image>().sprite = mapData.MapUISprite;
                         mapNameText.text = mapData.MapName;
                         difficultyText.text = "Difficulty: " + mapData.Difficulty.ToString();

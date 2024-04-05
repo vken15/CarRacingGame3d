@@ -53,7 +53,8 @@ namespace CarRacingGame3d
                 carRb.velocity = new Vector3(0,0,0);
                 carRb.angularVelocity = new Vector3(0,0,0);
                 lastWarningNumber = -1;
-                warning.SetActive(false);
+                if (warning != null)
+                    warning.SetActive(false);
             }
         }
 
@@ -130,9 +131,9 @@ namespace CarRacingGame3d
                     }
                 }
                 //Wrong way warning
-                else if ((IsOwner || GameManager.instance.networkStatus == NetworkStatus.offline) && !checkPoint.isFinishLine)
+                else if (warning != null && (IsOwner || GameManager.instance.networkStatus == NetworkStatus.offline) && !checkPoint.isFinishLine)
                 {
-                    if (warning != null && (lastWarningNumber == -1 || lastWarningNumber - 1 == checkPoint.checkPointNumber) && passedCheckPointNumber != checkPoint.checkPointNumber)
+                    if ((lastWarningNumber == -1 || lastWarningNumber - 1 == checkPoint.checkPointNumber) && passedCheckPointNumber != checkPoint.checkPointNumber)
                     {
                         lastWarningNumber = checkPoint.checkPointNumber;
                         warning.SetActive(true);

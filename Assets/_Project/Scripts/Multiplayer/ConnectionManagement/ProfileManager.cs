@@ -18,48 +18,42 @@ namespace CarRacingGame3d
 
         public const string AuthProfileCommandLineArg = "-AuthProfile";
 
-        string m_Profile;
+        string profile;
 
         public string Profile
         {
             get
             {
-                return m_Profile ??= GetProfile();
+                return profile ??= GetProfile();
             }
             set
             {
-                m_Profile = value;
+                profile = value;
                 onProfileChanged?.Invoke();
             }
         }
 
         public event Action onProfileChanged;
 
-        List<string> m_AvailableProfiles;
+        string availableProfile;
 
-        public ReadOnlyCollection<string> AvailableProfiles
+        public string AvailableProfile
         {
             get
             {
-                if (m_AvailableProfiles == null)
+                if (availableProfile == null)
                 {
                     LoadProfiles();
                 }
 
-                return m_AvailableProfiles.AsReadOnly();
+                return availableProfile;
             }
         }
 
         public void CreateProfile(string profile)
         {
-            m_AvailableProfiles.Add(profile);
-            SaveProfiles();
-        }
-
-        public void DeleteProfile(string profile)
-        {
-            m_AvailableProfiles.Remove(profile);
-            SaveProfiles();
+            availableProfile = profile;
+            ClientPrefs.SetAvailableProfile(availableProfile);
         }
 
         static string GetProfile()
@@ -69,8 +63,7 @@ namespace CarRacingGame3d
             {
                 if (arguments[i] == AuthProfileCommandLineArg)
                 {
-                    var profileId = arguments[i + 1];
-                    return profileId;
+                    return arguments[i + 1];
                 }
             }
 
@@ -93,25 +86,7 @@ namespace CarRacingGame3d
 
         void LoadProfiles()
         {
-            m_AvailableProfiles = new List<string>();
-            var loadedProfiles = ClientPrefs.GetAvailableProfiles();
-            foreach (var profile in loadedProfiles.Split(',')) // this works since we're sanitizing our input strings
-            {
-                if (profile.Length > 0)
-                {
-                    m_AvailableProfiles.Add(profile);
-                }
-            }
-        }
-
-        void SaveProfiles()
-        {
-            var profilesToSave = "";
-            foreach (var profile in m_AvailableProfiles)
-            {
-                profilesToSave += profile + ",";
-            }
-            ClientPrefs.SetAvailableProfiles(profilesToSave);
+            availableProfile = ClientPrefs.GetAvailableProfile();
         }
     }
 }

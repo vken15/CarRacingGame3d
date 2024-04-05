@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eedd9ecaa4eb4b04fa840c18882266a3, type: 3}
-  m_Name: 1_RedCar
+  m_Name: 1_Car
   m_EditorClassIdentifier: 
   carID: 1
-  carPrefab: {fileID: 1807365943919398502, guid: 83abb41ba94db844baf8e55d24525387, type: 3}
+  carPrefab: {fileID: 1807365943919398502, guid: 52119a17bb8667845959a992272be977, type: 3}
   carSelectPrefab: {fileID: 1807365943919398502, guid: 763e5c9b877ab714d982e69c72f5b163, type: 3}

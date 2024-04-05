@@ -4,8 +4,8 @@ namespace CarRacingGame3d
 {
     public class ItemOil : BaseItem
     {
-        [SerializeField] private new BoxCollider collider;
-        [SerializeField] private new ParticleSystem particleSystem;
+        [SerializeField] private BoxCollider collider;
+        [SerializeField] private ParticleSystem particleSystem;
         [SerializeField] private float slipMulti = 1.0f;
 
         public override void UseItem(CarController car)
@@ -34,7 +34,7 @@ namespace CarRacingGame3d
         {
             if (collision.CompareTag("CarBody"))
             {
-                if (collision.GetComponentInParent<CarController>().Immunity == false)
+                if (collision.GetComponentInParent<CarController>().immunity == false)
                     collision.GetComponentInParent<Rigidbody>().angularVelocity += new Vector3(0, slipMulti * 45, 0);
             }
         }

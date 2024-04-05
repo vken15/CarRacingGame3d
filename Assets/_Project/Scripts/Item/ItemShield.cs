@@ -7,7 +7,7 @@ namespace CarRacingGame3d
 {
     public class ItemShield : BaseItem
     {
-        new Renderer renderer;
+        Renderer renderer;
         [SerializeField] AnimationCurve displacementCurve;
         [SerializeField] float displacementMagnitude;
         [SerializeField] float lerpSpeed;
@@ -26,7 +26,7 @@ namespace CarRacingGame3d
 
         public override void UseItem(CarController car)
         {
-            car.Immunity = true;
+            car.immunity = true;
             carController = car;
             OpenCloseShield();
         }
@@ -61,7 +61,7 @@ namespace CarRacingGame3d
 
             if (target == 1)
             {
-                carController.Immunity = false;
+                carController.immunity = false;
                 Destroy(gameObject);
             } else
             {

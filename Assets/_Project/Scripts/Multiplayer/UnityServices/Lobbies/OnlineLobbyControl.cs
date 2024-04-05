@@ -38,18 +38,13 @@ namespace CarRacingGame3d
         [SerializeField] private Text numberOfLapsText;
         [SerializeField] private Text roundText;
         [SerializeField] private Text playerText;
-
-        private List<GameObject> roomList = new();
         private MapData[] mapDatas;
         private GameObject mapDisplay;
-
-        List<RoomItemUI> lobbyListItems = new();
+        readonly List<RoomItemUI> lobbyListItems = new();
         LocalLobby lobbyData;
         UpdateRunner updateRunner;
 
         const string k_DefaultLobbyName = "CRGServer";
-
-        Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new();
 
         private void Awake()
         {
@@ -60,7 +55,7 @@ namespace CarRacingGame3d
 
             GameManager.instance.ClearDriverList();
 
-            LocalLobbyUser.Instance.DisplayName = "Tester";
+            LocalLobbyUser.Instance.DisplayName = ProfileManager.Instance.AvailableProfile;
 
             refreshBtn.onClick.AddListener(() =>
             {
@@ -188,12 +183,12 @@ namespace CarRacingGame3d
                 return;
             }
 
-            var lobbyCreationAttempt = await LobbyServiceFacade.Instance.TryCreateLobbyAsync(lobbyName, ConnectionManager.instance.MaxConnectedPlayers, isPrivate);
+            var (Success, Lobby) = await LobbyServiceFacade.Instance.TryCreateLobbyAsync(lobbyName, ConnectionManager.instance.MaxConnectedPlayers, isPrivate);
 
-            if (lobbyCreationAttempt.Success)
+            if (Success)
             {
                 LocalLobbyUser.Instance.IsHost = true;
-                LobbyServiceFacade.Instance.SetRemoteLobby(lobbyCreationAttempt.Lobby);
+                LobbyServiceFacade.Instance.SetRemoteLobby(Lobby);
 
                 Debug.Log($"Created lobby with ID: {LocalLobby.Instance.LobbyID} and code {LocalLobby.Instance.LobbyCode}");
                 ConnectionManager.instance.StartHostLobby(LocalLobbyUser.Instance.DisplayName);
@@ -244,11 +239,11 @@ namespace CarRacingGame3d
                 return;
             }
 
-            var result = await LobbyServiceFacade.Instance.TryJoinLobbyAsync(lobby.LobbyID, lobby.LobbyCode);
+            var (Success, Lobby) = await LobbyServiceFacade.Instance.TryJoinLobbyAsync(lobby.LobbyID, lobby.LobbyCode);
 
-            if (result.Success)
+            if (Success)
             {
-                OnJoinedLobby(result.Lobby);
+                OnJoinedLobby(Lobby);
             }
             else
             {

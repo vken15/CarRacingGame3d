@@ -66,6 +66,7 @@
     <Compile Include="Assets\_Project\Scripts\UI\NameplateUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Item\ItemShield.cs" />
     <Compile Include="Assets\USED RESOURCES\Fence Layout Tool\FenceLayout.cs" />
+    <Compile Include="Assets\_Project\Scripts\Utils\CustomNetworkTransform.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\CarSelectUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\UnityServices\Lobbies\LobbyAPIInterface.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\PopupManager.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Assets\_Project\Scripts\PositionHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\UnityServices\Lobbies\OnlineLobbyControl.cs" />
     <Compile Include="Assets\_Project\Scripts\Item\ItemFuel.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\ConnectingUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\UnityServices\AuthenticationServiceFacade.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\ExampleNetworkDiscovery.cs" />
     <Compile Include="Assets\_Project\Scripts\Startup.cs" />

@@ -13,7 +13,7 @@ namespace CarRacingGame3d
         const string musicVolumeKey = "MusicVolume";
         const string sfxVolumeKey = "SFXVolume";
         const string clientGUIDKey = "client_guid";
-        const string availableProfilesKey = "AvailableProfiles";
+        const string availableProfileKey = "AvailableProfile";
         const string resolutionWidthKey = "resolutionWidth";
         const string resolutionHeightKey = "resolutionHeight";
         const string fullScreenKey = "fullScreen";
@@ -119,14 +119,14 @@ namespace CarRacingGame3d
             return guidString;
         }
 
-        public static string GetAvailableProfiles()
+        public static string GetAvailableProfile()
         {
-            return PlayerPrefs.GetString(availableProfilesKey, "");
+            return PlayerPrefs.GetString(availableProfileKey, "");
         }
 
-        public static void SetAvailableProfiles(string availableProfiles)
+        public static void SetAvailableProfile(string availableProfiles)
         {
-            PlayerPrefs.SetString(availableProfilesKey, availableProfiles);
+            PlayerPrefs.SetString(availableProfileKey, availableProfiles);
         }
     }
 }

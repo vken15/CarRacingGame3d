@@ -150,6 +150,7 @@ namespace CarRacingGame3d
                 startBtn.GetComponent<Button>().interactable = false;
                 changeCarBtn.GetComponent<Button>().interactable = false;
                 changeMapBtn.GetComponent<Button>().interactable = false;
+                leaveBtn.GetComponent<Button>().interactable = false;
                 readyBtn.GetComponent<Button>().interactable = false;
                 GameManager.instance.numberOfCarsRaceCompleteToEnd = networkRoom.LobbyPlayers.Count;
             }
