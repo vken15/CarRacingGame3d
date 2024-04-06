@@ -10,11 +10,11 @@ namespace CarRacingGame3d
     /// </summary>
     class ClientConnectingState : OnlineState
     {
-        protected ConnectionMethodBase m_ConnectionMethod;
+        protected ConnectionMethodBase connectionMethod;
 
         public ClientConnectingState Configure(ConnectionMethodBase baseConnectionMethod)
         {
-            m_ConnectionMethod = baseConnectionMethod;
+            connectionMethod = baseConnectionMethod;
             return this;
         }
 
@@ -60,7 +60,7 @@ namespace CarRacingGame3d
             try
             {
                 // Setup NGO with current connection method
-                await m_ConnectionMethod.SetupClientConnectionAsync();
+                await connectionMethod.SetupClientConnectionAsync();
 
                 // NGO's StartClient launches everything
                 if (!ConnectionManager.instance.NetworkManager.StartClient())

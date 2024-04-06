@@ -7,7 +7,7 @@ namespace CarRacingGame3d
 {
     public class ItemShield : BaseItem
     {
-        Renderer renderer;
+        new Renderer renderer;
         [SerializeField] AnimationCurve displacementCurve;
         [SerializeField] float displacementMagnitude;
         [SerializeField] float lerpSpeed;

@@ -5,6 +5,7 @@ using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using WebSocketSharp;
 
 namespace CarRacingGame3d
 {
@@ -33,7 +34,7 @@ namespace CarRacingGame3d
 
         void Start()
         {
-            if (!ProfileManager.Instance.AvailableProfile.Contains("Tester"))
+            if (ProfileManager.Instance.AvailableProfile.Equals(""))
             {
                 ProfileManager.Instance.CreateProfile("Tester");
                 ProfileManager.Instance.Profile = "Tester";
@@ -45,7 +46,7 @@ namespace CarRacingGame3d
 
         void OnDestroy()
         {
-            ProfileManager.Instance.onProfileChanged -= OnProfileChanged;
+            ProfileManager.Instance.OnProfileChanged -= OnProfileChanged;
         }
 
         private async void TrySignIn()
@@ -57,7 +58,7 @@ namespace CarRacingGame3d
 
                 await AuthenticationServiceFacade.Instance.InitializeAndSignInAsync(unityAuthenticationInitOptions);
                 OnAuthSignIn();
-                ProfileManager.Instance.onProfileChanged += OnProfileChanged;
+                ProfileManager.Instance.OnProfileChanged += OnProfileChanged;
             }
             catch (Exception)
             {

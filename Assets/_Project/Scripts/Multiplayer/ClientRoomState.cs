@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -18,6 +19,7 @@ namespace CarRacingGame3d
         [SerializeField] List<PlayerSeatUIHandler> playerSeats;
 
         [SerializeField] Text numPlayersText;
+        [SerializeField] TMP_Text playerNameText;
 
         [SerializeField] private GameObject startBtn;
         [SerializeField] private GameObject readyBtn;
@@ -34,15 +36,16 @@ namespace CarRacingGame3d
         private void Awake()
         {
             maxPlayer = ConnectionManager.instance.MaxConnectedPlayers;
+            
             for (int i = 0; i < playerSeats.Count; ++i)
             {
                 if (i < maxPlayer)
                 {
-                    playerSeats[i].Initialize(i);
+                    playerSeats[i].Initialize(i, false);
                 }
                 else
                 {
-                    playerSeats[i].InitializeBlock(i);
+                    playerSeats[i].Initialize(i, true);
                 }
             }
 
@@ -137,6 +140,12 @@ namespace CarRacingGame3d
             for (int i = 0; i < maxPlayer; ++i)
             {
                 playerSeats[i].SetState(curSeats[i].SeatState, curSeats[i].PlayerNumber, curSeats[i].PlayerName);
+
+                if (curSeats[i].SeatState != SeatState.Inactive && curSeats[i].SeatState != SeatState.Block)
+                    playerSeats[i].SetCarSprite(carSelection.GetCarSprite(curSeats[i].CarId));
+
+                if (playerNameText.text.Equals("") && curSeats[i].ClientId == NetworkManager.Singleton.LocalClientId)
+                    playerNameText.text = curSeats[i].PlayerName;
             }
         }
 
@@ -176,6 +185,9 @@ namespace CarRacingGame3d
         public void OnConfirmCarChanged()
         {
             carId = carSelection.GetCarIDData();
+
+            if (networkRoom.IsSpawned)
+                networkRoom.ChangeSeatServerRpc(NetworkManager.Singleton.LocalClientId, carId, false);
         }
     }
 }

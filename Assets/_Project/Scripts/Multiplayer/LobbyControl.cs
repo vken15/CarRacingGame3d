@@ -105,12 +105,12 @@ namespace CarRacingGame3d
             
             createHostBtn.onClick.AddListener(() =>
             {
-                ConnectionManager.instance.StartHostIp(inputName.text, myAddressLocal, port);
+                ConnectionManager.instance.StartHostIp(ProfileManager.Instance.AvailableProfile, myAddressLocal, port);
             });
 
             joinBtn.onClick.AddListener(() =>
             {
-                ConnectionManager.instance.StartClientIp(inputName.text, iPAddress, port);
+                ConnectionManager.instance.StartClientIp(ProfileManager.Instance.AvailableProfile, iPAddress, port);
             });
 
             hostBtn.onClick.AddListener(() => hostCanvas.SetActive(true));
@@ -133,7 +133,7 @@ namespace CarRacingGame3d
                 {
                     port = 7777;
                 }
-                ConnectionManager.instance.StartClientIp(inputName.text, iPAddress, port);
+                ConnectionManager.instance.StartClientIp(ProfileManager.Instance.AvailableProfile, iPAddress, port);
                 canvasGroup.interactable = false;
                 hostCanvas.SetActive(false);
                 connectingUI.ShowConnecting();
@@ -219,6 +219,15 @@ namespace CarRacingGame3d
                 m_Discovery.StopDiscovery();
             }
             m_Discovery.OnServerFound -= OnServerFound;
+        }
+
+        public void OnEndEdit(string name)
+        {
+            if (!ProfileManager.Instance.AvailableProfile.Equals(name))
+            {
+                ProfileManager.Instance.CreateProfile(name);
+                ProfileManager.Instance.Profile = name;
+            }
         }
     }
 }

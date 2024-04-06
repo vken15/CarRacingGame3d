@@ -65,4 +65,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a807a79b92951443abdb8159d37f091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PersistentPlayerRuntimeCollection: {fileID: 11400000, guid: b153b8e9b6ff73b43b95d553596e9c0b, type: 2}
+  persistentPlayerRuntimeCollection: {fileID: 11400000, guid: b153b8e9b6ff73b43b95d553596e9c0b, type: 2}

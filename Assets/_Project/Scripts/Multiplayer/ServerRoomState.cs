@@ -39,13 +39,13 @@ namespace CarRacingGame3d
             int id = FindLobbyPlayerId(clientId);
             if (id == -1)
             {
-                throw new Exception($"OnClientChangedSeat: client ID {clientId} is not a lobby player and cannot change seats! Shouldn't be here!");
+                throw new Exception($"OnClientChangedSeat: client ID {clientId} is not a lobby player and shouldn't be here!");
             }
 
             NetworkRoom.LobbyPlayers[id] = new NetworkRoom.LobbyPlayerState(clientId,
                 NetworkRoom.LobbyPlayers[id].PlayerName,
                 NetworkRoom.LobbyPlayers[id].PlayerNumber,
-                lockedIn ? SeatState.LockedIn : SeatState.Active, NetworkRoom.LobbyPlayers[id].SeatId, carId);
+                NetworkManager.Singleton.LocalClientId == clientId ? SeatState.Host : lockedIn ? SeatState.LockedIn : SeatState.Active, NetworkRoom.LobbyPlayers[id].SeatId, carId);
         }
 
         /// <summary>

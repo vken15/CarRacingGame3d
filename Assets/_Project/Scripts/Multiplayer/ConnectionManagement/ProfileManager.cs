@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -29,11 +27,11 @@ namespace CarRacingGame3d
             set
             {
                 profile = value;
-                onProfileChanged?.Invoke();
+                OnProfileChanged?.Invoke();
             }
         }
 
-        public event Action onProfileChanged;
+        public event Action OnProfileChanged;
 
         string availableProfile;
 

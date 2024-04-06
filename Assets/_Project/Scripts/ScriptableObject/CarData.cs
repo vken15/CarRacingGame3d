@@ -8,6 +8,9 @@ namespace CarRacingGame3d
         [SerializeField] private ushort carID = 0;
         [SerializeField] private GameObject carPrefab;
         [SerializeField] private GameObject carSelectPrefab;
+        [SerializeField] private Sprite carUISprite;
+        [SerializeField] private bool isSkin = false;
+        [SerializeField] private ushort baseCarID = 0;
         public ushort CarID
         {
             get { return carID; }
@@ -19,6 +22,18 @@ namespace CarRacingGame3d
         public GameObject CarSelectPrefab
         {
             get { return carSelectPrefab; }
+        }
+        public Sprite CarUISprite
+        {
+            get { return carUISprite; }
+        }
+        public bool IsSkin
+        {
+            get { return isSkin; }
+        }
+        public ushort BaseCarID
+        {
+            get { return baseCarID; }
         }
     }
 }

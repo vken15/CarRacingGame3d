@@ -56,6 +56,7 @@ namespace CarRacingGame3d
             GameManager.instance.ClearDriverList();
 
             LocalLobbyUser.Instance.DisplayName = ProfileManager.Instance.AvailableProfile;
+            inputName.text = ProfileManager.Instance.AvailableProfile;
 
             refreshBtn.onClick.AddListener(() =>
             {

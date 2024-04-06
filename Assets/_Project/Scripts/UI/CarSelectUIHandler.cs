@@ -21,6 +21,14 @@ namespace CarRacingGame3d
             car.transform.SetParent(gameObject.transform);
         }
 
+        public void ChangeSkin(CarData carData, Transform transform)
+        {
+            if (car != null)
+                Destroy(car);
+
+            car = Instantiate(carData.CarSelectPrefab, transform);
+        }
+
         public void StartCarEntranceAnimation(bool isAppearingOnRightSide)
         {
             if (isAppearingOnRightSide)

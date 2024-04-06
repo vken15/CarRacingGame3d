@@ -14,13 +14,6 @@ namespace CarRacingGame3d
         public ushort PlayerNumber;
         public int Score;
 
-        public PostGameData(string name, ushort playerNumber, int score)
-        {
-            PlayerNumber = playerNumber;
-            Score = score;
-            PlayerName = name;
-        }
-
         public bool Equals(PostGameData other)
         {
             return PlayerName.Equals(other.PlayerName) && PlayerNumber == other.PlayerNumber && Score == other.Score;
@@ -43,7 +36,7 @@ namespace CarRacingGame3d
 
         private SetLeaderboardItemInfo[] setLeaderboardItemInfo;
 
-        NetworkList<PostGameData> playerDatas = new();
+        readonly List<PostGameData> playerDatas = new();
 
         public override void OnNetworkSpawn()
         {

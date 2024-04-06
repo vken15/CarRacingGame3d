@@ -27,53 +27,53 @@ namespace CarRacingGame3d
     {
         SessionManager()
         {
-            m_ClientData = new Dictionary<string, T>();
-            m_ClientIDToPlayerId = new Dictionary<ulong, string>();
+            clientData = new Dictionary<string, T>();
+            clientIDToPlayerId = new Dictionary<ulong, string>();
         }
 
-        public static SessionManager<T> Instance => s_Instance ??= new SessionManager<T>();
+        public static SessionManager<T> Instance => instance ??= new SessionManager<T>();
 
-        static SessionManager<T> s_Instance;
+        static SessionManager<T> instance;
 
         /// <summary>
         /// Maps a given client player id to the data for a given client player.
         /// </summary>
-        Dictionary<string, T> m_ClientData;
+        Dictionary<string, T> clientData;
 
         /// <summary>
         /// Map to allow us to cheaply map from player id to player data.
         /// </summary>
-        Dictionary<ulong, string> m_ClientIDToPlayerId;
+        Dictionary<ulong, string> clientIDToPlayerId;
 
-        bool m_HasSessionStarted;
+        bool hasSessionStarted;
 
         /// <summary>
         /// Handles client disconnect."
         /// </summary>
         public void DisconnectClient(ulong clientId)
         {
-            if (m_HasSessionStarted)
+            if (hasSessionStarted)
             {
                 // Mark client as disconnected, but keep their data so they can reconnect.
-                if (m_ClientIDToPlayerId.TryGetValue(clientId, out var playerId))
+                if (clientIDToPlayerId.TryGetValue(clientId, out var playerId))
                 {
                     if (GetPlayerData(playerId)?.ClientID == clientId)
                     {
-                        var clientData = m_ClientData[playerId];
+                        var clientData = this.clientData[playerId];
                         clientData.IsConnected = false;
-                        m_ClientData[playerId] = clientData;
+                        this.clientData[playerId] = clientData;
                     }
                 }
             }
             else
             {
                 // Session has not started, no need to keep their data
-                if (m_ClientIDToPlayerId.TryGetValue(clientId, out var playerId))
+                if (clientIDToPlayerId.TryGetValue(clientId, out var playerId))
                 {
-                    m_ClientIDToPlayerId.Remove(clientId);
+                    clientIDToPlayerId.Remove(clientId);
                     if (GetPlayerData(playerId)?.ClientID == clientId)
                     {
-                        m_ClientData.Remove(playerId);
+                        clientData.Remove(playerId);
                     }
                 }
             }
@@ -86,7 +86,7 @@ namespace CarRacingGame3d
         /// <returns>True if a player with this ID is already connected.</returns>
         public bool IsDuplicateConnection(string playerId)
         {
-            return m_ClientData.ContainsKey(playerId) && m_ClientData[playerId].IsConnected;
+            return clientData.ContainsKey(playerId) && clientData[playerId].IsConnected;
         }
 
         /// <summary>
@@ -107,9 +107,9 @@ namespace CarRacingGame3d
             }
 
             // If another client exists with the same playerId
-            if (m_ClientData.ContainsKey(playerId))
+            if (clientData.ContainsKey(playerId))
             {
-                if (!m_ClientData[playerId].IsConnected)
+                if (!clientData[playerId].IsConnected)
                 {
                     // If this connecting client has the same player Id as a disconnected client, this is a reconnection.
                     isReconnecting = true;
@@ -121,14 +121,14 @@ namespace CarRacingGame3d
             if (isReconnecting)
             {
                 // Update player session data
-                sessionPlayerData = m_ClientData[playerId];
+                sessionPlayerData = clientData[playerId];
                 sessionPlayerData.ClientID = clientId;
                 sessionPlayerData.IsConnected = true;
             }
 
             //Populate our dictionaries with the SessionPlayerData
-            m_ClientIDToPlayerId[clientId] = playerId;
-            m_ClientData[playerId] = sessionPlayerData;
+            clientIDToPlayerId[clientId] = playerId;
+            clientData[playerId] = sessionPlayerData;
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace CarRacingGame3d
         /// <returns>The Player ID matching the given client ID</returns>
         public string GetPlayerId(ulong clientId)
         {
-            if (m_ClientIDToPlayerId.TryGetValue(clientId, out string playerId))
+            if (clientIDToPlayerId.TryGetValue(clientId, out string playerId))
             {
                 return playerId;
             }
@@ -172,7 +172,7 @@ namespace CarRacingGame3d
         /// <returns>Player data struct matching the given ID</returns>
         public T? GetPlayerData(string playerId)
         {
-            if (m_ClientData.TryGetValue(playerId, out T data))
+            if (clientData.TryGetValue(playerId, out T data))
             {
                 return data;
             }
@@ -188,9 +188,9 @@ namespace CarRacingGame3d
         /// <param name="sessionPlayerData"> new data to overwrite the old </param>
         public void SetPlayerData(ulong clientId, T sessionPlayerData)
         {
-            if (m_ClientIDToPlayerId.TryGetValue(clientId, out string playerId))
+            if (clientIDToPlayerId.TryGetValue(clientId, out string playerId))
             {
-                m_ClientData[playerId] = sessionPlayerData;
+                clientData[playerId] = sessionPlayerData;
             }
             else
             {
@@ -203,7 +203,7 @@ namespace CarRacingGame3d
         /// </summary>
         public void OnSessionStarted()
         {
-            m_HasSessionStarted = true;
+            hasSessionStarted = true;
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace CarRacingGame3d
         {
             ClearDisconnectedPlayersData();
             ReinitializePlayersData();
-            m_HasSessionStarted = false;
+            hasSessionStarted = false;
         }
 
         /// <summary>
@@ -221,26 +221,26 @@ namespace CarRacingGame3d
         /// </summary>
         public void OnServerEnded()
         {
-            m_ClientData.Clear();
-            m_ClientIDToPlayerId.Clear();
-            m_HasSessionStarted = false;
+            clientData.Clear();
+            clientIDToPlayerId.Clear();
+            hasSessionStarted = false;
         }
 
         void ReinitializePlayersData()
         {
-            foreach (var id in m_ClientIDToPlayerId.Keys)
+            foreach (var id in clientIDToPlayerId.Keys)
             {
-                string playerId = m_ClientIDToPlayerId[id];
-                T sessionPlayerData = m_ClientData[playerId];
+                string playerId = clientIDToPlayerId[id];
+                T sessionPlayerData = clientData[playerId];
                 sessionPlayerData.Reinitialize();
-                m_ClientData[playerId] = sessionPlayerData;
+                clientData[playerId] = sessionPlayerData;
             }
         }
 
         void ClearDisconnectedPlayersData()
         {
-            List<ulong> idsToClear = new List<ulong>();
-            foreach (var id in m_ClientIDToPlayerId.Keys)
+            List<ulong> idsToClear = new();
+            foreach (var id in clientIDToPlayerId.Keys)
             {
                 var data = GetPlayerData(id);
                 if (data is { IsConnected: false })
@@ -251,13 +251,13 @@ namespace CarRacingGame3d
 
             foreach (var id in idsToClear)
             {
-                string playerId = m_ClientIDToPlayerId[id];
+                string playerId = clientIDToPlayerId[id];
                 if (GetPlayerData(playerId)?.ClientID == id)
                 {
-                    m_ClientData.Remove(playerId);
+                    clientData.Remove(playerId);
                 }
 
-                m_ClientIDToPlayerId.Remove(id);
+                clientIDToPlayerId.Remove(id);
             }
         }
     }

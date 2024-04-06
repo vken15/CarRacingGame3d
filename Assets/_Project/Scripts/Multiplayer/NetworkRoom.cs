@@ -24,7 +24,7 @@ namespace CarRacingGame3d
         {
             public ulong ClientId;
 
-            private FixedPlayerName m_PlayerName;
+            private FixedPlayerName playerName;
 
             public ushort PlayerNumber; // this player's assigned "P#". (1=P1, 2=P2, etc.)
             public int SeatId; // the latest seat they were in. -1 means none
@@ -38,47 +38,49 @@ namespace CarRacingGame3d
                 SeatState = state;
                 SeatId = seatId;
                 CarId = carId;
-                m_PlayerName = new FixedPlayerName();
 
+                playerName = new FixedPlayerName();
                 PlayerName = name;
             }
 
             public string PlayerName
             {
-                get => m_PlayerName;
-                private set => m_PlayerName = value;
+                get => playerName;
+                private set => playerName = value;
             }
 
             public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
             {
                 serializer.SerializeValue(ref ClientId);
-                serializer.SerializeValue(ref m_PlayerName);
+                serializer.SerializeValue(ref playerName);
                 serializer.SerializeValue(ref PlayerNumber);
                 serializer.SerializeValue(ref SeatState);
                 serializer.SerializeValue(ref SeatId);
+                serializer.SerializeValue(ref CarId);
             }
 
             public bool Equals(LobbyPlayerState other)
             {
                 return ClientId == other.ClientId &&
-                       m_PlayerName.Equals(other.m_PlayerName) &&
+                       playerName.Equals(other.playerName) &&
                        PlayerNumber == other.PlayerNumber &&
                        SeatId == other.SeatId &&
+                       CarId == other.CarId &&
                        SeatState == other.SeatState;
             }
         }
 
-        private NetworkList<LobbyPlayerState> m_LobbyPlayers;
+        private NetworkList<LobbyPlayerState> lobbyPlayers;
 
         private void Awake()
         {
-            m_LobbyPlayers = new NetworkList<LobbyPlayerState>();
+            lobbyPlayers = new NetworkList<LobbyPlayerState>();
         }
 
         /// <summary>
         /// Current state of all players in the lobby.
         /// </summary>
-        public NetworkList<LobbyPlayerState> LobbyPlayers => m_LobbyPlayers;
+        public NetworkList<LobbyPlayerState> LobbyPlayers => lobbyPlayers;
 
         /// <summary>
         /// When this becomes true, the lobby is closed and in process of terminating (switching to gameplay).
@@ -96,6 +98,11 @@ namespace CarRacingGame3d
         public event Action<ushort> OnMapChanged;
 
         /// <summary>
+        /// 
+        /// </summary>
+        public event Action<string, ulong> OnChatSent;
+
+        /// <summary>
         /// RPC to notify the server that a client has chosen a seat.
         /// </summary>
         [ServerRpc(RequireOwnership = false)]
@@ -104,9 +111,18 @@ namespace CarRacingGame3d
             OnClientReady?.Invoke(clientId, carId, lockedIn);
         }
 
-        /// <summary>
-        /// RPC to notify the server that a client has chosen a seat.
-        /// </summary>
+        [ServerRpc(RequireOwnership = false)]
+        public void SendChatMessageServerRpc(string message, ulong senderPlayerId)
+        {
+            ReceiveChatMessageClientRpc(message, senderPlayerId);
+        }
+
+        [ClientRpc]
+        public void ReceiveChatMessageClientRpc(string message, ulong senderPlayerId)
+        {
+            OnChatSent?.Invoke(message, senderPlayerId);
+        }
+
         [ClientRpc]
         public void ChangeMapClientRpc(ushort mapId)
         {

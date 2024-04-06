@@ -110,7 +110,7 @@ namespace CarRacingGame3d
             }
 
             m_NbAttempts++;
-            var reconnectingSetupTask = m_ConnectionMethod.SetupClientReconnectionAsync();
+            var reconnectingSetupTask = connectionMethod.SetupClientReconnectionAsync();
             yield return new WaitUntil(() => reconnectingSetupTask.IsCompleted);
 
             if (!reconnectingSetupTask.IsFaulted && reconnectingSetupTask.Result.success)

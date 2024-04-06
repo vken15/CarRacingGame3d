@@ -24,8 +24,8 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/Online.unity
     guid: 1c9d5c7762abef84695e42b35cc28bee
   - enabled: 1
-    path: Assets/_Project/Scenes/2_Map.unity
-    guid: b28dcccaad3413547a515bd849fe512a
+    path: Assets/_Project/Scenes/2_CityNight.unity
+    guid: 7897da8e2aa298945969e7ae2108af7e
   - enabled: 1
     path: Assets/_Project/Scenes/3_Map.unity
     guid: 2f9e65086e02b734c81073262a37172d

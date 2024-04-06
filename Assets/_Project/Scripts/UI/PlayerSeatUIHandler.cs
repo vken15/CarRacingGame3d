@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CarRacingGame3d
 {
@@ -9,6 +8,7 @@ namespace CarRacingGame3d
     {
         [SerializeField] private TMP_Text playerNameText;
         [SerializeField] private TMP_Text isReadyText;
+        [SerializeField] private Image carImage;
 
         // just a way to designate which seat we are -- the leftmost seat on the lobby UI is index 0, the next one is index 1, etc.
         private int seatIndex;
@@ -19,19 +19,12 @@ namespace CarRacingGame3d
         // the last SeatState we were assigned
         private SeatState state;
 
-        public void Initialize(int seat)
+        public void Initialize(int seat, bool isBlocked)
         {
             seatIndex = seat;
-            state = SeatState.Inactive;
+            state = isBlocked ? SeatState.Block : SeatState.Inactive;
             playerNumber = 0;
-            ConfigureStateGraphics();
-        }
-
-        public void InitializeBlock(int seat)
-        {
-            seatIndex = seat;
-            state = SeatState.Block;
-            playerNumber = 0;
+            carImage.gameObject.SetActive(false);
             ConfigureStateGraphics();
         }
 
@@ -48,6 +41,11 @@ namespace CarRacingGame3d
             ConfigureStateGraphics();
         }
 
+        public void SetCarSprite(Sprite sprite)
+        {
+            carImage.sprite = sprite;
+        }
+
         public bool IsLocked()
         {
             return state == SeatState.LockedIn;
@@ -59,6 +57,7 @@ namespace CarRacingGame3d
             {
                 isReadyText.text = "";
                 playerNameText.text = "EMPTY";
+                carImage.gameObject.SetActive(false);
             }
             else if (state == SeatState.Block)
             {
@@ -71,6 +70,7 @@ namespace CarRacingGame3d
             }
             else
             {
+                carImage.gameObject.SetActive(true);
                 if (state == SeatState.LockedIn)
                 {
                     isReadyText.text = "READY";

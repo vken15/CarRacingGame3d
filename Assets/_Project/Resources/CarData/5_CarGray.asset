@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eedd9ecaa4eb4b04fa840c18882266a3, type: 3}
+  m_Name: 5_CarGray
+  m_EditorClassIdentifier: 
+  carID: 5
+  carPrefab: {fileID: 1807365943919398502, guid: d583b4909e49602439b72b46dd721575, type: 3}
+  carSelectPrefab: {fileID: 1807365943919398502, guid: b01a7c4249f0a2e4185efbfa10c52744, type: 3}
+  carUISprite: {fileID: 21300000, guid: 11e65238d1c44ea45a5014cbb36112a2, type: 3}
+  isSkin: 1
+  baseCarID: 1

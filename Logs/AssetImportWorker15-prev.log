@@ -1,0 +1,830 @@
+Using pre-set license
+Built from '2022.3/staging' branch; Version is '2022.3.14f1 (eff2de9070d8) revision 15725278'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 11  (10.0.22631) 64bit CoreSingleLanguage' Language: 'en' Physical Memory: 7893 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2022.3.14f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker15
+-projectPath
+E:/Unity/CarRacingGame3d
+-logFile
+Logs/AssetImportWorker15.log
+-srvPort
+64404
+Successfully changed project path to: E:/Unity/CarRacingGame3d
+E:/Unity/CarRacingGame3d
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [15372] Host "[IP] 192.168.1.13 [Port] 0 [Flags] 2 [Guid] 3330661618 [EditorId] 3330661618 [Version] 1048832 [Id] WindowsEditor(7,MSI) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [15372] Host "[IP] 192.168.1.13 [Port] 0 [Flags] 2 [Guid] 3330661618 [EditorId] 3330661618 [Version] 1048832 [Id] WindowsEditor(7,MSI) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+[Physics::Module] Initialized MultithreadedJobDispatcher with 11 workers.
+Refreshing native plugins compatible for Editor in 55.79 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2022.3.14f1 (eff2de9070d8)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.3.14f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path E:/Unity/CarRacingGame3d/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1650 with Max-Q Design (ID=0x1f9d)
+    Vendor:   NVIDIA
+    VRAM:     3953 MB
+    Driver:   31.0.15.4632
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.3.14f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.3.14f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.3.14f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56760
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.14f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.011292 seconds.
+- Loaded All Assemblies, in  0.649 seconds
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.272 seconds
+Domain Reload Profiling: 919ms
+	BeginReloadAssembly (252ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (3ms)
+	RebuildCommonClasses (70ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (98ms)
+	LoadAllAssembliesAndSetupDomain (217ms)
+		LoadAssemblies (244ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (213ms)
+			TypeCache.Refresh (210ms)
+				TypeCache.ScanAssembly (181ms)
+			ScanForSourceGeneratedMonoScriptInfo (1ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (272ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (199ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (21ms)
+			SetLoadedEditorAssemblies (10ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (3ms)
+			ProcessInitializeOnLoadAttributes (118ms)
+			ProcessInitializeOnLoadMethodAttributes (45ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+========================================================================
+Worker process is ready to serve import requests
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+- Loaded All Assemblies, in  1.360 seconds
+Refreshing native plugins compatible for Editor in 7.46 ms, found 3 plugins.
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+[Package Manager] Server::EnsureServerProcessIsRunning -- launch failed, reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] UpmClient::Send -- Unable to send message (not connected to UPM process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+[Package Manager] Server::EnsureServerProcessIsRunning -- launch failed, reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] UpmClient::Send -- Unable to send message (not connected to UPM process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.082 seconds
+Domain Reload Profiling: 2441ms
+	BeginReloadAssembly (145ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (5ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (26ms)
+	RebuildCommonClasses (31ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (66ms)
+	LoadAllAssembliesAndSetupDomain (1106ms)
+		LoadAssemblies (762ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (418ms)
+			TypeCache.Refresh (359ms)
+				TypeCache.ScanAssembly (305ms)
+			ScanForSourceGeneratedMonoScriptInfo (46ms)
+			ResolveRequiredComponents (12ms)
+	FinalizeReload (1083ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (909ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (5ms)
+			SetLoadedEditorAssemblies (7ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (96ms)
+			ProcessInitializeOnLoadAttributes (632ms)
+			ProcessInitializeOnLoadMethodAttributes (161ms)
+			AfterProcessingInitializeOnLoad (6ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (7ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.08 seconds
+Refreshing native plugins compatible for Editor in 7.55 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 8564 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 164 unused Assets / (1.7 MB). Loaded Objects now: 9143.
+Memory consumption went from 407.4 MB to 405.8 MB.
+Total: 10.820300 ms (FindLiveObjects: 1.034500 ms CreateObjectMapping: 0.404500 ms MarkObjects: 8.679900 ms  DeleteObjects: 0.700300 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:scripting/monoscript/fileName/CarSkinUIHandler.cs: f581ff06af457e5ce012a8f0352eec11 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 1032815.483768 seconds.
+  path: Assets/USED RESOURCES/Stylized Ocean Materials
+  artifactKey: Guid(8322bed33af0d2b49b1bcf7edf2e29d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Stylized Ocean Materials using Guid(8322bed33af0d2b49b1bcf7edf2e29d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c3a5b3759f1544b7f8b7f20826664208') in 0.005185 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 1.860606 seconds.
+  path: Assets/USED RESOURCES/Stamped Terrain
+  artifactKey: Guid(0366835cc2018d042b94641d59e214cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Stamped Terrain using Guid(0366835cc2018d042b94641d59e214cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd1f6b066deb8ebd4be80567322087206') in 0.000472 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.055019 seconds.
+  path: Assets/USED RESOURCES/Stamped Terrain/Pebbles_A_BaseColor.tif
+  artifactKey: Guid(181936831a50e86458511d5a4c1db9d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Stamped Terrain/Pebbles_A_BaseColor.tif using Guid(181936831a50e86458511d5a4c1db9d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8a6a268148d7928d85d2036cbc69a948') in 0.073844 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 14.993873 seconds.
+  path: Assets/_Project/Terrain/Grass 2.terrainlayer
+  artifactKey: Guid(f9c419958b6367c438e1efd8bc9fe14f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/Grass 2.terrainlayer using Guid(f9c419958b6367c438e1efd8bc9fe14f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '48cc4f6983a47562bffa6d6b07c90176') in 0.049001 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 4
+========================================================================
+Received Import Request.
+  Time since last request: 14.954344 seconds.
+  path: Assets/_Project/Terrain/Grass 2.terrainlayer
+  artifactKey: Guid(f9c419958b6367c438e1efd8bc9fe14f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/Grass 2.terrainlayer using Guid(f9c419958b6367c438e1efd8bc9fe14f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '72c506f070c3b6366ff56a1e000d6a7a') in 0.017083 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 4
+========================================================================
+Received Import Request.
+  Time since last request: 13.225012 seconds.
+  path: Assets/USED RESOURCES/Terrain Datas/Night Main Terrain.asset
+  artifactKey: Guid(cfd03fb0dda9690429231c82857ffc3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Terrain Datas/Night Main Terrain.asset using Guid(cfd03fb0dda9690429231c82857ffc3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) The tree OakTree-1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+The tree pineTree_1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ -> (artifact id: '698957dd8a8842f89741dc3c7549543d') in 0.096636 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 134.247110 seconds.
+  path: Assets/USED RESOURCES/Terrain Datas/Night Main Terrain.asset
+  artifactKey: Guid(cfd03fb0dda9690429231c82857ffc3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Terrain Datas/Night Main Terrain.asset using Guid(cfd03fb0dda9690429231c82857ffc3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) The tree OakTree-1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+The tree pineTree_1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ -> (artifact id: '18a56af472c4e931c93a2e60ca85edaf') in 0.057330 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 0.000040 seconds.
+  path: Assets/USED RESOURCES/Terrain Datas/TerrainData_ebfc258e-b887-4987-bbbf-2b1141ed41c4.asset
+  artifactKey: Guid(dbb766c46cc1f5a4c855838d44af33cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Terrain Datas/TerrainData_ebfc258e-b887-4987-bbbf-2b1141ed41c4.asset using Guid(dbb766c46cc1f5a4c855838d44af33cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f01836f7219f174f8ad1bf5870de9879') in 0.023554 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 14.744528 seconds.
+  path: Assets/USED RESOURCES/Terrain Datas/2_CityNight_BottomMiddle.asset
+  artifactKey: Guid(1e82c4e47b717eb4e8f9fe8f0463c66e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Terrain Datas/2_CityNight_BottomMiddle.asset using Guid(1e82c4e47b717eb4e8f9fe8f0463c66e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) The tree pineTree_1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+The tree OakTree-1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ -> (artifact id: '1df4ac284c6e523c1bf724cce0724f9c') in 0.021358 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 2.202190 seconds.
+  path: Assets/USED RESOURCES/Terrain Datas/Night.unity
+  artifactKey: Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Terrain Datas/Night.unity using Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd0ac2fc516e5d263580e240b3362c867') in 0.000682 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 12.684271 seconds.
+  path: Assets/USED RESOURCES/Terrain Datas/2_CityNight_MainTerrain.asset
+  artifactKey: Guid(cfd03fb0dda9690429231c82857ffc3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Terrain Datas/2_CityNight_MainTerrain.asset using Guid(cfd03fb0dda9690429231c82857ffc3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) The tree OakTree-1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+The tree pineTree_1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ -> (artifact id: '50f27bc50034dcd9e28bee79a1a9480a') in 0.021759 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 3.679781 seconds.
+  path: Assets/USED RESOURCES/Terrain Datas/2_CityNight_.asset
+  artifactKey: Guid(cfd03fb0dda9690429231c82857ffc3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Terrain Datas/2_CityNight_.asset using Guid(cfd03fb0dda9690429231c82857ffc3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) The tree OakTree-1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+The tree pineTree_1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ -> (artifact id: '845fd3039eb0d15637afea79c434031b') in 0.024643 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 1.683514 seconds.
+  path: Assets/USED RESOURCES/Terrain Datas/2_CityNight.asset
+  artifactKey: Guid(cfd03fb0dda9690429231c82857ffc3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Terrain Datas/2_CityNight.asset using Guid(cfd03fb0dda9690429231c82857ffc3d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) The tree OakTree-1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+The tree pineTree_1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ -> (artifact id: 'e48f2ec5e4b9b1224bad3492a947be34') in 0.021447 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 20.229519 seconds.
+  path: Assets/_Project/Terrain/2_CityNight_Top.asset
+  artifactKey: Guid(dbb766c46cc1f5a4c855838d44af33cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/2_CityNight_Top.asset using Guid(dbb766c46cc1f5a4c855838d44af33cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fb2428d55c1c2b10d084c42a2441ad13') in 0.013284 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 38.052482 seconds.
+  path: Assets/_Project/Terrain/2_CityNight_BottomLeft.asset
+  artifactKey: Guid(fd385ff7ced88ca4eb49afa8d6446efe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/2_CityNight_BottomLeft.asset using Guid(fd385ff7ced88ca4eb49afa8d6446efe) Importer(815301076,1909f56bfc062723c751e8b465ee728b) The tree pineTree_1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+The tree OakTree-1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ -> (artifact id: 'fd2917760b9c2d591364c09ba20c5378') in 0.025427 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 20.781626 seconds.
+  path: Assets/_Project/Terrain/2_CityNight_MiddleLeft.asset
+  artifactKey: Guid(9156ee519165afe43937b5ecffeca913) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/2_CityNight_MiddleLeft.asset using Guid(9156ee519165afe43937b5ecffeca913) Importer(815301076,1909f56bfc062723c751e8b465ee728b) The tree pineTree_1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+The tree OakTree-1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ -> (artifact id: '490d7127ded94a62c1498b2af8262753') in 0.029672 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 16.264952 seconds.
+  path: Assets/_Project/Terrain/2_CityNight_BottomRight.asset
+  artifactKey: Guid(4412716d667259a48a9bb899c1a7f056) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/2_CityNight_BottomRight.asset using Guid(4412716d667259a48a9bb899c1a7f056) Importer(815301076,1909f56bfc062723c751e8b465ee728b) The tree pineTree_1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+The tree OakTree-1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ -> (artifact id: 'b3f1eabaaaff8e043a01a1c511d87511') in 0.024028 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 14.150263 seconds.
+  path: Assets/_Project/Terrain/2_CityNight_MiddleRight.asset
+  artifactKey: Guid(cd00f618a58217847b9639cd32c68f07) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/2_CityNight_MiddleRight.asset using Guid(cd00f618a58217847b9639cd32c68f07) Importer(815301076,1909f56bfc062723c751e8b465ee728b) The tree pineTree_1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+The tree OakTree-1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ -> (artifact id: 'df4a14b710cc75116b1881034c12ca85') in 0.023957 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 12.617537 seconds.
+  path: Assets/_Project/Terrain/2_CityNight_TopMiddle.asset
+  artifactKey: Guid(3a7414f3fe952c84fa3a5be45989dc6e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/2_CityNight_TopMiddle.asset using Guid(3a7414f3fe952c84fa3a5be45989dc6e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '044ec98dd0569dc1e5ef1d0e42f043a4') in 0.013175 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 8.496457 seconds.
+  path: Assets/_Project/Terrain/2_CityNight_TopRight.asset
+  artifactKey: Guid(a1543cdd866137349b96843cc7790b08) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/2_CityNight_TopRight.asset using Guid(a1543cdd866137349b96843cc7790b08) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5ae7cf7ce3d5a4df3d2e120ec8b8174b') in 0.016700 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 12.385139 seconds.
+  path: Assets/_Project/Terrain/2_CityNight_TopLeft.asset
+  artifactKey: Guid(7b33ab6e4e8d2ea41babcfcb1e8bef1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/2_CityNight_TopLeft.asset using Guid(7b33ab6e4e8d2ea41babcfcb1e8bef1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) The tree pineTree_1 must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ -> (artifact id: '169913b5b1c43e196a350b1e9aaba986') in 0.024993 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 11
+========================================================================
+Received Import Request.
+  Time since last request: 30.306674 seconds.
+  path: Assets/_Project/Terrain/2_CityNight_TopMiddle.asset
+  artifactKey: Guid(dbb766c46cc1f5a4c855838d44af33cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/2_CityNight_TopMiddle.asset using Guid(dbb766c46cc1f5a4c855838d44af33cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '382a2fa6b8c91ce6ac11a272914531dc') in 0.022249 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 11.327421 seconds.
+  path: Assets/_Project/Terrain/Layers
+  artifactKey: Guid(f281880715836d24e8624bb6db0a0254) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Terrain/Layers using Guid(f281880715836d24e8624bb6db0a0254) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3f0911604b0669421be8e27d48d96dd9') in 0.000778 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 255.901283 seconds.
+  path: Assets/USED RESOURCES/Materials/Spotlight.mat
+  artifactKey: Guid(f31d64eab98616b44876c37046e9e75c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Materials/Spotlight.mat using Guid(f31d64eab98616b44876c37046e9e75c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6e394665033f2da893db46cb3919cbd9') in 2.512187 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000051 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-6_comp_dir.png
+  artifactKey: Guid(8c40b95c7e6aea64abd8697a89cb4a2d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-6_comp_dir.png using Guid(8c40b95c7e6aea64abd8697a89cb4a2d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '130479c71c3a7d7d3d31bded8314cffa') in 0.112016 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000043 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-4_comp_dir.png
+  artifactKey: Guid(d47be84fcef512f4483c4478346e3f50) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-4_comp_dir.png using Guid(d47be84fcef512f4483c4478346e3f50) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fb2b09e8e26facdd3340739deac2b2d6') in 0.033135 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000032 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-14_comp_dir.png
+  artifactKey: Guid(5b0870e348006c949aebf0492c982fa6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-14_comp_dir.png using Guid(5b0870e348006c949aebf0492c982fa6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '07716685b3ab9555a38b6f804772f7ab') in 0.028351 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000055 seconds.
+  path: Assets/USED RESOURCES/Materials/Spotlight 2.mat
+  artifactKey: Guid(2eba874169448484589853cb13b5074a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Materials/Spotlight 2.mat using Guid(2eba874169448484589853cb13b5074a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '614a30092e7920ed2b683d38d0d3a2a4') in 0.030308 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.008691 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-13_comp_shadowmask.png
+  artifactKey: Guid(c7ca4d6eba5b56a43a7f055e32d7f671) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-13_comp_shadowmask.png using Guid(c7ca4d6eba5b56a43a7f055e32d7f671) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3361a292d73b4c3493267141a53267a4') in 0.065854 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-15_comp_light.exr
+  artifactKey: Guid(646e330abafb466458bb10fb5b8fcfbb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-15_comp_light.exr using Guid(646e330abafb466458bb10fb5b8fcfbb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '190ef3b63fe6d922cfec5e213bdf058a') in 0.048808 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-2_comp_dir.png
+  artifactKey: Guid(44d36f0196e81b648a451678885986e0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-2_comp_dir.png using Guid(44d36f0196e81b648a451678885986e0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '67e5c7843ee2fca47d1d59cd067be838') in 0.027504 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000051 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-3_comp_light.exr
+  artifactKey: Guid(979a2d05cf5b05e4b8eb51169c26add8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-3_comp_light.exr using Guid(979a2d05cf5b05e4b8eb51169c26add8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0204e83901aa9e7c8460ba9eb3fa4a6a') in 0.037033 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000038 seconds.
+  path: Assets/USED RESOURCES/Night/LightingData.asset
+  artifactKey: Guid(bdcfac421e4d3c442b79a257a1218ea7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/LightingData.asset using Guid(bdcfac421e4d3c442b79a257a1218ea7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '19e5b2da05a8916f42baca553df2d576') in 0.013394 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 1
+========================================================================
+Received Import Request.
+  Time since last request: 0.000047 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-3_comp_dir.png
+  artifactKey: Guid(dee13c7ea7b6eec48bfb547e749ce6ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-3_comp_dir.png using Guid(dee13c7ea7b6eec48bfb547e749ce6ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd129a23bb9088735c51527e089a43cf1') in 0.026544 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-15_comp_shadowmask.png
+  artifactKey: Guid(a3aa491f8ef7098479cb00c88154a1b4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-15_comp_shadowmask.png using Guid(a3aa491f8ef7098479cb00c88154a1b4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8b6c31e2ed0e5f7c36e1d8cf7ad943bc') in 0.028802 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000029 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-4_comp_shadowmask.png
+  artifactKey: Guid(5dd03104c63651543ac9ef150a72e75c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-4_comp_shadowmask.png using Guid(5dd03104c63651543ac9ef150a72e75c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '056b19a956d4e2204689301352b8bf05') in 0.044325 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000057 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-0_comp_light.exr
+  artifactKey: Guid(92b955a11fa9bea4e9b540eb39391267) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-0_comp_light.exr using Guid(92b955a11fa9bea4e9b540eb39391267) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '97eee7a2e161b5b20758e73adac05920') in 0.034358 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000029 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-1_comp_shadowmask.png
+  artifactKey: Guid(7e65f66593c125d4184d0b72173f323b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-1_comp_shadowmask.png using Guid(7e65f66593c125d4184d0b72173f323b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9262398c8e4e4d83883fe5bf13a86853') in 0.030729 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000030 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-16_comp_dir.png
+  artifactKey: Guid(e61c60f7473c6ad4aacf0026686b1900) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-16_comp_dir.png using Guid(e61c60f7473c6ad4aacf0026686b1900) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'db478353f9bcf1e76ea8b96102a47485') in 0.025729 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000033 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-4_comp_light.exr
+  artifactKey: Guid(27d63f3df7dbeca4f91e12ce08dc9c01) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-4_comp_light.exr using Guid(27d63f3df7dbeca4f91e12ce08dc9c01) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4e97eabf6bacbd54e1ef16a1331cf9cf') in 0.023011 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000018 seconds.
+  path: Assets/USED RESOURCES/Night/Night Enviroment Profile 1.asset
+  artifactKey: Guid(9aebfb89180e35e4ca6a8303673e0554) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Night Enviroment Profile 1.asset using Guid(9aebfb89180e35e4ca6a8303673e0554) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '85fef59e9a0e5c68d8d2276132dc8b30') in 0.007134 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 1
+========================================================================
+Received Import Request.
+  Time since last request: 0.000032 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-15_comp_dir.png
+  artifactKey: Guid(0648efa2d53aa084cab156de35c15712) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-15_comp_dir.png using Guid(0648efa2d53aa084cab156de35c15712) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9daaa0a03f18a218623abc8aad92e45f') in 0.024418 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000028 seconds.
+  path: Assets/USED RESOURCES/Night/Lightmap-10_comp_shadowmask.png
+  artifactKey: Guid(fb6a0924f62cf9f469a3825ba6af2ca8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Lightmap-10_comp_shadowmask.png using Guid(fb6a0924f62cf9f469a3825ba6af2ca8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7f681780ac6daee16b423538b8a09d9c') in 0.030481 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 20.835968 seconds.
+  path: Assets/USED RESOURCES/Night/Textures
+  artifactKey: Guid(cf9d373c7ec2eff47bd099c0e698aaca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Textures using Guid(cf9d373c7ec2eff47bd099c0e698aaca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0ccbc98da841089916bcbf1e4b341096') in 0.001919 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.112230 seconds.
+  path: Assets/USED RESOURCES/Night/Textures/Bottom.png
+  artifactKey: Guid(7c960b2c384f601409d4799513fee53b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Night/Textures/Bottom.png using Guid(7c960b2c384f601409d4799513fee53b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '419fd2a66227d170bd034263282e2933') in 0.045987 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 50.864667 seconds.
+  path: Assets/USED RESOURCES/Terrain Datas/Night.unity
+  artifactKey: Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Terrain Datas/Night.unity using Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '550149f484a4ff402dbc670936a1c946') in 0.002032 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 9.750277 seconds.
+  path: Assets/_Project/Scenes/2_CityNight.unity
+  artifactKey: Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Scenes/2_CityNight.unity using Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1443c297ec7f601b09f3c5b417a57c6b') in 0.001184 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 240.612029 seconds.
+  path: Assets/USED RESOURCES/Materials/Spotlight.mat
+  artifactKey: Guid(f31d64eab98616b44876c37046e9e75c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Materials/Spotlight.mat using Guid(f31d64eab98616b44876c37046e9e75c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e0b9982630407b3cc76e7f668b1e09b3') in 0.365106 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000038 seconds.
+  path: Assets/USED RESOURCES/Materials/Spotlight 4.mat
+  artifactKey: Guid(f79105b45d7ad5b4eafab7dfb5a446a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Materials/Spotlight 4.mat using Guid(f79105b45d7ad5b4eafab7dfb5a446a9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '824fb5bc86dfc6cdb51c20b1c08eb711') in 0.045221 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000053 seconds.
+  path: Assets/USED RESOURCES/Materials/Spotlight 3.mat
+  artifactKey: Guid(35cd9ed399bb2514dbc48ef6f8d1f9a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/USED RESOURCES/Materials/Spotlight 3.mat using Guid(35cd9ed399bb2514dbc48ef6f8d1f9a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e7c00c302d706202a95dbea732bc1795') in 0.023817 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 637.561164 seconds.
+  path: Assets/_Project/Scenes/2_CityNight.unity
+  artifactKey: Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Scenes/2_CityNight.unity using Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bdd9bfd1bf96bd535ede79ab4a482edb') in 0.014374 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 36.571053 seconds.
+  path: Assets/_Project/Scenes/2_CityNight.unity
+  artifactKey: Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Scenes/2_CityNight.unity using Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8b8916706cab62f9f44a26304d8c94fa') in 0.005127 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 13.283838 seconds.
+  path: Assets/_Project/Scenes/2_CityNight.unity
+  artifactKey: Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Scenes/2_CityNight.unity using Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0b1ccba8430d2ab6bb560a33a93e0192') in 0.002685 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 1198.196619 seconds.
+  path: Assets/_Project/Lightings/3_Lighting.lighting
+  artifactKey: Guid(9092e698ef9eefc4083753d72213f5db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Lightings/3_Lighting.lighting using Guid(9092e698ef9eefc4083753d72213f5db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '27e06a2334f2aff64a6b7b1d38a283dd') in 0.085601 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 1
+========================================================================
+Received Import Request.
+  Time since last request: 162.517629 seconds.
+  path: Assets/_Project/Lightings/2_CityNight.lighting
+  artifactKey: Guid(3b5f32762b817f142a5760cee863970f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Lightings/2_CityNight.lighting using Guid(3b5f32762b817f142a5760cee863970f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '542da4bdffd61cc5a5f0abcada5a0438') in 0.006739 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 1
+========================================================================
+Received Import Request.
+  Time since last request: 14.173854 seconds.
+  path: Assets/_Project/Lightings
+  artifactKey: Guid(91d005058ff4f0447bb236d9f7ceb819) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Lightings using Guid(91d005058ff4f0447bb236d9f7ceb819) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '292bb3bab77f5a85c1869cf4a3ce5041') in 0.002005 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 8.587585 seconds.
+  path: Assets/_Project/Scenes/2_CityNight.unity
+  artifactKey: Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Scenes/2_CityNight.unity using Guid(7897da8e2aa298945969e7ae2108af7e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8e8baa406d4c54a60ff84f9edb179914') in 0.002205 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 1870.888513 seconds.
+  path: Assets/_Project/Materials/ShaderGraphs/Water 1.shadergraph
+  artifactKey: Guid(8f5078e31cd8e034f965878c846c9741) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Materials/ShaderGraphs/Water 1.shadergraph using Guid(8f5078e31cd8e034f965878c846c9741) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a142ccadf38af0186c55ae9ae6bfe091') in 1.712751 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 51.079340 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Ambulance.mat
+  artifactKey: Guid(fded615538aced440887a3468715a826) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Ambulance.mat using Guid(fded615538aced440887a3468715a826) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6be5b79a66e5020f663ccc58588759e4') in 0.206525 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000106 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Truck_color01.mat
+  artifactKey: Guid(8d937782c962a9044a28c21514c73ffb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Truck_color01.mat using Guid(8d937782c962a9044a28c21514c73ffb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b9613e4cee7d12e8171fb8d5886b77eb') in 0.059723 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000038 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_SUV_color02.mat
+  artifactKey: Guid(6635f2e276b1e904bb60b1e67d0853da) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_SUV_color02.mat using Guid(6635f2e276b1e904bb60b1e67d0853da) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd1ee5aa946e920734f7592a696688285') in 0.048850 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000028 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Container_color02.mat
+  artifactKey: Guid(28c4d6fc3a6598a49bd5947f62155562) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Container_color02.mat using Guid(28c4d6fc3a6598a49bd5947f62155562) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ec0f51d24c912d4b90d6a09333b29b47') in 0.036102 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_SUV_color03.mat
+  artifactKey: Guid(66866c7f5319a2d4ab19d87f65b08692) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_SUV_color03.mat using Guid(66866c7f5319a2d4ab19d87f65b08692) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c2e19999a549e257618471afbfc85605') in 0.043130 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000031 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Bus_color02.mat
+  artifactKey: Guid(1ff3955181d667949a055e4e15ec3e8a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Bus_color02.mat using Guid(1ff3955181d667949a055e4e15ec3e8a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9ec9f3f42b862afb141550684b9f692b') in 0.030917 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Truck_color03.mat
+  artifactKey: Guid(7e719e1ad4449a2489e25a6f4d6e8019) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Truck_color03.mat using Guid(7e719e1ad4449a2489e25a6f4d6e8019) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '36d994346fe936c356ca68678bb73c94') in 0.037503 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000047 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Truck_color02.mat
+  artifactKey: Guid(aa873d2eb05f7a249b6c4af961517216) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Truck_color02.mat using Guid(aa873d2eb05f7a249b6c4af961517216) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a5dab4d0e491d5880d8b665ade66cde7') in 0.033430 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000041 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_SUV_color01.mat
+  artifactKey: Guid(c0172b2eebb55f74bbb355a1b1fe0557) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_SUV_color01.mat using Guid(c0172b2eebb55f74bbb355a1b1fe0557) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd8f3deb253ab0edc624f7ca3bd9f09d5') in 0.037656 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000022 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Car_color02.mat
+  artifactKey: Guid(444598fdbae3357408ac7daa0fd9eabe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Car_color02.mat using Guid(444598fdbae3357408ac7daa0fd9eabe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bc9448b549c1daab147379d152d1c138') in 0.024916 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Container_color03.mat
+  artifactKey: Guid(5e29c495f3970b64f9d09ce50f034ed4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Container_color03.mat using Guid(5e29c495f3970b64f9d09ce50f034ed4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '640399100825c841c1bfafb1d85bfc1a') in 0.032895 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000034 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Container_color01.mat
+  artifactKey: Guid(992fb1e4bf06a5b488783670728d3f46) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Container_color01.mat using Guid(992fb1e4bf06a5b488783670728d3f46) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '64779f2c34c79caaa6f8cfe22d6dfa4c') in 0.038007 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000038 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Taxi.mat
+  artifactKey: Guid(24c20333a6b79874298a79151051f9fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Taxi.mat using Guid(24c20333a6b79874298a79151051f9fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '86edc346a76ae2ff950e48b100cbb3af') in 0.032261 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000045 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Car_color03.mat
+  artifactKey: Guid(37608e6988151a248951cdd1a93a59c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Car_color03.mat using Guid(37608e6988151a248951cdd1a93a59c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9ad11e9ddc5b5aa37bca9d0b96e157cd') in 0.032062 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000029 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Bus_color03.mat
+  artifactKey: Guid(8659c6f38f710284c9a623201882790c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Bus_color03.mat using Guid(8659c6f38f710284c9a623201882790c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a2303234b4ba84662a448af7b655626b') in 0.033439 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000029 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Car_color01.mat
+  artifactKey: Guid(c55cd13c983151f488686d50353a716f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Materials/Vehicle_Car_color01.mat using Guid(c55cd13c983151f488686d50353a716f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f95698decb544c01a547be2d14c68715') in 0.047966 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 999.150525 seconds.
+  path: Assets/_Project/Lightings/LightingData.asset
+  artifactKey: Guid(bdcfac421e4d3c442b79a257a1218ea7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Project/Lightings/LightingData.asset using Guid(bdcfac421e4d3c442b79a257a1218ea7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2237d51fbfbc4de8694c13b8ba43efc0') in 0.119265 seconds
+Number of updated asset objects reloaded before import = 7
+Number of asset objects unloaded after import = 1
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 11.12 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 16 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 15 unused Assets / (1.6 MB). Loaded Objects now: 9274.
+Memory consumption went from 239.1 MB to 237.5 MB.
+Total: 753.506100 ms (FindLiveObjects: 8.772000 ms CreateObjectMapping: 0.573600 ms MarkObjects: 740.302200 ms  DeleteObjects: 3.854000 ms)
+
+Prepare: number of updated asset objects reloaded= 0
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:CustomObjectIndexerAttribute: a3ef5dd2817f97addfee359851a9dba5 -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:scripting/monoscript/fileName/CarSkinUIHandler.cs: f581ff06af457e5ce012a8f0352eec11 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 

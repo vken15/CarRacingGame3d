@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Windows;
 
 namespace CarRacingGame3d
 {
@@ -20,25 +17,39 @@ namespace CarRacingGame3d
 
         [Header("Car prefab")]
         [SerializeField] private GameObject carPrefab;
+        [SerializeField] private GameObject carSkinItem;
 
         [Header("Spawn on")]
         [SerializeField] private Transform spawnOnTransform;
+        [SerializeField] private Transform spawnSkinItemTransform;
+
+        [SerializeField] private Sprite defaultCarSprite;
 
         private CarData[] carDatas;
+        private readonly List<CarData> carList = new();
+        private readonly Dictionary<ushort, List<CarData>> skinList = new();
+        private readonly List<GameObject> currentSkinList = new();
         private int selectedCarIndex = 0;
+        private ushort carID = 0;
         private CarSelectUIHandler carSelectUIHandler = null;
         private bool isChangingCar = false;
-
-        //Events
-        //public event Action<CarController> OnSpawnCarChanged;
 
         // Start is called before the first frame update
         private void Start()
         {
             //Load the car Data
             carDatas = Resources.LoadAll<CarData>("CarData/");
-            var camera = FindAnyObjectByType<CameraFollow>();
-            camera.SetTarget(spawnOnTransform);
+            foreach (CarData car in carDatas)
+            {
+                if (car.IsSkin)
+                    skinList[car.BaseCarID].Add(car);
+                else
+                {
+                    carList.Add(car);
+                    skinList.Add(car.CarID, new() { car });
+                }
+            }
+
             StartCoroutine(SpawnCarCO(true));
         }
 
@@ -62,6 +73,7 @@ namespace CarRacingGame3d
             confirmBtn.SetActive(true);
             startBtn.GetComponent<Button>().interactable = false;
             readyBtn.GetComponent<Button>().interactable = false;
+            spawnSkinItemTransform.gameObject.SetActive(true);
         }
 
         public void OnConfirmButtonPressed()
@@ -72,6 +84,7 @@ namespace CarRacingGame3d
             confirmBtn.SetActive(false);
             startBtn.GetComponent<Button>().interactable = true;
             readyBtn.GetComponent<Button>().interactable = true;
+            spawnSkinItemTransform.gameObject.SetActive(false);
         }
 
         public void OnNextCar()
@@ -80,7 +93,7 @@ namespace CarRacingGame3d
                 return;
 
             selectedCarIndex++;
-            if (selectedCarIndex > carDatas.Length - 1)
+            if (selectedCarIndex > carList.Count - 1)
                 selectedCarIndex = 0;
 
             StartCoroutine(SpawnCarCO(false));
@@ -93,7 +106,7 @@ namespace CarRacingGame3d
 
             selectedCarIndex--;
             if (selectedCarIndex < 0)
-                selectedCarIndex = carDatas.Length - 1;
+                selectedCarIndex = carList.Count - 1;
 
             StartCoroutine(SpawnCarCO(true));
         }
@@ -106,16 +119,47 @@ namespace CarRacingGame3d
 
             GameObject intantiatedCar = Instantiate(carPrefab, spawnOnTransform);
             carSelectUIHandler = intantiatedCar.GetComponent<CarSelectUIHandler>();
-            carSelectUIHandler.SetupCar(carDatas[selectedCarIndex], spawnOnTransform);
+            carSelectUIHandler.SetupCar(carList[selectedCarIndex], spawnOnTransform);
             carSelectUIHandler.StartCarEntranceAnimation(isCarAppearingOnRightSide);
-            //OnSpawnCarChanged?.Invoke(carDatas[selectedCarIndex].CarPrefab.GetComponent<CarController>());
+            carID = carList[selectedCarIndex].CarID;
+
+            spawnSkinItemTransform.gameObject.SetActive(false);
+            foreach (var skin in currentSkinList)
+            {
+                Destroy(skin);
+            }
+            currentSkinList.Clear();
+            foreach (var skin in skinList[carID])
+            {
+                var car = Instantiate(carSkinItem, spawnSkinItemTransform);
+                car.GetComponent<Image>().sprite = skin.CarUISprite;
+                car.GetComponent<Button>().onClick.AddListener(() => {
+                    carID = skin.CarID;
+                    carSelectUIHandler.ChangeSkin(skin, carSelectUIHandler.transform);
+                });
+                currentSkinList.Add(car);
+            }  
+
             yield return new WaitForSeconds(0.4f);
+            if (confirmBtn.activeSelf)
+                spawnSkinItemTransform.gameObject.SetActive(true);
             isChangingCar = false;
         }
 
         public ushort GetCarIDData()
         {
-            return carDatas[selectedCarIndex].CarID;
+            return carID;
+        }
+
+        public Sprite GetCarSprite(ushort id)
+        {
+            if (carDatas == null) 
+                return defaultCarSprite;
+
+            if (id < 1 || id > carDatas.Length)
+                return carDatas[0].CarUISprite;
+
+            return carDatas[id - 1].CarUISprite;
         }
     }
 }

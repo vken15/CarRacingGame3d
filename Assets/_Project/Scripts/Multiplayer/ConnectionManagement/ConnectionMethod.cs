@@ -83,14 +83,14 @@ namespace CarRacingGame3d
     /// </summary>
     class ConnectionMethodIP : ConnectionMethodBase
     {
-        string m_Ipaddress;
-        ushort m_Port;
+        readonly string ipaddress;
+        readonly ushort port;
 
         public ConnectionMethodIP(string ip, ushort port, ConnectionManager connectionManager, ProfileManager profileManager, string playerName)
             : base(connectionManager, profileManager, playerName)
         {
-            m_Ipaddress = ip;
-            m_Port = port;
+            ipaddress = ip;
+            this.port = port;
             m_ConnectionManager = connectionManager;
         }
 
@@ -98,7 +98,7 @@ namespace CarRacingGame3d
         {
             SetConnectionPayload(GetPlayerId(), m_PlayerName);
             var utp = (UnityTransport)m_ConnectionManager.NetworkManager.NetworkConfig.NetworkTransport;
-            utp.SetConnectionData(m_Ipaddress, m_Port);
+            utp.SetConnectionData(ipaddress, port);
         }
 
         public override async Task<(bool success, bool shouldTryAgain)> SetupClientReconnectionAsync()
@@ -111,7 +111,7 @@ namespace CarRacingGame3d
         {
             SetConnectionPayload(GetPlayerId(), m_PlayerName); // Need to set connection payload for host as well, as host is a client too
             var utp = (UnityTransport)m_ConnectionManager.NetworkManager.NetworkConfig.NetworkTransport;
-            utp.SetConnectionData(m_Ipaddress, m_Port);
+            utp.SetConnectionData(ipaddress, port);
         }
     }
 

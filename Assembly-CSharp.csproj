@@ -66,7 +66,6 @@
     <Compile Include="Assets\_Project\Scripts\UI\NameplateUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Item\ItemShield.cs" />
     <Compile Include="Assets\USED RESOURCES\Fence Layout Tool\FenceLayout.cs" />
-    <Compile Include="Assets\_Project\Scripts\Utils\CustomNetworkTransform.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\CarSelectUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\UnityServices\Lobbies\LobbyAPIInterface.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\PopupManager.cs" />
@@ -104,6 +103,7 @@
     <Compile Include="Assets\_Project\Scripts\Car\CarController.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\NetworkManagerUI.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\ClientConnectedState.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\RoomChat.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CarSoundEffectHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\PlayerSeatUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\PostGameUIHandler.cs" />
@@ -143,6 +143,7 @@
     <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\ClientServerInfo.cs" />
     <Compile Include="Assets\_Project\Scripts\Portal\PortalableObject.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\LeaderboardUIHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\ChatMessage.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\SetLeaderboardItemInfo.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CarInputHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\PersistentPlayer.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="Assets\_Project\Scripts\Multiplayer\UnityServices\AuthenticationServiceFacade.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\ExampleNetworkDiscovery.cs" />
     <Compile Include="Assets\_Project\Scripts\Startup.cs" />
+    <Compile Include="Assets\_Project\Scripts\Utils\ResizableUI.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\RoomItemUI.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkRoom.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ClientRoomState.cs" />

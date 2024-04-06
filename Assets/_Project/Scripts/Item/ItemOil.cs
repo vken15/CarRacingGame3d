@@ -4,8 +4,8 @@ namespace CarRacingGame3d
 {
     public class ItemOil : BaseItem
     {
-        [SerializeField] private BoxCollider collider;
-        [SerializeField] private ParticleSystem particleSystem;
+        [SerializeField] private new BoxCollider collider;
+        [SerializeField] private new ParticleSystem particleSystem;
         [SerializeField] private float slipMulti = 1.0f;
 
         public override void UseItem(CarController car)
