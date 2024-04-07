@@ -41,13 +41,13 @@ namespace CarRacingGame3d
             carDatas = Resources.LoadAll<CarData>("CarData/");
             foreach (CarData car in carDatas)
             {
-                if (car.IsSkin)
-                    skinList[car.BaseCarID].Add(car);
+                if (!skinList.ContainsKey(car.BaseCarID))
+                    skinList.Add(car.BaseCarID, new() { car });
                 else
-                {
+                    skinList[car.BaseCarID].Add(car);
+
+                if (!car.IsSkin)
                     carList.Add(car);
-                    skinList.Add(car.CarID, new() { car });
-                }
             }
 
             StartCoroutine(SpawnCarCO(true));
@@ -156,10 +156,13 @@ namespace CarRacingGame3d
             if (carDatas == null) 
                 return defaultCarSprite;
 
-            if (id < 1 || id > carDatas.Length)
-                return carDatas[0].CarUISprite;
+            foreach (CarData car in carDatas)
+            {
+                if (car.CarID == id)
+                    return car.CarUISprite;
+            }
 
-            return carDatas[id - 1].CarUISprite;
+            return carDatas[0].CarUISprite;
         }
     }
 }

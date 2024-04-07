@@ -67,8 +67,8 @@
     <Compile Include="Assets\_Project\Scripts\Item\ItemShield.cs" />
     <Compile Include="Assets\USED RESOURCES\Fence Layout Tool\FenceLayout.cs" />
     <Compile Include="Assets\_Project\Scripts\Objects\Portal\PortalableObject.cs" />
-    <Compile Include="Assets\_Project\Scripts\Multiplayer\LoadingProgressManager.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\CarSelectUIHandler.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\LoadingScreen\NetworkedLoadingProgressTracker.cs" />
     <Compile Include="Assets\_Project\Scripts\Objects\Portal\Portal.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\UnityServices\Lobbies\LobbyAPIInterface.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\PopupManager.cs" />
@@ -113,7 +113,6 @@
     <Compile Include="Assets\_Project\Scripts\Car\CameraFollow.cs" />
     <Compile Include="Assets\_Project\Scripts\Utils\Timer.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\ClientConnectingState.cs" />
-    <Compile Include="Assets\_Project\Scripts\Multiplayer\ClientLoadingScreen.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\HostingState.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\LobbyControl.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\RuntimeCollection.cs" />
@@ -144,6 +143,7 @@
     <Compile Include="Assets\_Project\Scripts\UI\SpecialFuelUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\LapCountUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\ClientServerInfo.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\LoadingScreen\ClientLoadingScreen.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\LeaderboardUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ChatMessage.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\SetLeaderboardItemInfo.cs" />
@@ -161,6 +161,7 @@
     <Compile Include="Assets\_Project\Scripts\UI\ConnectingUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\UnityServices\AuthenticationServiceFacade.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\ExampleNetworkDiscovery.cs" />
+    <Compile Include="Assets\_Project\Scripts\Multiplayer\LoadingScreen\LoadingProgressManager.cs" />
     <Compile Include="Assets\_Project\Scripts\Startup.cs" />
     <Compile Include="Assets\_Project\Scripts\Utils\ResizableUI.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\RoomItemUI.cs" />
@@ -183,6 +184,7 @@
     <None Include="Assets\EasyRoads3D\shaders\ER Road Transparency.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\USED RESOURCES\Marcos Schultz\MS Sposts Car\License.txt" />
     <None Include="Assets\EasyRoads3D\Quick Start.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\EasyRoads3D\lib\EasyRoads3Dv3.dll" />

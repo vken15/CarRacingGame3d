@@ -62,11 +62,11 @@ namespace CarRacingGame3d
             carLandingAudioSource.Play();
         }
 
-        private void OnCollisionEnter2D(Collision2D collision2D)
+        private void OnCollisionEnter(Collision collision)
         {
-            float relativeVelocity = collision2D.relativeVelocity.magnitude;
+            float relativeVelocity = collision.relativeVelocity.magnitude;
 
-            float volume = relativeVelocity * 0.1f;
+            float volume = relativeVelocity * 0.03f;
 
             carHitAudioSource.pitch = Random.Range(0.95f, 1.05f);
             carHitAudioSource.volume = volume;

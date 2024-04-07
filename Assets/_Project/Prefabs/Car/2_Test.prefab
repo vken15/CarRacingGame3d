@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 7218791992974546789}
   - component: {fileID: 2940360617124650579}
   m_Layer: 0
-  m_Name: Old 1
+  m_Name: 2_Test
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,7 +236,13 @@ MonoBehaviour:
   playerCamera: {fileID: 3623514334117674441}
   playerAudioListener: {fileID: 3952352803115760214}
   jumpAnchor: {fileID: 3218955992553397246}
-  Immunity: 0
+  immunity: 0
+  reconciliationThreshold: 50
+  reconciliationCooldownTime: 1
+  extrapolationLimit: 0.5
+  extrapolationMulti: 1.2
+  serverCube: {fileID: 0}
+  clientCube: {fileID: 0}
 --- !u!114 &3646104775883775409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,7 +541,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
