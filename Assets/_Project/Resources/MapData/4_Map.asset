@@ -17,5 +17,5 @@ MonoBehaviour:
   mapUISprite: {fileID: 21300000, guid: 37463b4a4a4948c45b97df97ce296c88, type: 3}
   scene: 4_Map
   numberOfLaps: 2
-  difficulty: 0
+  difficulty: 3
   discription: 

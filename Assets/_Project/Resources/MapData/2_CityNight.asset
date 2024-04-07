@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapID: 2
   mapName: City Night
-  mapUISprite: {fileID: 21300000, guid: 791d7de7aaec2c64cbc93634c22ae89e, type: 3}
+  mapUISprite: {fileID: 21300000, guid: bf963e8483db78a4b9a7c39bb12cd6e5, type: 3}
   scene: 2_CityNight
   numberOfLaps: 2
-  difficulty: 0
-  discription: For testing
+  difficulty: 2
+  discription: 

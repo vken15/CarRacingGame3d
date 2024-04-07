@@ -521,7 +521,9 @@ namespace CarRacingGame3d
         {
             foreach (var wheel in wheels)
             {
-                if (driverInput.Brake && wheel.axel == Axel.Rear && wheel.wheelCollider.isGrounded == true && (carRb.velocity.magnitude >= 10.0f))
+                if (driverInput.Brake && 
+                    (wheel.axel == Axel.Rear && wheel.wheelCollider.isGrounded == true && (carRb.velocity.magnitude >= 10.0f) ||
+                    (!IsOwner && GameManager.instance.networkStatus == NetworkStatus.online)))
                 {
                     wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = true;
                     wheel.smokeParticle.Emit(1);
@@ -596,7 +598,7 @@ namespace CarRacingGame3d
                 return false;
             }
 
-            if (driverInput.Move.y < 0 && Vector2.Dot(transform.forward, carRb.velocity) > 0)
+            if (driverInput.Brake && Vector2.Dot(transform.forward, carRb.velocity) > 0)
             {
                 isBraking = true;
                 return true;
