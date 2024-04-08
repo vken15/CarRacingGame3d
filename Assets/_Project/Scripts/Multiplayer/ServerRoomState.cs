@@ -91,7 +91,7 @@ namespace CarRacingGame3d
         IEnumerator WaitToEndLobby()
         {
             yield return new WaitForSeconds(3);
-            SceneTransitionHandler.Instance.SwitchScene(GameManager.instance.map.Scene);
+            SceneTransitionHandler.Instance.SwitchScene(GameManager.instance.map.Scene, true);
         }
 
         public void OnNetworkDespawn()

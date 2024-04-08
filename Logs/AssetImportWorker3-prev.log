@@ -15,7 +15,7 @@ E:/Unity/CarRacingGame3d
 -logFile
 Logs/AssetImportWorker3.log
 -srvPort
-58316
+61213
 Successfully changed project path to: E:/Unity/CarRacingGame3d
 E:/Unity/CarRacingGame3d
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,12 +49,12 @@ E:/Unity/CarRacingGame3d
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [13776] Host "[IP] 192.168.1.13 [Port] 0 [Flags] 2 [Guid] 1213370874 [EditorId] 1213370874 [Version] 1048832 [Id] WindowsEditor(7,MSI) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [20888] Host "[IP] 192.168.1.13 [Port] 0 [Flags] 2 [Guid] 3696382828 [EditorId] 3696382828 [Version] 1048832 [Id] WindowsEditor(7,MSI) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [13776] Host "[IP] 192.168.1.13 [Port] 0 [Flags] 2 [Guid] 1213370874 [EditorId] 1213370874 [Version] 1048832 [Id] WindowsEditor(7,MSI) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [20888] Host "[IP] 192.168.1.13 [Port] 0 [Flags] 2 [Guid] 3696382828 [EditorId] 3696382828 [Version] 1048832 [Id] WindowsEditor(7,MSI) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
 [Physics::Module] Initialized MultithreadedJobDispatcher with 11 workers.
-Refreshing native plugins compatible for Editor in 58.92 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 14.52 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2022.3.14f1 (eff2de9070d8)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2022.3.14f1/Editor/Data/Resources/UnitySubsystems
@@ -70,54 +70,54 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2022.3.14f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2022.3.14f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2022.3.14f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56724
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56572
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2022.3.14f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.007442 seconds.
-- Loaded All Assemblies, in  0.471 seconds
+Registered in 0.011255 seconds.
+- Loaded All Assemblies, in  0.621 seconds
 Native extension for WindowsStandalone target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.259 seconds
-Domain Reload Profiling: 729ms
+- Finished resetting the current domain, in  0.525 seconds
+Domain Reload Profiling: 1144ms
 	BeginReloadAssembly (216ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (49ms)
+		CreateAndSetChildDomain (3ms)
+	RebuildCommonClasses (64ms)
 	RebuildNativeTypeToScriptingClass (10ms)
-	initialDomainReloadingComplete (61ms)
-	LoadAllAssembliesAndSetupDomain (134ms)
-		LoadAssemblies (211ms)
+	initialDomainReloadingComplete (106ms)
+	LoadAllAssembliesAndSetupDomain (223ms)
+		LoadAssemblies (209ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (132ms)
-			TypeCache.Refresh (130ms)
-				TypeCache.ScanAssembly (113ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
+		AnalyzeDomain (219ms)
+			TypeCache.Refresh (216ms)
+				TypeCache.ScanAssembly (163ms)
+			ScanForSourceGeneratedMonoScriptInfo (1ms)
 			ResolveRequiredComponents (1ms)
-	FinalizeReload (259ms)
+	FinalizeReload (526ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (200ms)
+		SetupLoadedEditorAssemblies (398ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (9ms)
-			SetLoadedEditorAssemblies (9ms)
+			InitializePlatformSupportModulesInManaged (19ms)
+			SetLoadedEditorAssemblies (18ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (3ms)
-			ProcessInitializeOnLoadAttributes (134ms)
-			ProcessInitializeOnLoadMethodAttributes (45ms)
+			BeforeProcessingInitializeOnLoad (5ms)
+			ProcessInitializeOnLoadAttributes (256ms)
+			ProcessInitializeOnLoadMethodAttributes (87ms)
 			AfterProcessingInitializeOnLoad (0ms)
-			EditorAssembliesLoaded (0ms)
+			EditorAssembliesLoaded (13ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (0ms)
 ========================================================================
 Worker process is ready to serve import requests
 Begin MonoManager ReloadAssembly
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.407 seconds
-Refreshing native plugins compatible for Editor in 9.93 ms, found 3 plugins.
+- Loaded All Assemblies, in  2.071 seconds
+Refreshing native plugins compatible for Editor in 5.95 ms, found 3 plugins.
 Native extension for WindowsStandalone target not found
 Package Manager log level set to [2]
 [Package Manager] Server::EnsureServerProcessIsRunning -- launch failed, reason: Unity was launched with the -noUpm command-line argument
@@ -127,47 +127,47 @@ Package Manager log level set to [2]
 [Package Manager] UpmClient::Send -- Unable to send message (not connected to UPM process).
 [Package Manager] Cannot connect to Unity Package Manager local server
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  1.008 seconds
-Domain Reload Profiling: 2421ms
-	BeginReloadAssembly (160ms)
+- Finished resetting the current domain, in  1.317 seconds
+Domain Reload Profiling: 3371ms
+	BeginReloadAssembly (232ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (5ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (30ms)
-	RebuildCommonClasses (32ms)
-	RebuildNativeTypeToScriptingClass (9ms)
-	initialDomainReloadingComplete (60ms)
-	LoadAllAssembliesAndSetupDomain (1153ms)
-		LoadAssemblies (830ms)
+		CreateAndSetChildDomain (49ms)
+	RebuildCommonClasses (27ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (116ms)
+	LoadAllAssembliesAndSetupDomain (1663ms)
+		LoadAssemblies (1370ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (401ms)
-			TypeCache.Refresh (340ms)
-				TypeCache.ScanAssembly (304ms)
-			ScanForSourceGeneratedMonoScriptInfo (46ms)
+		AnalyzeDomain (420ms)
+			TypeCache.Refresh (337ms)
+				TypeCache.ScanAssembly (293ms)
+			ScanForSourceGeneratedMonoScriptInfo (68ms)
 			ResolveRequiredComponents (13ms)
-	FinalizeReload (1008ms)
+	FinalizeReload (1321ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (833ms)
+		SetupLoadedEditorAssemblies (1135ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (6ms)
-			SetLoadedEditorAssemblies (7ms)
+			InitializePlatformSupportModulesInManaged (7ms)
+			SetLoadedEditorAssemblies (6ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (87ms)
-			ProcessInitializeOnLoadAttributes (579ms)
-			ProcessInitializeOnLoadMethodAttributes (148ms)
-			AfterProcessingInitializeOnLoad (6ms)
-			EditorAssembliesLoaded (0ms)
+			BeforeProcessingInitializeOnLoad (127ms)
+			ProcessInitializeOnLoadAttributes (814ms)
+			ProcessInitializeOnLoadMethodAttributes (171ms)
+			AfterProcessingInitializeOnLoad (5ms)
+			EditorAssembliesLoaded (5ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (6ms)
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.07 seconds
-Refreshing native plugins compatible for Editor in 8.73 ms, found 3 plugins.
+		AwakeInstancesAfterBackupRestoration (21ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.08 seconds
+Refreshing native plugins compatible for Editor in 21.00 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 8560 Unused Serialized files (Serialized files now loaded: 0)
 Unloading 164 unused Assets / (1.7 MB). Loaded Objects now: 9141.
-Memory consumption went from 405.6 MB to 403.9 MB.
-Total: 23.960100 ms (FindLiveObjects: 2.620100 ms CreateObjectMapping: 1.200600 ms MarkObjects: 18.417300 ms  DeleteObjects: 1.718800 ms)
+Memory consumption went from 403.9 MB to 402.3 MB.
+Total: 13.117900 ms (FindLiveObjects: 1.375600 ms CreateObjectMapping: 0.485900 ms MarkObjects: 9.283200 ms  DeleteObjects: 1.971800 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
@@ -184,127 +184,30 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 1099051.461309 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/ReflectionProbe-0.exr
-  artifactKey: Guid(c0ea0dd9d66b2674b903832f703b3bb1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/ReflectionProbe-0.exr using Guid(c0ea0dd9d66b2674b903832f703b3bb1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '768aaeb8635fa5e7f3a84a51d862d76e') in 0.528398 seconds
+  Time since last request: 1124023.257308 seconds.
+  path: Assets/Ash Assets/Rally Cars/Prefabs/Rally Cars/Suzooki_Escudoo.prefab
+  artifactKey: Guid(f7dc45cb727ee8b48af88d19ac700db4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Ash Assets/Rally Cars/Prefabs/Rally Cars/Suzooki_Escudoo.prefab using Guid(f7dc45cb727ee8b48af88d19ac700db4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2143ac8c27b014c3146c6d13e6abf1c7') in 1.828480 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
+Number of asset objects unloaded after import = 44
 ========================================================================
 Received Import Request.
-  Time since last request: 611.557073 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-0_comp_light.exr
-  artifactKey: Guid(1494d170ea98b344cae3524e82c28d87) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-0_comp_light.exr using Guid(1494d170ea98b344cae3524e82c28d87) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '43bc898aab8db13a0877b5e720a147f6') in 0.330976 seconds
+  Time since last request: 0.000042 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Prefab/Vehicles/Vehicle with Static Wheels/Vehicle_Container_color02.prefab
+  artifactKey: Guid(6fa2aa0a1d56aba4a8884471618de9e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Prefab/Vehicles/Vehicle with Static Wheels/Vehicle_Container_color02.prefab using Guid(6fa2aa0a1d56aba4a8884471618de9e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5560782188a0c5ef21b39f571f602c19') in 0.065813 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
+Number of asset objects unloaded after import = 10
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000200 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-5_comp_light.exr
-  artifactKey: Guid(a9992ce7dfd3d414282ffcd54a0aae16) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-5_comp_light.exr using Guid(a9992ce7dfd3d414282ffcd54a0aae16) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fec34fad23b073c39f4dddf0c2329cb5') in 0.018229 seconds
+  Time since last request: 0.000049 seconds.
+  path: Assets/SimplePoly City - Low Poly Assets/Prefab/Vehicles/Vehicle with Separated Wheels/Vehicle_Taxi_separate.prefab
+  artifactKey: Guid(fba5e236738a7c940b3a8d031c307794) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SimplePoly City - Low Poly Assets/Prefab/Vehicles/Vehicle with Separated Wheels/Vehicle_Taxi_separate.prefab using Guid(fba5e236738a7c940b3a8d031c307794) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dccd8757dd1f0ee2dae690570e47d171') in 0.035678 seconds
 Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000039 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-6_comp_light.exr
-  artifactKey: Guid(145ecfa23223221459ec06430af75150) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-6_comp_light.exr using Guid(145ecfa23223221459ec06430af75150) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bb4c7b4367d1494da83791072e578740') in 0.027107 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000026 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-19_comp_light.exr
-  artifactKey: Guid(622acedf7bbcc364193b89d0d59645ce) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-19_comp_light.exr using Guid(622acedf7bbcc364193b89d0d59645ce) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '25ffbad8bba9253aa72ed4efcd9d9048') in 0.023415 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000028 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-4_comp_light.exr
-  artifactKey: Guid(01046a8109b7f1d47b70743a0015a478) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-4_comp_light.exr using Guid(01046a8109b7f1d47b70743a0015a478) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3c5f0b31c8e951db0f40304fdf797481') in 0.022115 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000056 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-24_comp_light.exr
-  artifactKey: Guid(e43f3cf09ed6233449bc38ef06630a61) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-24_comp_light.exr using Guid(e43f3cf09ed6233449bc38ef06630a61) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f3755762aec4801b856f1c227b0566ac') in 0.020189 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000032 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-20_comp_light.exr
-  artifactKey: Guid(4159cbc7b31cd304e84a1625f9e01841) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-20_comp_light.exr using Guid(4159cbc7b31cd304e84a1625f9e01841) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b85a26cbd8de82489f77548ae24475c5') in 0.019487 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000027 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-15_comp_light.exr
-  artifactKey: Guid(5e3b91fa659a3b2449b62fd48a4caea5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-15_comp_light.exr using Guid(5e3b91fa659a3b2449b62fd48a4caea5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'db6a619c5a6844fcab590f8b619374b1') in 0.020732 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000029 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-18_comp_light.exr
-  artifactKey: Guid(43ad607a9666f2544a7f34867c5d8947) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-18_comp_light.exr using Guid(43ad607a9666f2544a7f34867c5d8947) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f7710f12fb0a038392e631e76e7dfa78') in 0.023578 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000051 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-16_comp_light.exr
-  artifactKey: Guid(9a2e40145a9a81849b5e66bd65c31ebc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-16_comp_light.exr using Guid(9a2e40145a9a81849b5e66bd65c31ebc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9d7c26ef9608ae3296fe458b9f64bee4') in 0.021447 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000029 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-3_comp_light.exr
-  artifactKey: Guid(842903af35c52a64cbafb2677ef7ed11) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-3_comp_light.exr using Guid(842903af35c52a64cbafb2677ef7ed11) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b7844aa143f8e763e4a27089f57b7f9c') in 0.022688 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000022 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-22_comp_light.exr
-  artifactKey: Guid(a568e3ec4c7bfe244b0e06331bb7efe2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-22_comp_light.exr using Guid(a568e3ec4c7bfe244b0e06331bb7efe2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '99f10b43e4b0652429e10d20cd86c038') in 0.023472 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000037 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-17_comp_light.exr
-  artifactKey: Guid(d290e1704623ef346834094baaf1811b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-17_comp_light.exr using Guid(d290e1704623ef346834094baaf1811b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '865f9b81973aeebb9ca531038c9778fd') in 0.023455 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
-========================================================================
-Received Import Request.
-  Time since last request: 0.000122 seconds.
-  path: Assets/_Project/Scenes/2_CityNight/Lightmap-9_comp_light.exr
-  artifactKey: Guid(c6204db351b31034f81a01b4afa18ec0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Project/Scenes/2_CityNight/Lightmap-9_comp_light.exr using Guid(c6204db351b31034f81a01b4afa18ec0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1f77c9188cc8d335a74a62b828148548') in 0.026291 seconds
-Number of updated asset objects reloaded before import = 0
-Number of asset objects unloaded after import = 2
+Number of asset objects unloaded after import = 32
 Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
-TcpMessagingSession - receive error
-AssetImportWorkerClient::OnTransportError - code=2 error=End of file
+TcpMessagingSession - receive error: operation aborted. errorcode: 995, details: The I/O operation has been aborted because of either a thread exit or an application request.
 AssetImportWorker is now disconnected from the server
 Process exiting
 Exiting without the bug reporter. Application will terminate with return code 0

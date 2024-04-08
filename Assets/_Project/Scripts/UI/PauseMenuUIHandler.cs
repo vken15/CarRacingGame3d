@@ -47,7 +47,7 @@ namespace CarRacingGame3d
             OnResume();
             if (GameManager.instance.networkStatus == NetworkStatus.offline)
             {
-                SceneManager.LoadScene("MainMenu");
+                SceneTransitionHandler.Instance.SwitchScene("MainMenu", false);
             }
             else
             {

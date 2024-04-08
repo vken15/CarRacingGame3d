@@ -5,26 +5,6 @@ using UnityEngine;
 namespace CarRacingGame3d
 {
     /// <summary>
-    /// Wrapping FixedString so that if we want to change player name max size in the future, we only do it once here
-    /// </summary>
-    public struct FixedPlayerName : INetworkSerializable
-    {
-        FixedString32Bytes m_Name;
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-        {
-            serializer.SerializeValue(ref m_Name);
-        }
-
-        public override string ToString()
-        {
-            return m_Name.Value.ToString();
-        }
-
-        public static implicit operator string(FixedPlayerName s) => s.ToString();
-        public static implicit operator FixedPlayerName(string s) => new FixedPlayerName() { m_Name = new FixedString32Bytes(s) };
-    }
-
-    /// <summary>
     /// NetworkBehaviour that represents a player connection and is the "Default Player Prefab" inside Netcode for
     /// GameObjects' (Netcode) NetworkManager. This NetworkBehaviour will contain several other NetworkBehaviours that
     /// should persist throughout the duration of this connection, meaning it will persist between scenes.
@@ -39,6 +19,11 @@ namespace CarRacingGame3d
         [SerializeField]
         PersistentPlayerRuntimeCollection persistentPlayerRuntimeCollection;
 
+        [SerializeField]
+        NetworkNameState networkNameState;
+
+        public NetworkNameState NetworkNameState => networkNameState;
+
         public override void OnNetworkSpawn()
         {
             gameObject.name = "PersistentPlayer" + OwnerClientId;
@@ -47,6 +32,14 @@ namespace CarRacingGame3d
             // when this element is added to the runtime collection. If this was done in OnEnable() there is a chance
             // that OwnerClientID could be its default value (0).
             persistentPlayerRuntimeCollection.Add(this);
+            if (IsServer)
+            {
+                var sessionPlayerData = SessionManager<SessionPlayerData>.Instance.GetPlayerData(OwnerClientId);
+                if (sessionPlayerData.HasValue)
+                {
+                    networkNameState.Name.Value = sessionPlayerData.Value.PlayerName;
+                }
+            }
         }
 
         public override void OnDestroy()
@@ -66,11 +59,9 @@ namespace CarRacingGame3d
             if (IsServer)
             {
                 var sessionPlayerData = SessionManager<SessionPlayerData>.Instance.GetPlayerData(OwnerClientId);
+
                 if (sessionPlayerData.HasValue)
-                {
-                    var playerData = sessionPlayerData.Value;
-                    SessionManager<SessionPlayerData>.Instance.SetPlayerData(OwnerClientId, playerData);
-                }
+                    SessionManager<SessionPlayerData>.Instance.SetPlayerData(OwnerClientId, sessionPlayerData.Value);
             }
         }
     }

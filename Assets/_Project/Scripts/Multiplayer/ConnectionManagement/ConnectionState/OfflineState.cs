@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CarRacingGame3d
@@ -19,7 +20,7 @@ namespace CarRacingGame3d
             var name = SceneManager.GetActiveScene().name;
             if (name != mainMenuSceneName && name != lobbySceneName && name != onlineLobbySceneName)
             {
-                SceneManager.LoadScene(mainMenuSceneName);
+                SceneTransitionHandler.Instance.SwitchScene(mainMenuSceneName, false);
             }
         }
 

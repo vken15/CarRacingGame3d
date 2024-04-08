@@ -92,10 +92,6 @@ namespace CarRacingGame3d
                 };
             }
 
-            //Both client and host/server will set the scene state to "ingame" which places the PlayerControl into the SceneTransitionHandler.SceneStates.INGAME
-            //and in turn makes the players visible and allows for the players to be controlled.
-            SceneTransitionHandler.Instance.SetSceneState(SceneTransitionHandler.SceneStates.Ingame);
-
             if (IsServer)
             {
                 NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;

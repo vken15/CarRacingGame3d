@@ -19,19 +19,18 @@ namespace CarRacingGame3d
         public void OnRaceAgain()
         {
             if (GameManager.instance.networkStatus == NetworkStatus.offline)
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                SceneTransitionHandler.Instance.SwitchScene(SceneManager.GetActiveScene().name, false);
             else
-                SceneTransitionHandler.Instance.SwitchScene("Room");
+                SceneTransitionHandler.Instance.SwitchScene("Room", true);
         }
         public void OnBackToMenu()
         {
             if (GameManager.instance.networkStatus == NetworkStatus.offline)
-                SceneManager.LoadScene("MainMenu");
+                SceneTransitionHandler.Instance.SwitchScene("MainMenu", false);
             else
             {
-                NetworkManager.Singleton.Shutdown();
                 GameManager.instance.networkStatus = NetworkStatus.offline;
-                SceneTransitionHandler.Instance.ExitAndLoadStartMenu();
+                ConnectionManager.instance.RequestShutdown();
             }
         }
 
@@ -62,9 +61,9 @@ namespace CarRacingGame3d
             yield return new WaitForSeconds(3);
 
             if (GameManager.instance.currentRound > GameManager.instance.maxRound)
-                SceneTransitionHandler.Instance.SwitchScene("PostGame");
+                SceneTransitionHandler.Instance.SwitchScene("PostGame", GameManager.instance.networkStatus == NetworkStatus.online);
             else
-                SceneTransitionHandler.Instance.SwitchScene("Room");
+                SceneTransitionHandler.Instance.SwitchScene("Room", GameManager.instance.networkStatus == NetworkStatus.online);
         }
 
         private void OnDestroy()

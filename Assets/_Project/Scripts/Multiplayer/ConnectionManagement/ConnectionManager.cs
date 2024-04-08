@@ -39,15 +39,15 @@ namespace CarRacingGame3d
     {
         public static ConnectionManager instance = null;
 
-        ConnectionState m_CurrentState;
+        ConnectionState currentState;
 
-        NetworkManager m_NetworkManager;
+        NetworkManager networkManager;
 
-        ExampleNetworkDiscovery m_Discovery;
+        ExampleNetworkDiscovery discovery;
 
-        public NetworkManager NetworkManager => m_NetworkManager;
+        public NetworkManager NetworkManager => networkManager;
 
-        public ExampleNetworkDiscovery Discovery => m_Discovery;
+        public ExampleNetworkDiscovery Discovery => discovery;
 
         [SerializeField]
         int m_NbReconnectAttempts = 2;
@@ -75,14 +75,14 @@ namespace CarRacingGame3d
                 return;
             }
 
-            m_NetworkManager = FindAnyObjectByType<NetworkManager>();
-            m_Discovery = FindAnyObjectByType<ExampleNetworkDiscovery>();
+            networkManager = FindAnyObjectByType<NetworkManager>();
+            discovery = FindAnyObjectByType<ExampleNetworkDiscovery>();
             DontDestroyOnLoad(gameObject);
         }
 
         void Start()
         {
-            m_CurrentState = m_Offline;
+            currentState = m_Offline;
 
             NetworkManager.OnClientConnectedCallback += OnClientConnectedCallback;
             NetworkManager.OnClientDisconnectCallback += OnClientDisconnectCallback;
@@ -104,69 +104,66 @@ namespace CarRacingGame3d
 
         internal void ChangeState(ConnectionState nextState)
         {
-            Debug.Log($"{name}: Changed connection state from {m_CurrentState.GetType().Name} to {nextState.GetType().Name}.");
+            Debug.Log($"{name}: Changed connection state from {currentState.GetType().Name} to {nextState.GetType().Name}.");
 
-            if (m_CurrentState != null)
-            {
-                m_CurrentState.Exit();
-            }
-            m_CurrentState = nextState;
-            m_CurrentState.Enter();
+            currentState?.Exit();
+            currentState = nextState;
+            currentState.Enter();
         }
 
         void OnClientDisconnectCallback(ulong clientId)
         {
-            m_CurrentState.OnClientDisconnect(clientId);
+            currentState.OnClientDisconnect(clientId);
         }
 
         void OnClientConnectedCallback(ulong clientId)
         {
-            m_CurrentState.OnClientConnected(clientId);
+            currentState.OnClientConnected(clientId);
         }
 
         void OnServerStarted()
         {
-            m_CurrentState.OnServerStarted();
+            currentState.OnServerStarted();
         }
 
         void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
         {
-            m_CurrentState.ApprovalCheck(request, response);
+            currentState.ApprovalCheck(request, response);
         }
 
         void OnTransportFailure()
         {
-            m_CurrentState.OnTransportFailure();
+            currentState.OnTransportFailure();
         }
 
         void OnServerStopped(bool _) // we don't need this parameter as the ConnectionState already carries the relevant information
         {
-            m_CurrentState.OnServerStopped();
+            currentState.OnServerStopped();
         }
 
         public void StartClientLobby(string playerName)
         {
-            m_CurrentState.StartClientLobby(playerName);
+            currentState.StartClientLobby(playerName);
         }
 
         public void StartClientIp(string playerName, string ipaddress, int port)
         {
-            m_CurrentState.StartClientIP(playerName, ipaddress, port);
+            currentState.StartClientIP(playerName, ipaddress, port);
         }
 
         public void StartHostLobby(string playerName)
         {
-            m_CurrentState.StartHostLobby(playerName);
+            currentState.StartHostLobby(playerName);
         }
 
         public void StartHostIp(string playerName, string ipaddress, int port)
         {
-            m_CurrentState.StartHostIP(playerName, ipaddress, port);
+            currentState.StartHostIP(playerName, ipaddress, port);
         }
 
         public void RequestShutdown()
         {
-            m_CurrentState.OnUserRequestedShutdown();
+            currentState.OnUserRequestedShutdown();
         }
     }
 }

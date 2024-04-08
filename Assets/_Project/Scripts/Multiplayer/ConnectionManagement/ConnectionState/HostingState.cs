@@ -14,8 +14,7 @@ namespace CarRacingGame3d
 
         public override void Enter()
         {
-            SceneTransitionHandler.Instance.RegisterCallbacks();
-            SceneTransitionHandler.Instance.SwitchScene("Room");
+            SceneTransitionHandler.Instance.SwitchScene("Room", true);
             GameManager.instance.currentRound = 1;
             ConnectionManager.instance.Discovery.StartServer();
 
@@ -28,7 +27,6 @@ namespace CarRacingGame3d
         public override void Exit()
         {
             SessionManager<SessionPlayerData>.Instance.OnServerEnded();
-            SceneTransitionHandler.Instance.CancelCallbacks();
         }
 
         public override void OnClientConnected(ulong clientId)

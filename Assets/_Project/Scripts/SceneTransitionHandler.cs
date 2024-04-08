@@ -1,13 +1,18 @@
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Netcode;
 
 namespace CarRacingGame3d
 {
     public class SceneTransitionHandler : NetworkBehaviour
     {
-        static public SceneTransitionHandler Instance { get; internal set; }
+        static public SceneTransitionHandler Instance { get; protected set; }
+
+        [SerializeField]
+        ClientLoadingScreen clientLoadingScreen;
+
+        [SerializeField]
+        LoadingProgressManager loadingProgressManager;
 
         [SerializeField]
         private string DefaultMainMenu = "MainMenu";
@@ -17,31 +22,12 @@ namespace CarRacingGame3d
         [HideInInspector]
         public event ClientLoadedSceneDelegateHandler OnClientLoadedScene;
 
-        [HideInInspector]
-        public delegate void SceneStateChangedDelegateHandler(SceneStates newState);
-        [HideInInspector]
-        public event SceneStateChangedDelegateHandler OnSceneStateChanged;
+        bool IsNetworkSceneManagementEnabled => NetworkManager != null && NetworkManager.SceneManager != null && NetworkManager.NetworkConfig.EnableSceneManagement;
 
-        private int m_numberOfClientLoaded;
+        bool isInitialized;
 
-        /// <summary>
-        /// Example scene states
-        /// </summary>
-        public enum SceneStates
-        {
-            Init,
-            Start,
-            Lobby,
-            Ingame
-        }
+        private int numberOfClientLoaded;
 
-        private SceneStates m_SceneState;
-
-        /// <summary>
-        /// Awake
-        /// If another version exists, destroy it and use the current version
-        /// Set our scene state to INIT
-        /// </summary>
         private void Awake()
         {
             if (Instance != this && Instance != null)
@@ -49,100 +35,165 @@ namespace CarRacingGame3d
                 Destroy(Instance.gameObject);
             }
             Instance = this;
-            SetSceneState(SceneStates.Init);
             DontDestroyOnLoad(this);
         }
 
-        /// <summary>
-        /// SetSceneState
-        /// Sets the current scene state to help with transitioning.
-        /// </summary>
-        /// <param name="sceneState"></param>
-        public void SetSceneState(SceneStates sceneState)
-        {
-            m_SceneState = sceneState;
-            OnSceneStateChanged?.Invoke(m_SceneState);
-        }
-
-        /// <summary>
-        /// GetCurrentSceneState
-        /// Returns the current scene state
-        /// </summary>
-        /// <returns>current scene state</returns>
-        public SceneStates GetCurrentSceneState()
-        {
-            return m_SceneState;
-        }
-
-        /// <summary>
-        /// Start
-        /// Loads the default main menu when started (this should always be a component added to the networking manager)
-        /// </summary>
         private void Start()
         {
-            if (m_SceneState == SceneStates.Init)
+            SceneManager.LoadScene(DefaultMainMenu);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            NetworkManager.OnServerStarted += OnNetworkingSessionStarted;
+            NetworkManager.OnClientStarted += OnNetworkingSessionStarted;
+            NetworkManager.OnServerStopped += OnNetworkingSessionEnded;
+            NetworkManager.OnClientStopped += OnNetworkingSessionEnded;
+        }
+
+        public override void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            if (NetworkManager != null)
             {
-                SceneManager.LoadScene(DefaultMainMenu);
+                NetworkManager.OnServerStarted -= OnNetworkingSessionStarted;
+                NetworkManager.OnClientStarted -= OnNetworkingSessionStarted;
+                NetworkManager.OnServerStopped -= OnNetworkingSessionEnded;
+                NetworkManager.OnClientStopped -= OnNetworkingSessionEnded;
             }
+            base.OnDestroy();
         }
 
-        /// <summary>
-        /// Registers callbacks to the NetworkSceneManager. This should be called when starting the server
-        /// </summary>
-        public void RegisterCallbacks()
+        public void SwitchScene(string sceneName, bool useNetworkSceneManager, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
         {
-            NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadComplete;
-        }
-
-        public void CancelCallbacks()
-        {
-            OnClientLoadedScene = null;
-            SetSceneState(SceneStates.Start);
-            if (NetworkManager.Singleton.SceneManager != null)
-                NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnLoadComplete;
-        }
-
-        /// <summary>
-        /// Switches to a new scene
-        /// </summary>
-        /// <param name="scenename"></param>
-        public void SwitchScene(string scenename)
-        {
-            if (NetworkManager.Singleton.IsListening)
+            if (useNetworkSceneManager)
             {
-                m_numberOfClientLoaded = 0;
-                NetworkManager.Singleton.SceneManager.LoadScene(scenename, LoadSceneMode.Single);
+                if (IsSpawned && IsNetworkSceneManagementEnabled && !NetworkManager.ShutdownInProgress)
+                {
+                    if (NetworkManager.IsServer)
+                    {
+                        numberOfClientLoaded = 0;
+                        NetworkManager.SceneManager.LoadScene(sceneName, loadSceneMode);
+                    }
+                }
             }
             else
             {
-                SceneManager.LoadSceneAsync(scenename);
+                var loadOperation = SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
+                if (loadSceneMode == LoadSceneMode.Single)
+                {
+                    clientLoadingScreen.StartLoadingScreen(sceneName);
+                    loadingProgressManager.LocalLoadOperation = loadOperation;
+                }
             }
-        }
-
-        private void OnLoadComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
-        {
-            m_numberOfClientLoaded += 1;
-            Debug.Log(m_numberOfClientLoaded + " " + clientId);
-            OnClientLoadedScene?.Invoke(clientId);
         }
 
         public bool AllClientsAreLoaded()
         {
-            //Debug.Log(m_numberOfClientLoaded + " " + NetworkManager.Singleton.ConnectedClients.Count);
-            //return m_numberOfClientLoaded == NetworkManager.Singleton.ConnectedClients.Count;
-            return m_numberOfClientLoaded >= NetworkManager.Singleton.ConnectedClients.Count;
+            return numberOfClientLoaded >= NetworkManager.ConnectedClients.Count;
         }
 
-        /// <summary>
-        /// ExitAndLoadStartMenu
-        /// This should be invoked upon a user exiting a multiplayer game session.
-        /// </summary>
-        public void ExitAndLoadStartMenu()
+        void OnNetworkingSessionStarted()
         {
-            NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnLoadComplete;
-            OnClientLoadedScene = null;
-            SetSceneState(SceneStates.Start);
-            SceneManager.LoadScene("MainMenu");
+            // This prevents this to be called twice on a host, which receives both OnServerStarted and OnClientStarted callbacks
+            if (!isInitialized)
+            {
+                if (IsNetworkSceneManagementEnabled)
+                {
+                    NetworkManager.SceneManager.OnSceneEvent += OnSceneEvent;
+                }
+
+                isInitialized = true;
+            }
+        }
+
+        void OnNetworkingSessionEnded(bool unused)
+        {
+            if (isInitialized)
+            {
+                if (IsNetworkSceneManagementEnabled)
+                {
+                    NetworkManager.SceneManager.OnSceneEvent -= OnSceneEvent;
+                }
+
+                isInitialized = false;
+            }
+        }
+
+        void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+        {
+            if (!IsSpawned || NetworkManager.ShutdownInProgress)
+            {
+                clientLoadingScreen.StopLoadingScreen();
+            }
+        }
+
+        void OnSceneEvent(SceneEvent sceneEvent)
+        {
+            switch (sceneEvent.SceneEventType)
+            {
+                case SceneEventType.Load:
+                    if (NetworkManager.IsClient)
+                    {
+                        if (sceneEvent.LoadSceneMode == LoadSceneMode.Single)
+                        {
+                            clientLoadingScreen.StartLoadingScreen(sceneEvent.SceneName);
+                            loadingProgressManager.LocalLoadOperation = sceneEvent.AsyncOperation;
+                        }
+                        else
+                        {
+                            clientLoadingScreen.UpdateLoadingScreen(sceneEvent.SceneName);
+                            loadingProgressManager.LocalLoadOperation = sceneEvent.AsyncOperation;
+                        }
+                    }
+                    break;
+                case SceneEventType.LoadEventCompleted:
+                    if (NetworkManager.IsClient)
+                    {
+                        clientLoadingScreen.StopLoadingScreen();
+                    }
+                    break;
+                case SceneEventType.Synchronize:
+                    {
+                        if (NetworkManager.IsClient && !NetworkManager.IsHost)
+                        {
+                            if (NetworkManager.SceneManager.ClientSynchronizationMode == LoadSceneMode.Single)
+                            {
+                                UnloadAdditiveScenes();
+                            }
+                        }
+                        break;
+                    }
+                case SceneEventType.SynchronizeComplete:
+                    if (NetworkManager.IsServer)
+                    {
+                        StopLoadingScreenClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new[] { sceneEvent.ClientId } } });
+                    }
+                    break;
+                case SceneEventType.LoadComplete:
+                    if (NetworkManager.IsServer)
+                    {
+                        numberOfClientLoaded += 1;
+                        OnClientLoadedScene?.Invoke(sceneEvent.ClientId);
+                    }
+                    break;
+            }
+        }
+
+        void UnloadAdditiveScenes()
+        {
+            var activeScene = SceneManager.GetActiveScene();
+            for (var i = 0; i < SceneManager.sceneCount; i++)
+            {
+                var scene = SceneManager.GetSceneAt(i);
+                if (scene.isLoaded && scene != activeScene)
+                {
+                    SceneManager.UnloadSceneAsync(scene);
+                }
+            }
+        }
+
+        [ClientRpc]
+        void StopLoadingScreenClientRpc(ClientRpcParams clientRpcParams = default)
+        {
+            clientLoadingScreen.StopLoadingScreen();
         }
     }
 }
