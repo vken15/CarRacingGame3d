@@ -13,5 +13,10 @@ namespace CarRacingGame3d
         {
             messageText.text = $"<color=#{ColorUtility.ToHtmlStringRGBA(playerColors[playerNumber])}>{playerName}</color>: {message}";
         }
+
+        public void SetOtherMessage(string message)
+        {
+            messageText.text = $"{message}";
+        }
     }
 }

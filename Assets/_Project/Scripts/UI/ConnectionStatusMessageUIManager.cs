@@ -116,8 +116,7 @@ namespace CarRacingGame3d
 
         void HandleLobbyError(UnityServiceErrorMessage error)
         {
-            var exception = error.OriginalException as LobbyServiceException;
-            if (exception != null)
+            if (error.OriginalException is LobbyServiceException exception)
             {
                 switch (exception.Reason)
                 {

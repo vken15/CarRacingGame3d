@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -20,7 +19,7 @@ namespace CarRacingGame3d
     public struct ConnectionEventMessage : INetworkSerializeByMemcpy
     {
         public ConnectStatus ConnectStatus;
-        public FixedPlayerName PlayerName;
+        public ulong PlayerId;
     }
 
     [Serializable]

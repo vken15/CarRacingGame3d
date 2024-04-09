@@ -18,15 +18,15 @@ namespace CarRacingGame3d
             public float LastCallTime;
         }
 
-        readonly Queue<Action> m_PendingHandlers = new Queue<Action>();
-        readonly HashSet<Action<float>> m_Subscribers = new HashSet<Action<float>>();
-        readonly Dictionary<Action<float>, SubscriberData> m_SubscriberData = new Dictionary<Action<float>, SubscriberData>();
+        readonly Queue<Action> pendingHandlers = new();
+        readonly HashSet<Action<float>> subscribers = new();
+        readonly Dictionary<Action<float>, SubscriberData> subscriberData = new();
 
         public void OnDestroy()
         {
-            m_PendingHandlers.Clear();
-            m_Subscribers.Clear();
-            m_SubscriberData.Clear();
+            pendingHandlers.Clear();
+            subscribers.Clear();
+            subscriberData.Clear();
         }
 
         /// <summary>
@@ -52,13 +52,13 @@ namespace CarRacingGame3d
                 return;
             }
 
-            if (!m_Subscribers.Contains(onUpdate))
+            if (!subscribers.Contains(onUpdate))
             {
-                m_PendingHandlers.Enqueue(() =>
+                pendingHandlers.Enqueue(() =>
                 {
-                    if (m_Subscribers.Add(onUpdate))
+                    if (subscribers.Add(onUpdate))
                     {
-                        m_SubscriberData.Add(onUpdate, new SubscriberData() { Period = updatePeriod, NextCallTime = 0, LastCallTime = Time.time });
+                        subscriberData.Add(onUpdate, new SubscriberData() { Period = updatePeriod, NextCallTime = 0, LastCallTime = Time.time });
                     }
                 });
             }
@@ -69,10 +69,10 @@ namespace CarRacingGame3d
         /// </summary>
         public void Unsubscribe(Action<float> onUpdate)
         {
-            m_PendingHandlers.Enqueue(() =>
+            pendingHandlers.Enqueue(() =>
             {
-                m_Subscribers.Remove(onUpdate);
-                m_SubscriberData.Remove(onUpdate);
+                subscribers.Remove(onUpdate);
+                subscriberData.Remove(onUpdate);
             });
         }
 
@@ -81,14 +81,14 @@ namespace CarRacingGame3d
         /// </summary>
         void Update()
         {
-            while (m_PendingHandlers.Count > 0)
+            while (pendingHandlers.Count > 0)
             {
-                m_PendingHandlers.Dequeue()?.Invoke();
+                pendingHandlers.Dequeue()?.Invoke();
             }
 
-            foreach (var subscriber in m_Subscribers)
+            foreach (var subscriber in subscribers)
             {
-                var subscriberData = m_SubscriberData[subscriber];
+                var subscriberData = this.subscriberData[subscriber];
 
                 if (Time.time >= subscriberData.NextCallTime)
                 {

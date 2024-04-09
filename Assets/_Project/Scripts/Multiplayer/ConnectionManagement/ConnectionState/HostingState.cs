@@ -34,7 +34,13 @@ namespace CarRacingGame3d
             var playerData = SessionManager<SessionPlayerData>.Instance.GetPlayerData(clientId);
             if (playerData != null)
             {
-                //m_ConnectionEventPublisher.Publish(new ConnectionEventMessage() { ConnectStatus = ConnectStatus.Success, PlayerName = playerData.Value.PlayerName });
+                if (RoomChat.instance != null)
+                    RoomChat.instance.OnConnectionEvent(
+                        new ConnectionEventMessage() { 
+                            ConnectStatus = ConnectStatus.Success, 
+                            PlayerId = clientId
+                        }
+                    );
             }
             else
             {
@@ -53,11 +59,14 @@ namespace CarRacingGame3d
                 var playerId = SessionManager<SessionPlayerData>.Instance.GetPlayerId(clientId);
                 if (playerId != null)
                 {
-                    var sessionData = SessionManager<SessionPlayerData>.Instance.GetPlayerData(playerId);
-                    if (sessionData.HasValue)
-                    {
-                        //m_ConnectionEventPublisher.Publish(new ConnectionEventMessage() { ConnectStatus = ConnectStatus.GenericDisconnect, PlayerName = sessionData.Value.PlayerName });
-                    }
+                    if (RoomChat.instance != null)
+                        RoomChat.instance.OnConnectionEvent(
+                            new ConnectionEventMessage()
+                            {
+                                ConnectStatus = ConnectStatus.GenericDisconnect,
+                                PlayerId = clientId
+                            }
+                        );
                     SessionManager<SessionPlayerData>.Instance.DisconnectClient(clientId);
                 }
             }

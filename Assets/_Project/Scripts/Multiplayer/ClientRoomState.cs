@@ -162,6 +162,8 @@ namespace CarRacingGame3d
                 leaveBtn.GetComponent<Button>().interactable = false;
                 readyBtn.GetComponent<Button>().interactable = false;
                 GameManager.instance.numberOfCarsRaceCompleteToEnd = networkRoom.LobbyPlayers.Count;
+                if (RoomChat.instance != null)
+                    RoomChat.instance.StartedGameMessage();
             }
         }
 

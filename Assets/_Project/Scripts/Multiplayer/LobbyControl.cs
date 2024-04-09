@@ -30,6 +30,7 @@ namespace CarRacingGame3d
 
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private ConnectingUIHandler connectingUI;
+        [SerializeField] private TMP_Text emptyLobbyListLabel;
 
         [Header("Map prefab")]
         [SerializeField] private GameObject mapPrefab;
@@ -50,9 +51,9 @@ namespace CarRacingGame3d
         private MapData[] mapDatas;
         private GameObject mapDisplay;
 
-        ExampleNetworkDiscovery m_Discovery;
-
-        NetworkManager m_NetworkManager;
+        ExampleNetworkDiscovery discovery;
+        UpdateRunner updateRunner;
+        NetworkManager networkManager;
         readonly Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new();
 
         private string iPAddress;
@@ -60,8 +61,9 @@ namespace CarRacingGame3d
 
         private void Awake()
         {
-            m_Discovery = FindAnyObjectByType<ExampleNetworkDiscovery>();
-            m_NetworkManager = FindAnyObjectByType<NetworkManager>();
+            discovery = FindAnyObjectByType<ExampleNetworkDiscovery>();
+            networkManager = FindAnyObjectByType<NetworkManager>();
+            updateRunner = FindAnyObjectByType<UpdateRunner>();
 
             //Load the map Data
             mapDatas = Resources.LoadAll<MapData>("MapData/");
@@ -87,20 +89,7 @@ namespace CarRacingGame3d
             
             refreshBtn.onClick.AddListener(() =>
             {
-                discoveredServers.Clear();
-                foreach (GameObject room in roomList)
-                {
-                    Destroy(room);
-                }
-                m_Discovery.ClientBroadcast(new DiscoveryBroadcastData());
-                joinBtn.interactable = false;
-                mapNameText.text = "";
-                difficultyText.text = "";
-                numberOfLapsText.text = "";
-                roundText.text = "";
-                playerText.text = "";
-                Destroy(mapDisplay);
-                //ClientSearch();
+                OnRefresh(0);
             });
             
             createHostBtn.onClick.AddListener(() =>
@@ -145,13 +134,14 @@ namespace CarRacingGame3d
                 canvasGroup.interactable = true;
             });
 
-            m_Discovery.OnServerFound += OnServerFound;
+            discovery.OnServerFound += OnServerFound;
+            updateRunner.Subscribe(OnRefresh, 10f);
         }
 
         private void Start()
         {
-            m_Discovery.StartClient();
-            m_Discovery.ClientBroadcast(new DiscoveryBroadcastData());
+            discovery.StartClient();
+            ShowEmptyLabel();
             //ClientSearch();
         }
 
@@ -190,6 +180,7 @@ namespace CarRacingGame3d
                 joinBtn.interactable = true;
             });
             roomList.Add(item);
+            ShowEmptyLabel();
         }
         /*
         void ClientSearch()
@@ -212,13 +203,46 @@ namespace CarRacingGame3d
             }
         }
         */
+
+        private void ShowEmptyLabel()
+        {
+            if (discoveredServers.Count == 0)
+            {
+                emptyLobbyListLabel.enabled = true;
+            }
+            else
+            {
+                emptyLobbyListLabel.enabled = false;
+            }
+        }
+
+        private void OnRefresh(float _)
+        {
+            discoveredServers.Clear();
+            foreach (GameObject room in roomList)
+            {
+                Destroy(room);
+            }
+            discovery.ClientBroadcast(new DiscoveryBroadcastData());
+            joinBtn.interactable = false;
+            mapNameText.text = "";
+            difficultyText.text = "";
+            numberOfLapsText.text = "";
+            roundText.text = "";
+            playerText.text = "";
+            Destroy(mapDisplay);
+            ShowEmptyLabel();
+            //ClientSearch();
+        }
+        
         private void OnDestroy()
         {
-            if (m_Discovery.IsRunning && !m_NetworkManager.IsServer)
+            if (discovery.IsRunning && !networkManager.IsServer)
             {
-                m_Discovery.StopDiscovery();
+                discovery.StopDiscovery();
             }
-            m_Discovery.OnServerFound -= OnServerFound;
+            discovery.OnServerFound -= OnServerFound;
+            updateRunner.Unsubscribe(OnRefresh);
         }
 
         public void OnEndEdit(string name)

@@ -478,7 +478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.67058825, g: 0.41960785, b: 0, a: 1}
+  m_Color: {r: 0.29803923, g: 0.67058825, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -625,7 +625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.67058825, g: 0.41960785, b: 0, a: 1}
+  m_Color: {r: 0.2998305, g: 0.67058825, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1173,7 +1173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.67058825, g: 0.41960785, b: 0, a: 1}
+  m_Color: {r: 0.29803923, g: 0.67058825, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1337,7 +1337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.67058825, g: 0.41960785, b: 0, a: 1}
+  m_Color: {r: 0.29803923, g: 0.67058825, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2048,7 +2048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.67058825, g: 0.41960785, b: 0, a: 1}
+  m_Color: {r: 0.29803923, g: 0.67058825, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2323,7 +2323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.67058825, g: 0.41960785, b: 0, a: 1}
+  m_Color: {r: 0.29803923, g: 0.67058825, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2398,7 +2398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.67058825, g: 0.41960785, b: 0, a: 1}
+  m_Color: {r: 0.29803923, g: 0.67058825, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2901,7 +2901,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -311, y: 180}
+  m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1647850909
@@ -3152,8 +3152,22 @@ MonoBehaviour:
   fadeOutDuration: 0.1
   progressBar: {fileID: 1402610887}
   sceneName: {fileID: 1934202690}
-  otherPlayersProgressBars: []
-  otherPlayerNamesTexts: []
+  otherPlayersProgressBars:
+  - {fileID: 1178934173}
+  - {fileID: 800768730}
+  - {fileID: 666361339}
+  - {fileID: 697281776}
+  - {fileID: 883518340}
+  - {fileID: 1556856931}
+  - {fileID: 869773327}
+  otherPlayerNamesTexts:
+  - {fileID: 1674760520}
+  - {fileID: 1124333342}
+  - {fileID: 325783283}
+  - {fileID: 90630536}
+  - {fileID: 1406035959}
+  - {fileID: 1650875333}
+  - {fileID: 1077593129}
   loadingProgressManager: {fileID: 6594171351747550684}
 --- !u!114 &1793714636
 MonoBehaviour:
@@ -3491,7 +3505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.67058825, g: 0.41960785, b: 0, a: 1}
+  m_Color: {r: 0.29803923, g: 0.67058825, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3573,7 +3587,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 99
+  m_SortingOrder: 9
   m_TargetDisplay: 0
 --- !u!224 &893803208968786057
 RectTransform:

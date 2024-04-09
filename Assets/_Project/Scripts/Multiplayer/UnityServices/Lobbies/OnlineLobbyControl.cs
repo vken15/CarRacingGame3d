@@ -25,6 +25,7 @@ namespace CarRacingGame3d
 
         [SerializeField] CanvasGroup canvasGroup;
         [SerializeField] GameObject loadingSpinner;
+        [SerializeField] TMP_Text emptyLobbyListLabel;
 
         [Header("Map prefab")]
         [SerializeField] private GameObject mapPrefab;
@@ -127,11 +128,11 @@ namespace CarRacingGame3d
 
             if (message.LocalLobbies.Count == 0)
             {
-                //m_EmptyLobbyListLabel.enabled = true;
+                emptyLobbyListLabel.enabled = true;
             }
             else
             {
-                //m_EmptyLobbyListLabel.enabled = false;
+                emptyLobbyListLabel.enabled = false;
             }
         }
 
