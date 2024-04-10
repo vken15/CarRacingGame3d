@@ -89,6 +89,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Map"",
+                    ""type"": ""Button"",
+                    ""id"": ""0ed5de3b-2c7c-4b5c-a2ea-3d342e59e66c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -223,6 +232,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Chat"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67319b9f-4a19-4bd5-9403-5f5cbab6a17f"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -238,6 +258,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Tab = m_Player.FindAction("Tab", throwIfNotFound: true);
         m_Player_ESC = m_Player.FindAction("ESC", throwIfNotFound: true);
         m_Player_Chat = m_Player.FindAction("Chat", throwIfNotFound: true);
+        m_Player_Map = m_Player.FindAction("Map", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -306,6 +327,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Tab;
     private readonly InputAction m_Player_ESC;
     private readonly InputAction m_Player_Chat;
+    private readonly InputAction m_Player_Map;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -317,6 +339,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Tab => m_Wrapper.m_Player_Tab;
         public InputAction @ESC => m_Wrapper.m_Player_ESC;
         public InputAction @Chat => m_Wrapper.m_Player_Chat;
+        public InputAction @Map => m_Wrapper.m_Player_Map;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -347,6 +370,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Chat.started += instance.OnChat;
             @Chat.performed += instance.OnChat;
             @Chat.canceled += instance.OnChat;
+            @Map.started += instance.OnMap;
+            @Map.performed += instance.OnMap;
+            @Map.canceled += instance.OnMap;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -372,6 +398,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Chat.started -= instance.OnChat;
             @Chat.performed -= instance.OnChat;
             @Chat.canceled -= instance.OnChat;
+            @Map.started -= instance.OnMap;
+            @Map.performed -= instance.OnMap;
+            @Map.canceled -= instance.OnMap;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -398,5 +427,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnTab(InputAction.CallbackContext context);
         void OnESC(InputAction.CallbackContext context);
         void OnChat(InputAction.CallbackContext context);
+        void OnMap(InputAction.CallbackContext context);
     }
 }

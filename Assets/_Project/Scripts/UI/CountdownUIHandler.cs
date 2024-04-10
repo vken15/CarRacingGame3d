@@ -14,21 +14,21 @@ namespace CarRacingGame3d
 
         [SerializeField]
         [Tooltip("Time Remaining until the game starts")]
-        private float m_DelayedStartTime = 3.0f;
+        private float delayedStartTime = 3.0f;
 
-        private bool m_ClientGameOver;
-        private bool m_ClientGameStarted;
-        private bool m_ClientStartCountdown;
+        private bool clientGameOver;
+        private bool clientGameStarted;
+        private bool clientStartCountdown;
 
-        private bool m_ReplicatedTimeSent = false;
-        private float m_TimeRemaining;
+        private bool replicatedTimeSent = false;
+        private float timeRemaining;
 
-        private NetworkVariable<bool> m_CountdownStarted = new(false);
-        private NetworkVariable<bool> hasGameStarted { get; } = new(false);
-        private NetworkVariable<bool> raceOverCountdown { get; } = new(false);
-        private NetworkVariable<bool> isGameOver { get; } = new(false);
+        private NetworkVariable<bool> NetworkCountdownStarted = new(false);
+        private NetworkVariable<bool> NetworkHasGameStarted { get; } = new(false);
+        private NetworkVariable<bool> NetworkRaceOverCountdown { get; } = new(false);
+        private NetworkVariable<bool> NetworkIsGameOver { get; } = new(false);
 
-        private bool m_raceOverCountdown = false;
+        private bool raceOverCountdown = false;
 
         private void Awake()
         {
@@ -36,18 +36,18 @@ namespace CarRacingGame3d
 
             if (IsServer)
             {
-                hasGameStarted.Value = false;
+                NetworkHasGameStarted.Value = false;
 
                 //Set our time remaining locally
-                m_TimeRemaining = m_DelayedStartTime;
+                timeRemaining = delayedStartTime;
 
                 //Set for server side
-                m_ReplicatedTimeSent = false;
+                replicatedTimeSent = false;
             }
             else
             {
                 //We do a check for the client side value upon instantiating the class (should be zero)
-                Debug.LogFormat("Client side we started with a timer value of {0}", m_TimeRemaining);
+                Debug.LogFormat("Client side we started with a timer value of {0}", timeRemaining);
             }
         }
 
@@ -55,39 +55,39 @@ namespace CarRacingGame3d
         {
             if (IsClient && !IsServer)
             {
-                m_ClientGameOver = false;
-                m_ClientStartCountdown = false;
-                m_ClientGameStarted = false;
+                clientGameOver = false;
+                clientStartCountdown = false;
+                clientGameStarted = false;
 
-                m_CountdownStarted.OnValueChanged += (oldValue, newValue) =>
+                NetworkCountdownStarted.OnValueChanged += (oldValue, newValue) =>
                 {
-                    m_ClientStartCountdown = newValue;
+                    clientStartCountdown = newValue;
                     Debug.LogFormat("Client side we were notified the start count down state was {0}", newValue);
                 };
 
-                hasGameStarted.OnValueChanged += (oldValue, newValue) =>
+                NetworkHasGameStarted.OnValueChanged += (oldValue, newValue) =>
                 {
-                    m_ClientGameStarted = newValue;
+                    clientGameStarted = newValue;
                     GameManager.instance.OnRaceStart();
-                    m_TimeRemaining = 0.0f;
+                    timeRemaining = 0.0f;
                     //bgmAudioSource.clip = GameManager.instance.BGM;
                     //bgmAudioSource.Play();
-                    countdownText.gameObject.SetActive(!m_ClientGameStarted);
+                    StartCoroutine(HideCountdownText());
                     Debug.LogFormat("Client side we were notified the game started state was {0}", newValue);
                 };
 
-                raceOverCountdown.OnValueChanged += (oldValue, newValue) =>
+                NetworkRaceOverCountdown.OnValueChanged += (oldValue, newValue) =>
                 {
-                    m_raceOverCountdown = newValue;
+                    raceOverCountdown = newValue;
                     countdownText.gameObject.SetActive(true);
                     Debug.LogFormat("Client side we were notified the game end count down state was {0}", newValue);
                 };
 
-                isGameOver.OnValueChanged += (oldValue, newValue) =>
+                NetworkIsGameOver.OnValueChanged += (oldValue, newValue) =>
                 {
-                    m_ClientGameOver = newValue;
+                    clientGameOver = newValue;
                     GameManager.instance.OnRaceOver();
-                    countdownText.gameObject.SetActive(false);
+                    StartCoroutine(HideCountdownText());
                     Debug.LogFormat("Client side we were notified the game over state was {0}", newValue);
                 };
             }
@@ -113,11 +113,11 @@ namespace CarRacingGame3d
             {
                 if (IsCurrentGameOver()) return;
 
-                if (!raceOverCountdown.Value && GameManager.instance.GetGameState() == GameStates.RaceOverCountDown && IsServer)
+                if (!NetworkRaceOverCountdown.Value && GameManager.instance.GetGameState() == GameStates.RaceOverCountDown && IsServer)
                 {
-                    raceOverCountdown.Value = true;
-                    m_TimeRemaining = m_DelayedStartTime = 10.0f;
-                    m_ReplicatedTimeSent = false;
+                    NetworkRaceOverCountdown.Value = true;
+                    timeRemaining = delayedStartTime = 10.0f;
+                    replicatedTimeSent = false;
                     countdownText.gameObject.SetActive(true);
                 }
 
@@ -125,9 +125,9 @@ namespace CarRacingGame3d
             }
             else
             {
-                if (!m_raceOverCountdown && GameManager.instance.GetGameState() == GameStates.RaceOverCountDown)
+                if (!raceOverCountdown && GameManager.instance.GetGameState() == GameStates.RaceOverCountDown)
                 {
-                    m_raceOverCountdown = true;
+                    raceOverCountdown = true;
                     StartCoroutine(CountDownCO(10, true));
                 }
             }
@@ -136,22 +136,22 @@ namespace CarRacingGame3d
         private bool HasGameStarted()
         {
             if (IsServer)
-                return hasGameStarted.Value;
-            return m_ClientGameStarted;
+                return NetworkHasGameStarted.Value;
+            return clientGameStarted;
         }
 
         private bool HasRaceOverCountDown()
         {
             if (IsServer)
-                return raceOverCountdown.Value;
-            return m_raceOverCountdown;
+                return NetworkRaceOverCountdown.Value;
+            return raceOverCountdown;
         }
 
         private bool IsCurrentGameOver()
         {
             if (IsServer)
-                return isGameOver.Value;
-            return m_ClientGameOver;
+                return NetworkIsGameOver.Value;
+            return clientGameOver;
         }
 
         private bool ShouldStartCountDown()
@@ -160,26 +160,26 @@ namespace CarRacingGame3d
             if ((HasGameStarted() && !HasRaceOverCountDown()) || (HasRaceOverCountDown() && IsCurrentGameOver())) return false;
             if (IsServer)
             {
-                m_CountdownStarted.Value = SceneTransitionHandler.Instance.AllClientsAreLoaded();
+                NetworkCountdownStarted.Value = SceneTransitionHandler.Instance.AllClientsAreLoaded();
                 //While we are counting down, continually set the replicated time remaining value for clients (client should only receive the update once)
-                if (m_CountdownStarted.Value && !m_ReplicatedTimeSent)
+                if (NetworkCountdownStarted.Value && !replicatedTimeSent)
                 {
-                    SetReplicatedTimeRemainingClientRPC(m_DelayedStartTime);
-                    m_ReplicatedTimeSent = true;
+                    SetReplicatedTimeRemainingClientRPC(delayedStartTime);
+                    replicatedTimeSent = true;
                 }
 
-                return m_CountdownStarted.Value;
+                return NetworkCountdownStarted.Value;
             }
 
-            return m_ClientStartCountdown;
+            return clientStartCountdown;
         }
 
         private void OnClientConnected(ulong clientId)
         {
-            if (m_ReplicatedTimeSent)
+            if (replicatedTimeSent)
             {
                 // Send the RPC only to the newly connected client
-                SetReplicatedTimeRemainingClientRPC(m_TimeRemaining, new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong>() { clientId } } });
+                SetReplicatedTimeRemainingClientRPC(timeRemaining, new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong>() { clientId } } });
             }
         }
 
@@ -187,14 +187,14 @@ namespace CarRacingGame3d
         private void SetReplicatedTimeRemainingClientRPC(float delayedStartTime, ClientRpcParams clientRpcParams = new ClientRpcParams())
         {
             // See the ShouldStartCountDown method for when the server updates the value
-            if (m_TimeRemaining == 0)
+            if (timeRemaining == 0)
             {
                 Debug.LogFormat("Client side our first timer update value is {0}", delayedStartTime);
-                m_TimeRemaining = delayedStartTime;
+                timeRemaining = delayedStartTime;
             }
             else
             {
-                Debug.Log(m_TimeRemaining);
+                Debug.Log(timeRemaining);
                 Debug.LogFormat("Client side we got an update for a timer value of {0} when we shouldn't", delayedStartTime);
             }
         }
@@ -202,46 +202,40 @@ namespace CarRacingGame3d
         private void UpdateGameTimer()
         {
             if (!ShouldStartCountDown()) return;
-            if ((!HasGameStarted() && m_TimeRemaining > 0.0f) || (HasRaceOverCountDown() && m_TimeRemaining > 0.0f))
+            if ((!HasGameStarted() && timeRemaining > 0.0f) || (HasRaceOverCountDown() && timeRemaining > 0.0f))
             {
-                if (m_TimeRemaining == 3.0f)
+                if (timeRemaining <= 3.0f && timeRemaining > 0.0f && !countdownAudioSource.isPlaying)
                 {
                     countdownAudioSource.Play();
                 }
 
-                m_TimeRemaining -= Time.deltaTime;
+                timeRemaining -= Time.deltaTime;
 
-                if (m_TimeRemaining < 0.1f)
-                {
-                    if (HasRaceOverCountDown())
-                        countdownText.text = "Over!";
-                    else
-                        countdownText.text = "Start!";
-                }
-
-                if (m_TimeRemaining <= 0.0f)
+                if (timeRemaining <= 0.0f)
                 {
                     if (IsServer) // Only the server should be updating this
                     {
-                        m_TimeRemaining = 0.0f;
+                        timeRemaining = 0.0f;
                         if (!HasRaceOverCountDown())
                         {
-                            hasGameStarted.Value = true;
+                            NetworkHasGameStarted.Value = true;
                             //bgmAudioSource.clip = GameManager.instance.BGM;
                             //bgmAudioSource.Play();
                             GameManager.instance.OnRaceStart();
+                            
                         }
                         else
                         {
-                            isGameOver.Value = true;
+                            NetworkIsGameOver.Value = true;
                             GameManager.instance.OnRaceOver();
                         }
-                        countdownText.gameObject.SetActive(false);
                     }
-                }
 
-                if (m_TimeRemaining > 0.1f)
-                    countdownText.SetText("{0}", Mathf.FloorToInt(m_TimeRemaining) + 1);
+                    StartCoroutine(HideCountdownText());
+                } else
+                {
+                    countdownText.SetText("{0}", Mathf.FloorToInt(timeRemaining) + 1);
+                }
             }
         }
 
@@ -253,12 +247,16 @@ namespace CarRacingGame3d
             }
         }
 
-        /*
-        public void StartCountDown()
+        private IEnumerator HideCountdownText()
         {
-            StartCoroutine(CountDownCO(3, false));
+            if (HasRaceOverCountDown())
+                countdownText.text = "Over!";
+            else
+                countdownText.text = "Start!";
+
+            yield return new WaitForSeconds(1.0f);
+            countdownText.gameObject.SetActive(false);
         }
-        */
 
         // state = false => race start, state = true => race over countdown
         //Countdown for offline mode

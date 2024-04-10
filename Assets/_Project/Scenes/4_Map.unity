@@ -7581,6 +7581,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1857367873327014864, guid: e1429553a8e8e744e9f008b1da9a7adb, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1857367873327014864, guid: e1429553a8e8e744e9f008b1da9a7adb, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1500
+      objectReference: {fileID: 0}
     - target: {fileID: 2182471196818517115, guid: e1429553a8e8e744e9f008b1da9a7adb, type: 3}
       propertyPath: m_Name
       value: Minimap
@@ -7609,6 +7617,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: b3ba4423b15c4f443bac110788b99282, type: 3}
+    - target: {fileID: 6420084781107616647, guid: e1429553a8e8e744e9f008b1da9a7adb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 464
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420084781107616647, guid: e1429553a8e8e744e9f008b1da9a7adb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 556
+      objectReference: {fileID: 0}
     - target: {fileID: 8044482275359499164, guid: e1429553a8e8e744e9f008b1da9a7adb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

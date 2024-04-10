@@ -82,6 +82,7 @@
     <Compile Include="Assets\_Project\Scripts\Item\ItemOil.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\MainMenuUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\OnlineState.cs" />
+    <Compile Include="Assets\_Project\Scripts\UI\MinimapDisplay.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\NetworkDiscovery\DiscoveryResponseData.cs" />
     <Compile Include="Assets\_Project\Scripts\AntiStuckSystem.cs" />
     <Compile Include="Assets\_Project\Scripts\Enum.cs" />
