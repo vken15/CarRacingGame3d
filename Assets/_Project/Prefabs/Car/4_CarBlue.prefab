@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1133387523
+  GlobalObjectIdHash: 1846089840
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -207,6 +207,7 @@ MonoBehaviour:
   maxNitroFuel: 100
   nitroFuel: 100
   nitroSpeedMultiplier: 1.2
+  fullScreenSpeed: {fileID: -5747296844490304884, guid: 317ff65061e0d5c4f9f975e67dce8137, type: 2}
   centerOfMass: {x: 0, y: 0, z: 0}
   downForce: 33
   lateralGScale: 3.3

@@ -207,6 +207,7 @@ MonoBehaviour:
   maxNitroFuel: 100
   nitroFuel: 100
   nitroSpeedMultiplier: 1.2
+  fullScreenSpeed: {fileID: -5747296844490304884, guid: 317ff65061e0d5c4f9f975e67dce8137, type: 2}
   centerOfMass: {x: 0, y: 0, z: 0}
   downForce: 33
   lateralGScale: 3.3

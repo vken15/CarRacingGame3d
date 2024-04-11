@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace CarRacingGame3d
@@ -7,19 +8,24 @@ namespace CarRacingGame3d
         [SerializeField] private new BoxCollider collider;
         [SerializeField] private new ParticleSystem particleSystem;
         [SerializeField] private float slipMulti = 1.0f;
+        [SerializeField] private ParticleSystem oilBallParticleSystem;
+        [SerializeField] private AnimationCurve speedCurve;
+        [SerializeField] private float speed;
+        [SerializeField] private ParticleSystem spillPrefab;
 
         public override void UseItem(CarController car)
         {
+            Vector3 potition = transform.position.Add(y: 15);
+            Vector3 forward = transform.forward * -1;
             gameObject.transform.parent = null;
-            gameObject.transform.SetPositionAndRotation(new Vector3(car.transform.position.x,
-                car.transform.position.y + 10,
-                car.transform.position.z), car.transform.rotation);
-            collider.enabled = true;
-            var particles = GetComponentsInChildren<ParticleSystem>();
-            foreach (var particle in particles)
+            transform.position = potition;
+            Ray ray = new(transform.position, forward.With(y: -1));
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                particle.Play();
+                StopAllCoroutines();
+                StartCoroutine(CoroutineThrow(hit.point));
             }
+            oilBallParticleSystem.gameObject.SetActive(true);
         }
 
         private void Update()
@@ -28,6 +34,41 @@ namespace CarRacingGame3d
             {
                 Destroy(gameObject);
             }
+        }
+
+        IEnumerator CoroutineThrow(Vector3 target)
+        {
+            float lerp = 0;
+            Vector3 startPos = transform.position;
+            while (lerp < 1)
+            {
+                Debug.Log(transform.position.x + " " + transform.position.y + " " + transform.position.z);
+                Debug.Log(target.x + " 1 " + target.y + " 2 " + target.z);
+                transform.position = Vector3.Lerp(startPos, target, speedCurve.Evaluate(lerp));
+                float magnitude = (transform.position - target).magnitude;
+                if (magnitude < 0.4f)
+                {
+                    break;
+                }
+                lerp += Time.deltaTime * speed;
+                yield return null;
+            }
+            oilBallParticleSystem.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+            Vector3 forward = target - startPos;
+            forward.y = 0;
+            transform.forward = forward;
+            collider.enabled = true;
+            var particles = GetComponentsInChildren<ParticleSystem>();
+            foreach (var particle in particles)
+            {
+                particle.Play();
+            }
+            if (Vector3.Angle(startPos - target, Vector3.up) > 30)
+            {
+                ParticleSystem spill = Instantiate(spillPrefab, target, Quaternion.identity);
+                spill.transform.forward = forward;
+            }
+            Destroy(oilBallParticleSystem, 0.5f);
         }
 
         private void OnTriggerEnter(Collider collision)

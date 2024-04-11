@@ -30,6 +30,8 @@ namespace CarRacingGame3d
 
         private void Update()
         {
+            if (GameManager.instance.GetGameState() == GameStates.Countdown) return;
+
             trafficTimer += Time.deltaTime;
            
             if (currentTrafficLight == 0 && trafficTimer >= greenLightMinTime)
