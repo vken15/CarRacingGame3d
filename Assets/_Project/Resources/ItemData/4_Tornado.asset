@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7dc0021371358f408c8cae6fb21c26c, type: 3}
-  m_Name: 4_Storm
+  m_Name: 4_Tornado
   m_EditorClassIdentifier: 
   itemId: 4
-  itemSprite: {fileID: 21300000, guid: 54dbfa82dba35f740b5e4ed515c4e08d, type: 3}
-  item: {fileID: 1983093347226331018, guid: 6a7c0964405774646b785fd1e038a95b, type: 3}
+  itemSprite: {fileID: 21300000, guid: b4f6d4d142a36b240b8ebc1f51e2512c, type: 3}
+  item: {fileID: 1983093347226331018, guid: 06da5bb91a52a5545a44b666ce4d16b6, type: 3}

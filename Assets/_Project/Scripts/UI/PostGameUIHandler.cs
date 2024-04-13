@@ -32,7 +32,7 @@ namespace CarRacingGame3d
         [SerializeField] private GameObject leaderboardItemPrefab;
         [SerializeField] Transform leaderboardLayoutGroup;
 
-        private Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan };
+        private Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan, Color.black };
 
         private SetLeaderboardItemInfo[] setLeaderboardItemInfo;
 

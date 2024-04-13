@@ -145,7 +145,7 @@ namespace CarRacingGame3d
 
         ConnectStatus GetConnectStatus(ConnectionPayload connectionPayload)
         {
-            if (ConnectionManager.instance.NetworkManager.ConnectedClientsIds.Count >= ConnectionManager.instance.MaxConnectedPlayers)
+            if (ConnectionManager.instance.CurrentConnectedPlayers >= ConnectionManager.instance.MaxConnectedPlayers)
             {
                 return ConnectStatus.ServerFull;
             }

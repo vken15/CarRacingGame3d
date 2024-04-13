@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 5_Smoke
   m_EditorClassIdentifier: 
   itemId: 5
-  itemSprite: {fileID: 21300000, guid: 91f6d85979786be48b6197f058898833, type: 3}
-  item: {fileID: 1983093347226331018, guid: f19c4956fcda4eb4cadb8a367a6c5f4b, type: 3}
+  itemSprite: {fileID: 21300000, guid: b4f6d4d142a36b240b8ebc1f51e2512c, type: 3}
+  item: {fileID: 1983093347226331018, guid: 06da5bb91a52a5545a44b666ce4d16b6, type: 3}

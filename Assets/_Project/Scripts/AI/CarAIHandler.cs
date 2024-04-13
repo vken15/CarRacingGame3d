@@ -17,11 +17,7 @@ namespace CarRacingGame3d
         [SerializeField] private float sensorLength = 5.0f;
 
         private Vector3 targetPosition = Vector3.zero;
-        private Transform targetTransform = null;
-
-        //Avoidance
-        private Vector3 avoidanceVectorLerped = Vector3.zero;
-        private bool avoidToLeft = false;
+        private bool avoiding = false;
 
         private List<Vector3> temporaryWaypoints = new();
         private float angleToTarget = 0;
@@ -45,7 +41,6 @@ namespace CarRacingGame3d
 
         void FixedUpdate()
         {
-            Avoidance();
             if (GameManager.instance.GetGameState() == GameStates.Countdown)
             {
                 return;
@@ -125,67 +120,90 @@ namespace CarRacingGame3d
         {
             Vector3 vectorToTarget = targetPosition - transform.position;
             vectorToTarget.Normalize();
-            if (isAvoidingCars)
+            if (isAvoidingCars && IsObstaclesInFrontOf(out float avoidMultiplier))
             {
-                //Avoidance(vectorToTarget, out vectorToTarget);
-
+                return avoidMultiplier;
             }
-            angleToTarget = Vector3.SignedAngle(transform.forward, vectorToTarget, -transform.up);
-            angleToTarget *= -1;
-            float steerAmount = angleToTarget / 30.0f;
-            steerAmount = Mathf.Clamp(steerAmount, -1.0f, 1.0f);
-            return steerAmount;
+            else
+            {
+                angleToTarget = Vector3.SignedAngle(transform.forward, vectorToTarget, -transform.up);
+                angleToTarget *= -1;
+                float steerAmount = angleToTarget / 30.0f;
+                steerAmount = Mathf.Clamp(steerAmount, -1.0f, 1.0f);
+                return steerAmount;
+            }
         }
 
-        private void Avoidance()
+        private bool IsObstaclesInFrontOf(out float avoidMultiplier)
         {
-            RaycastHit hit;
             Vector3 sensorStartPos = transform.position;
             sensorStartPos += transform.forward * sensorPosition.z;
             sensorStartPos += transform.up * sensorPosition.y;
+            avoidMultiplier = 0f;
+            avoiding = false;
 
-            //center sensor
-            if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
-            {
-                if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("Player"))
-                {
-                    Debug.DrawLine(sensorStartPos, hit.point);
-                }
-            }
             //right sensor
             sensorStartPos += transform.right * sideSensorPosition;
-            if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
+            if (Physics.Raycast(sensorStartPos, transform.forward, out RaycastHit hit, sensorLength))
             {
-                if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("Player"))
+                if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("CarBody"))
                 {
                     Debug.DrawLine(sensorStartPos, hit.point);
+                    avoiding = true;
+                    avoidMultiplier -= 1f;
                 }
             }
             //right angle sensor
-            if (Physics.Raycast(sensorStartPos, Quaternion.AngleAxis(sensorAngle, transform.up) * transform.forward, out hit, sensorLength))
+            else if (Physics.Raycast(sensorStartPos, Quaternion.AngleAxis(sensorAngle, transform.up) * transform.forward, out hit, sensorLength))
             {
-                if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("Player"))
+                if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("CarBody"))
                 {
                     Debug.DrawLine(sensorStartPos, hit.point);
+                    avoiding = true;
+                    avoidMultiplier -= 0.5f;
                 }
             }
             //left sensor
             sensorStartPos -= 2 * sideSensorPosition * transform.right;
             if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
             {
-                if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("Player"))
+                if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("CarBody"))
                 {
                     Debug.DrawLine(sensorStartPos, hit.point);
+                    avoiding = true;
+                    avoidMultiplier += 1f;
                 }
             }
             //left angle sensor
-            if (Physics.Raycast(sensorStartPos, Quaternion.AngleAxis(-sensorAngle, transform.up) * transform.forward, out hit, sensorLength))
+            else if (Physics.Raycast(sensorStartPos, Quaternion.AngleAxis(-sensorAngle, transform.up) * transform.forward, out hit, sensorLength))
             {
-                if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("Player"))
+                if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("CarBody"))
                 {
                     Debug.DrawLine(sensorStartPos, hit.point);
+                    avoiding = true;
+                    avoidMultiplier += 0.5f;
                 }
             }
+
+            //center sensor
+            if (avoidMultiplier == 0 && Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
+            {
+                if (hit.collider.CompareTag("Terrain") || hit.collider.CompareTag("CarBody"))
+                {
+                    Debug.DrawLine(sensorStartPos, hit.point);
+                    avoiding = true;
+                    if (hit.normal.x < 0f)
+                    {
+                        avoidMultiplier = -1;
+                    }
+                    else
+                    {
+                        avoidMultiplier = 1;
+                    }
+                }
+            }
+
+            return avoiding;
         }
 
         private float ApplyThrottleOrBrake(float x)

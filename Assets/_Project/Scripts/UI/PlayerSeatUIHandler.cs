@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,8 @@ namespace CarRacingGame3d
         [SerializeField] private TMP_Text playerNameText;
         [SerializeField] private TMP_Text isReadyText;
         [SerializeField] private Image carImage;
+        [SerializeField] private GameObject addAIBtn;
+        [SerializeField] private GameObject removeAIBtn;
 
         // just a way to designate which seat we are -- the leftmost seat on the lobby UI is index 0, the next one is index 1, etc.
         private int seatIndex;
@@ -58,6 +61,11 @@ namespace CarRacingGame3d
                 isReadyText.text = "";
                 playerNameText.text = "EMPTY";
                 carImage.gameObject.SetActive(false);
+                if (NetworkManager.Singleton.IsServer)
+                {
+                    addAIBtn.SetActive(true);
+                    removeAIBtn.SetActive(false);
+                }
             }
             else if (state == SeatState.Block)
             {
@@ -66,10 +74,19 @@ namespace CarRacingGame3d
             }
             else if (state == SeatState.AI)
             {
-
+                isReadyText.text = "";
+                playerNameText.text = "AI";
+                carImage.gameObject.SetActive(true);
+                if (NetworkManager.Singleton.IsServer)
+                {
+                    addAIBtn.SetActive(false);
+                    removeAIBtn.SetActive(true);
+                }
             }
             else
             {
+                addAIBtn.SetActive(false);
+                removeAIBtn.SetActive(false);
                 carImage.gameObject.SetActive(true);
                 if (state == SeatState.LockedIn)
                 {

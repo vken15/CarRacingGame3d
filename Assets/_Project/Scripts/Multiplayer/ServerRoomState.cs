@@ -78,12 +78,19 @@ namespace CarRacingGame3d
             GameManager.instance.ClearDriverList();
             foreach (NetworkRoom.LobbyPlayerState playerInfo in NetworkRoom.LobbyPlayers)
             {
-                GameManager.instance.AddDriverToList(playerInfo.PlayerNumber, playerInfo.PlayerName, playerInfo.CarId, false, playerInfo.ClientId);
-                SessionPlayerData? sessionPlayerData = SessionManager<SessionPlayerData>.Instance.GetPlayerData(playerInfo.ClientId);
-                if (sessionPlayerData.HasValue)
+                if (playerInfo.SeatState == SeatState.AI)
                 {
-                    var playerData = sessionPlayerData.Value;
-                    GameManager.instance.AddPoints(playerInfo.PlayerNumber, playerData.Score);
+                    GameManager.instance.AddDriverToList(playerInfo.PlayerNumber, playerInfo.PlayerName, playerInfo.CarId, true, playerInfo.ClientId);
+                }
+                else
+                {
+                    GameManager.instance.AddDriverToList(playerInfo.PlayerNumber, playerInfo.PlayerName, playerInfo.CarId, false, playerInfo.ClientId);
+                    SessionPlayerData? sessionPlayerData = SessionManager<SessionPlayerData>.Instance.GetPlayerData(playerInfo.ClientId);
+                    if (sessionPlayerData.HasValue)
+                    {
+                        var playerData = sessionPlayerData.Value;
+                        GameManager.instance.AddPoints(playerInfo.PlayerNumber, playerData.Score);
+                    }
                 }
             }
         }
@@ -211,7 +218,7 @@ namespace CarRacingGame3d
         {
             foreach (NetworkRoom.LobbyPlayerState playerInfo in NetworkRoom.LobbyPlayers)
             {
-                if (playerInfo.SeatState != SeatState.LockedIn && playerInfo.SeatState != SeatState.Host)
+                if (playerInfo.SeatState != SeatState.LockedIn && playerInfo.SeatState != SeatState.Host && playerInfo.SeatState != SeatState.AI)
                     return; // nope, at least one player isn't locked in yet!
             }
 
@@ -226,6 +233,25 @@ namespace CarRacingGame3d
 
             // Delay a few seconds to give the UI time to react, then switch scenes
             m_WaitToEndLobbyCoroutine = StartCoroutine(WaitToEndLobby());
+        }
+
+        public void OnAddAI(string number)
+        {
+            ushort playerNumber = ushort.Parse(number);
+            NetworkRoom.LobbyPlayers.Add(new NetworkRoom.LobbyPlayerState(NetworkManager.Singleton.LocalClientId, "AI", playerNumber, SeatState.AI, playerNumber - 1));
+        }
+
+        public void OnRemoveAI(string number)
+        {
+            ushort playerNumber = ushort.Parse(number);
+            for (int i = 0; i < NetworkRoom.LobbyPlayers.Count; ++i)
+            {
+                if (NetworkRoom.LobbyPlayers[i].PlayerNumber == playerNumber)
+                {
+                    NetworkRoom.LobbyPlayers.RemoveAt(i);
+                    break;
+                }
+            }
         }
     }
 }

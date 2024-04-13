@@ -50,11 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6044966017704127622, guid: 25d3c4a6b2ee2bf44b0702ca056666a4, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2920898271
+      value: 2186754269
       objectReference: {fileID: 0}
     - target: {fileID: 6850401766910133080, guid: 25d3c4a6b2ee2bf44b0702ca056666a4, type: 3}
       propertyPath: m_Name
-      value: 8_MSSportCarYellow
+      value: 8_MSSportCarOrange
       objectReference: {fileID: 0}
     - target: {fileID: 7153178567925955072, guid: 25d3c4a6b2ee2bf44b0702ca056666a4, type: 3}
       propertyPath: m_Materials.Array.data[1]

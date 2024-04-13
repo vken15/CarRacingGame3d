@@ -49,11 +49,13 @@ namespace CarRacingGame3d
         public ExampleNetworkDiscovery Discovery => discovery;
 
         [SerializeField]
-        int m_NbReconnectAttempts = 2;
+        int nbReconnectAttempts = 2;
 
-        public int NbReconnectAttempts => m_NbReconnectAttempts;
+        public int NbReconnectAttempts => nbReconnectAttempts;
 
         public int MaxConnectedPlayers = 8;
+
+        public int CurrentConnectedPlayers = 1;
 
         public bool GameStarted = false;
 

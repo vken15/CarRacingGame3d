@@ -10,11 +10,11 @@ namespace CarRacingGame3d
     /// </summary>
     class StartingHostState : OnlineState
     {
-        ConnectionMethodBase m_ConnectionMethod;
+        ConnectionMethodBase connectionMethod;
 
         public StartingHostState Configure(ConnectionMethodBase baseConnectionMethod)
         {
-            m_ConnectionMethod = baseConnectionMethod;
+            connectionMethod = baseConnectionMethod;
             return this;
         }
 
@@ -61,7 +61,7 @@ namespace CarRacingGame3d
         {
             try
             {
-                await m_ConnectionMethod.SetupHostConnectionAsync();
+                await connectionMethod.SetupHostConnectionAsync();
 
                 // NGO's StartHost launches everything
                 if (!ConnectionManager.instance.NetworkManager.StartHost())

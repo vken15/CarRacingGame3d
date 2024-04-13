@@ -37,7 +37,7 @@ namespace CarRacingGame3d
 
         void Start()
         {
-            if (!IsOwner) return;
+            if (!IsOwner || GetComponent<CarAIHandler>().enabled == true) return;
 
             StartCoroutine(SetUp());
         }

@@ -206,8 +206,8 @@ MonoBehaviour:
   nitroAcceleration: 5000
   maxNitroFuel: 100
   nitroFuel: 100
+  nitroDuration: 5
   nitroSpeedMultiplier: 1.2
-  fullScreenSpeed: {fileID: -5747296844490304884, guid: 317ff65061e0d5c4f9f975e67dce8137, type: 2}
   centerOfMass: {x: 0, y: 0, z: 0}
   downForce: 33
   lateralGScale: 3.3
@@ -248,8 +248,6 @@ MonoBehaviour:
   reconciliationCooldownTime: 1
   extrapolationLimit: 0
   extrapolationMulti: 1
-  serverCube: {fileID: 5548174200151549155}
-  clientCube: {fileID: 4931265693317658002}
 --- !u!114 &3646104775883775409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,10 +264,10 @@ MonoBehaviour:
   driveSpeed: 45
   isAvoidingCars: 1
   track: 20
-  sensorPosition: {x: 0, y: 0.2, z: 0.5}
+  sensorPosition: {x: 0, y: 0.3, z: 0.5}
   sideSensorPosition: 1.15
   sensorAngle: 30
-  sensorLength: 5
+  sensorLength: 8
 --- !u!114 &5730062209098203492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,8 +338,8 @@ MonoBehaviour:
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
-  Interpolate: 0
-  SlerpPosition: 0
+  Interpolate: 1
+  SlerpPosition: 1
   authorityMode: 1
 --- !u!114 &5419963571262404999
 MonoBehaviour:
@@ -408,9 +406,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -443,7 +441,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -536,9 +534,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 200
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -571,7 +569,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -769,9 +767,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 25
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -804,7 +802,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1339,7 +1337,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a21b5fbd325e3464a8dfcb34555e2ea4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 726f5d62aca64604aa00c9aab934e5e6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1366,7 +1364,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6661558768361084547
 Transform:
   m_ObjectHideFlags: 0
@@ -1482,7 +1480,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7381802589431320979
 Transform:
   m_ObjectHideFlags: 0
@@ -1632,9 +1630,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1667,7 +1665,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

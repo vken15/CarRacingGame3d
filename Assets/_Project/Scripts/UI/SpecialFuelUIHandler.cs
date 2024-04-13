@@ -25,11 +25,11 @@ namespace CarRacingGame3d
         public void UpdateFuelBar(float newValue)
         {
             fuelBarSlider.value = newValue;
-            if (newValue > 0.5f)
+            if (newValue > 0.67f)
             {
                 fuelBarFillImage.color = Color.green;
             }
-            else if (newValue > 0.25f)
+            else if (newValue > 0.34f)
             {
                 fuelBarFillImage.color = Color.yellow;
             }

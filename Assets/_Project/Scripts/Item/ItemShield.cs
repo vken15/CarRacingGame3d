@@ -7,14 +7,14 @@ namespace CarRacingGame3d
 {
     public class ItemShield : BaseItem
     {
-        new Renderer renderer;
-        [SerializeField] AnimationCurve displacementCurve;
-        [SerializeField] float displacementMagnitude;
-        [SerializeField] float lerpSpeed;
-        [SerializeField] float disolveSpeed;
-        bool shieldOn = false;
-        float shieldDuration = 5;
-        Coroutine disolveCoroutine;
+        private new Renderer renderer;
+        [SerializeField] private AnimationCurve displacementCurve;
+        [SerializeField] private float displacementMagnitude;
+        [SerializeField] private float lerpSpeed;
+        [SerializeField] private float disolveSpeed;
+        private bool shieldOn = false;
+        private readonly float shieldDuration = 5;
+        private Coroutine disolveCoroutine;
         
         private CarController carController;
 

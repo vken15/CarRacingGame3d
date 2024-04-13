@@ -107,6 +107,7 @@
     <Compile Include="Assets\_Project\Scripts\UI\CarSelection.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CarController.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\Unused\NetworkManagerUI.cs" />
+    <Compile Include="Assets\_Project\Scripts\Item\ItemTornado.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\ClientConnectedState.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\RoomChat.cs" />
     <Compile Include="Assets\_Project\Scripts\Car\CarSoundEffectHandler.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Assets\_Project\Scripts\UI\MapIndexUI.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\ConnectionState\StartingHostState.cs" />
     <Compile Include="Assets\_Project\Scripts\Objects\Portal\PortalCamera.cs" />
+    <Compile Include="Assets\_Project\Scripts\Objects\Tornado.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\LoadingSpinner.cs" />
     <Compile Include="Assets\_Project\Scripts\UI\GameFinishMenuUIHandler.cs" />
     <Compile Include="Assets\_Project\Scripts\Multiplayer\ConnectionManagement\PersistentPlayerRuntimeCollection.cs" />

@@ -48,7 +48,7 @@ public class ExampleNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData, 
         {
             ServerName = sessionData.Value.PlayerName,
             Port = ((UnityTransport)m_NetworkManager.NetworkConfig.NetworkTransport).ConnectionData.Port,
-            CurrentPlayer = (ushort)NetworkManager.Singleton.ConnectedClientsIds.Count,
+            CurrentPlayer = (ushort)ConnectionManager.instance.CurrentConnectedPlayers,
             MaxPlayer = (ushort)ConnectionManager.instance.MaxConnectedPlayers,
             MapId = GameManager.instance.map.MapID,
             CurRound = GameManager.instance.currentRound,

@@ -26,6 +26,7 @@ namespace CarRacingGame3d
         [SerializeField] private GameObject leaveBtn;
         [SerializeField] private GameObject changeMapBtn;
         [SerializeField] private GameObject changeCarBtn;
+        [SerializeField] private CanvasGroup playerListGroup;
 
         [SerializeField] private CarSelection carSelection;
 
@@ -36,7 +37,8 @@ namespace CarRacingGame3d
         private void Awake()
         {
             maxPlayer = ConnectionManager.instance.MaxConnectedPlayers;
-            
+            ConnectionManager.instance.CurrentConnectedPlayers = 1;
+
             for (int i = 0; i < playerSeats.Count; ++i)
             {
                 if (i < maxPlayer)
@@ -110,6 +112,7 @@ namespace CarRacingGame3d
         void UpdatePlayerCount()
         {
             int count = networkRoom.LobbyPlayers.Count;
+            ConnectionManager.instance.CurrentConnectedPlayers = count;
             numPlayersText.text = $"Player: {count}/{ConnectionManager.instance.MaxConnectedPlayers}";
         }
 
@@ -161,6 +164,7 @@ namespace CarRacingGame3d
                 changeMapBtn.GetComponent<Button>().interactable = false;
                 leaveBtn.GetComponent<Button>().interactable = false;
                 readyBtn.GetComponent<Button>().interactable = false;
+                playerListGroup.interactable = false;
                 GameManager.instance.numberOfCarsRaceCompleteToEnd = networkRoom.LobbyPlayers.Count;
                 if (RoomChat.instance != null)
                     RoomChat.instance.StartedGameMessage();

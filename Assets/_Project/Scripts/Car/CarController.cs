@@ -14,7 +14,7 @@ namespace CarRacingGame3d
         public bool brake;
         public bool nitro;
         public DateTime timeStamp;
-        public Vector3 position; //test only
+        //public Vector3 position; //test only
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
@@ -23,7 +23,7 @@ namespace CarRacingGame3d
             serializer.SerializeValue(ref brake);
             serializer.SerializeValue(ref nitro);
             serializer.SerializeValue(ref timeStamp);
-            serializer.SerializeValue(ref position);
+            //serializer.SerializeValue(ref position);
         }
     }
 
@@ -75,6 +75,7 @@ namespace CarRacingGame3d
         [SerializeField] private float nitroAcceleration = 5000.0f;
         [SerializeField] private float maxNitroFuel = 100.0f;
         [SerializeField] private float nitroFuel = 100.0f;
+        [SerializeField] private float nitroDuration = 5.0f;
         [SerializeField] private float nitroSpeedMultiplier = 1.2f;
 
         [Header("Physics")]
@@ -104,7 +105,8 @@ namespace CarRacingGame3d
         private float brakeVelocity;
         private float driftVelocity;
 
-        private bool isRechargeNitro = false;
+        private bool isActiveNitro = false;
+        private float currentNitroDuration = 0f;
 
         private DriverInput driverInput;
         private Rigidbody carRb;
@@ -133,8 +135,8 @@ namespace CarRacingGame3d
         [SerializeField] private float extrapolationLimit = 0.5f;
         [SerializeField] private float extrapolationMulti = 1.2f;
         //For test
-        [SerializeField] private GameObject serverCube;
-        [SerializeField] private GameObject clientCube;
+        //[SerializeField] private GameObject serverCube;
+        //[SerializeField] private GameObject clientCube;
 
         StatePayLoad extrapolationState;
         CountdownTimer extrapolationCooldown;
@@ -189,6 +191,15 @@ namespace CarRacingGame3d
 
             playerCamera.Priority = 5;
             playerAudioListener.enabled = true;
+        }
+
+        private void Start()
+        {
+            if (GetComponent<CarAIHandler>().enabled)
+            {
+                playerCamera.Priority = -1;
+                playerAudioListener.enabled = false;
+            }
         }
 
         void Update()
@@ -294,7 +305,7 @@ namespace CarRacingGame3d
                 brake = driverInput.Brake,
                 nitro = driverInput.Nitro,
                 timeStamp = DateTime.Now,
-                position = transform.position
+                //position = transform.position
             };
 
             clientInputBuffer.Add(inputPayLoad, bufferIndex);
@@ -393,6 +404,9 @@ namespace CarRacingGame3d
             UpdateBanking();
 
             carVelocity = transform.InverseTransformDirection(carRb.velocity);
+
+            Debug.DrawRay(transform.position, carVelocity * 10, Color.green);
+            Debug.DrawRay(transform.position, carRb.velocity * 10, Color.blue);
 
             if (IsGrounded())
                 GroundedMovement();
@@ -546,27 +560,31 @@ namespace CarRacingGame3d
 
         void Nitro()
         {
-            if (isRechargeNitro)
+            if (nitroFuel < maxNitroFuel && !isActiveNitro)
                 nitroFuel += Time.deltaTime / 2;
 
-            if (nitroFuel >= maxNitroFuel)
-                isRechargeNitro = false;
+            if (!isActiveNitro && nitroFuel > maxNitroFuel * 0.33f && driverInput.Nitro && GameManager.instance.GetGameState() != GameStates.Countdown)
+            {
+                isActiveNitro = true;
+                nitroFuel -= maxNitroFuel * 0.33f;
+                currentNitroDuration = nitroDuration;
+            }
 
             if (IsNitro())
             {
-                nitroFuel -= (nitroFuel <= 0) ? 0 : Time.deltaTime * 4;
-                if (nitroFuel > 0)
+                currentNitroDuration -= networkTimer.MinTimeBetweenTicks;
+                if (currentNitroDuration > 0)
                 {
                     var force = 4 * nitroAcceleration * transform.forward;
                     carRb.AddForce(force, ForceMode.Force);
                 }
-                else isRechargeNitro = true;
+                else isActiveNitro = false;
             }
         }
 
         public bool IsNitro()
         {
-            return driverInput.Nitro && !isRechargeNitro && driverInput.Move.y >= 0.0f && GameManager.instance.GetGameState() != GameStates.Countdown;
+            return isActiveNitro;
         }
 
         public float GetNitroFuelPercent()
@@ -627,14 +645,14 @@ namespace CarRacingGame3d
         [ServerRpc]
         void SendToServerRpc(InputPayLoad inputPayLoad)
         {
-            clientCube.transform.position = inputPayLoad.position.With(y: 4 + transform.position.y);
+            //clientCube.transform.position = inputPayLoad.position.With(y: 4 + transform.position.y);
             serverInputQueue.Enqueue(inputPayLoad);
         }
 
         [ClientRpc]
         void SendToClientRpc(StatePayLoad statePayLoad)
         {
-            serverCube.transform.position = statePayLoad.position.With(y: 4 + transform.position.y);
+            //serverCube.transform.position = statePayLoad.position.With(y: 4 + transform.position.y);
             if (!IsOwner) return;
             lastServerState = statePayLoad;
         }

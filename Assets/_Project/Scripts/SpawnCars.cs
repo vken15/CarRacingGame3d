@@ -45,8 +45,11 @@ namespace CarRacingGame3d
                 Transform spawnPoint = spawnPoints[i].transform;
 
                 Driver driver = driverList[0];
-
                 ushort selectedCarID = driver.CarID;
+                if (driver.IsAI && GameManager.instance.networkStatus == NetworkStatus.online)
+                {
+                    selectedCarID = (ushort)Random.Range(1, carDatas.Length);
+                }
 
                 //Find the player cars prefab
                 foreach (CarData carData in carDatas)
@@ -57,10 +60,7 @@ namespace CarRacingGame3d
                         if (GameManager.instance.networkStatus == NetworkStatus.online)
                         {
                             car.GetComponent<NetworkObject>().SpawnWithOwnership(driver.ClientId, true);
-                            Debug.Log(driver.ClientId + " Spawned");
-                            //SetSpawnCarInfo(car, nameplate, driver, i);
-
-                            SpawnCarsClientRpc(car, driver.Name, driver.PlayerNumber, i);
+                            SpawnCarsClientRpc(car, driver.Name, driver.PlayerNumber, i, driver.IsAI);
                         }
                         else
                         {
@@ -107,30 +107,36 @@ namespace CarRacingGame3d
             car.GetComponentInChildren<NameplateUIHandler>().SetData(driver.Name, nameplateColor);
         }
 
-        private void SetClientSpawnCarInfo(GameObject car, string name, int playerNumber, int i)
+        private void SetClientSpawnCarInfo(GameObject car, string name, int playerNumber, int i, bool IsAI)
         {
             car.name = name;
             car.GetComponent<CarInputHandler>().playerNumber = playerNumber;
             car.GetComponent<CarInputHandler>().SetMinimapColor();
             car.GetComponent<CarLapCounter>().carPosition = i + 1;
-            car.GetComponent<CarAIHandler>().enabled = false;
             Color nameplateColor = playerColors[playerNumber];
             car.GetComponentInChildren<NameplateUIHandler>().SetData(name, nameplateColor);
-
-            if (car.GetComponent<NetworkObject>().IsOwner)
+            if (IsAI)
             {
-                car.GetComponentInChildren<NameplateUIHandler>().gameObject.SetActive(false);
-                FindObjectOfType<SpecialFuelUIHandler>().controller = car.GetComponent<CarController>();
+                car.GetComponent<CarAIHandler>().enabled = true;
+                car.GetComponent<CarInputHandler>().enabled = false;
+            } else
+            {
+                car.GetComponent<CarAIHandler>().enabled = false;
+                if (car.GetComponent<NetworkObject>().IsOwner)
+                {
+                    car.GetComponentInChildren<NameplateUIHandler>().gameObject.SetActive(false);
+                    FindObjectOfType<SpecialFuelUIHandler>().controller = car.GetComponent<CarController>();
 
-                if (minimapCameraFollow != null)
-                    minimapCameraFollow.SetTarget(car.transform);
+                    if (minimapCameraFollow != null)
+                        minimapCameraFollow.SetTarget(car.transform);
+                }
             }
         }
 
         [ClientRpc]
-        private void SpawnCarsClientRpc(NetworkObjectReference car, string name, int playerNumber, int i)
+        private void SpawnCarsClientRpc(NetworkObjectReference car, string name, int playerNumber, int i, bool isAI)
         {
-            SetClientSpawnCarInfo((GameObject)car, name, playerNumber, i);
+            SetClientSpawnCarInfo((GameObject)car, name, playerNumber, i, isAI);
         }
     }
 }

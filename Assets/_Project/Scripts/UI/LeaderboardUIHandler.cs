@@ -11,7 +11,7 @@ namespace CarRacingGame3d
         private SetLeaderboardItemInfo[] setLeaderboardItemInfo;
         private bool isInitilized = false;
 
-        private Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan };
+        private Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan, Color.black };
 
         //Oher components
         private Canvas canvas;

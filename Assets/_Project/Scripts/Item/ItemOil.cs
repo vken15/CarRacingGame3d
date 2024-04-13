@@ -42,8 +42,6 @@ namespace CarRacingGame3d
             Vector3 startPos = transform.position;
             while (lerp < 1)
             {
-                Debug.Log(transform.position.x + " " + transform.position.y + " " + transform.position.z);
-                Debug.Log(target.x + " 1 " + target.y + " 2 " + target.z);
                 transform.position = Vector3.Lerp(startPos, target, speedCurve.Evaluate(lerp));
                 float magnitude = (transform.position - target).magnitude;
                 if (magnitude < 0.4f)
