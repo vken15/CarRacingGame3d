@@ -46,6 +46,7 @@ namespace CarRacingGame3d
                 float magnitude = (transform.position - target).magnitude;
                 if (magnitude < 0.4f)
                 {
+                    transform.position = target;
                     break;
                 }
                 lerp += Time.deltaTime * speed;
@@ -81,6 +82,11 @@ namespace CarRacingGame3d
         private void OnParticleSystemStopped()
         {
             Destroy(gameObject);
+        }
+
+        protected override IEnumerator ItemDuration(float value) 
+        {
+            yield return null;
         }
     }
 }

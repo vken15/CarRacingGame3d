@@ -18,6 +18,8 @@ namespace CarRacingGame3d
 
         private Vector3 targetPosition = Vector3.zero;
         private bool avoiding = false;
+        private bool leftObstacles = false;
+        private bool rightObstacles = false;
 
         private List<Vector3> temporaryWaypoints = new();
         private float angleToTarget = 0;
@@ -73,7 +75,7 @@ namespace CarRacingGame3d
             {
                 currentWayPoint = FindClosestWayPoint();
                 previousWayPoint = currentWayPoint;
-                nextWayPoint = currentWayPoint.nextWayPointNode[Random.Range(0, currentWayPoint.nextWayPointNode.Length-1)];
+                nextWayPoint = currentWayPoint.nextWayPointNode[Random.Range(0, currentWayPoint.nextWayPointNode.Length - 1)];
             }
             else
             {
@@ -86,7 +88,7 @@ namespace CarRacingGame3d
                     Vector3 nearestPointOnTheWayPointLine = FindNearestPointOnLine(previousWayPoint.transform.position, currentWayPoint.transform.position, transform.position);
                     float segments = distanceToWayPoint / track;
                     targetPosition = (targetPosition + nearestPointOnTheWayPointLine * segments) / (segments + 1);
-                    Debug.DrawLine(transform.position, targetPosition, Color.black);
+                    //Debug.DrawLine(transform.position, targetPosition, Color.black);
                 }
 
                 //float currentMinDistanceToReachWayPoint = GetMinDistanceToReachWayPoint();
@@ -122,6 +124,9 @@ namespace CarRacingGame3d
             vectorToTarget.Normalize();
             if (isAvoidingCars && IsObstaclesInFrontOf(out float avoidMultiplier))
             {
+                if (leftObstacles && rightObstacles)
+                    return -avoidMultiplier;
+
                 return avoidMultiplier;
             }
             else
@@ -150,7 +155,12 @@ namespace CarRacingGame3d
                 {
                     Debug.DrawLine(sensorStartPos, hit.point);
                     avoiding = true;
+                    leftObstacles = true;
                     avoidMultiplier -= 1f;
+                    if (Vector3.Distance(sensorStartPos, hit.point) < 1f)
+                    {
+                        rightObstacles = true;
+                    }
                 }
             }
             //right angle sensor
@@ -160,9 +170,18 @@ namespace CarRacingGame3d
                 {
                     Debug.DrawLine(sensorStartPos, hit.point);
                     avoiding = true;
+                    leftObstacles = true;
                     avoidMultiplier -= 0.5f;
+                    if (Vector3.Distance(sensorStartPos, hit.point) < 1f)
+                    {
+                        rightObstacles = true;
+                    }
                 }
+            } else
+            {
+                leftObstacles = false;
             }
+
             //left sensor
             sensorStartPos -= 2 * sideSensorPosition * transform.right;
             if (Physics.Raycast(sensorStartPos, transform.forward, out hit, sensorLength))
@@ -171,7 +190,12 @@ namespace CarRacingGame3d
                 {
                     Debug.DrawLine(sensorStartPos, hit.point);
                     avoiding = true;
+                    rightObstacles = true;
                     avoidMultiplier += 1f;
+                    if (Vector3.Distance(sensorStartPos, hit.point) < 1f)
+                    {
+                        leftObstacles = true;
+                    }
                 }
             }
             //left angle sensor
@@ -181,8 +205,16 @@ namespace CarRacingGame3d
                 {
                     Debug.DrawLine(sensorStartPos, hit.point);
                     avoiding = true;
+                    rightObstacles = true;
                     avoidMultiplier += 0.5f;
+                    if (Vector3.Distance(sensorStartPos, hit.point) < 1f)
+                    {
+                        leftObstacles = true;
+                    }
                 }
+            } else
+            {
+                rightObstacles = false;
             }
 
             //center sensor
@@ -192,6 +224,7 @@ namespace CarRacingGame3d
                 {
                     Debug.DrawLine(sensorStartPos, hit.point);
                     avoiding = true;
+                    rightObstacles = true;
                     if (hit.normal.x < 0f)
                     {
                         avoidMultiplier = -1;
@@ -227,6 +260,9 @@ namespace CarRacingGame3d
                 else if (stuckCheckCounter > 3 && stuckCheckCounter < 10)
                     throttle *= -1;
             }
+
+            if (leftObstacles && rightObstacles)
+                throttle = -1;
 
             return throttle;
         }

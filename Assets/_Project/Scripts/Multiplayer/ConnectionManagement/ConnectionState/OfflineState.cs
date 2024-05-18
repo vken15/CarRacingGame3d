@@ -29,27 +29,27 @@ namespace CarRacingGame3d
         public override void StartClientIP(string playerName, string ipaddress, int port)
         {
             var connectionMethod = new ConnectionMethodIP(ipaddress, (ushort)port, ConnectionManager.instance, ProfileManager.Instance, playerName);
-            ConnectionManager.instance.m_ClientReconnecting.Configure(connectionMethod);
-            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_ClientConnecting.Configure(connectionMethod));
+            ConnectionManager.instance.clientReconnecting.Configure(connectionMethod);
+            ConnectionManager.instance.ChangeState(ConnectionManager.instance.clientConnecting.Configure(connectionMethod));
         }
 
         public override void StartClientLobby(string playerName)
         {
             var connectionMethod = new ConnectionMethodRelay(ConnectionManager.instance, ProfileManager.Instance, playerName);
-            ConnectionManager.instance.m_ClientReconnecting.Configure(connectionMethod);
-            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_ClientConnecting.Configure(connectionMethod));
+            ConnectionManager.instance.clientReconnecting.Configure(connectionMethod);
+            ConnectionManager.instance.ChangeState(ConnectionManager.instance.clientConnecting.Configure(connectionMethod));
         }
 
         public override void StartHostIP(string playerName, string ipaddress, int port)
         {
             var connectionMethod = new ConnectionMethodIP(ipaddress, (ushort)port, ConnectionManager.instance, ProfileManager.Instance, playerName);
-            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_StartingHost.Configure(connectionMethod));
+            ConnectionManager.instance.ChangeState(ConnectionManager.instance.startingHost.Configure(connectionMethod));
         }
 
         public override void StartHostLobby(string playerName)
         {
             var connectionMethod = new ConnectionMethodRelay(ConnectionManager.instance, ProfileManager.Instance, playerName);
-            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_StartingHost.Configure(connectionMethod));
+            ConnectionManager.instance.ChangeState(ConnectionManager.instance.startingHost.Configure(connectionMethod));
         }
     }
 }

@@ -24,13 +24,13 @@ namespace CarRacingGame3d
             if (string.IsNullOrEmpty(disconnectReason))
             {
                 ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.Reconnecting);
-                ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_ClientReconnecting);
+                ConnectionManager.instance.ChangeState(ConnectionManager.instance.clientReconnecting);
             }
             else
             {
                 var connectStatus = JsonUtility.FromJson<ConnectStatus>(disconnectReason);
                 ConnectionStatusMessageUIManager.instance.OnConnectStatus(connectStatus);
-                ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
+                ConnectionManager.instance.ChangeState(ConnectionManager.instance.offline);
             }
         }
     }

@@ -11,7 +11,7 @@ namespace CarRacingGame3d
         private SetLeaderboardItemInfo[] setLeaderboardItemInfo;
         private bool isInitilized = false;
 
-        private Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan, Color.black };
+        private readonly Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan, Color.black };
 
         //Oher components
         private Canvas canvas;
@@ -47,6 +47,7 @@ namespace CarRacingGame3d
                 setLeaderboardItemInfo[i].SetPositionText($"{i + 1}.");
                 setLeaderboardItemInfo[i].SetDriverFinishTimeText("--:--");
                 setLeaderboardItemInfo[i].SetDriverScoreText("0");
+                setLeaderboardItemInfo[i].SetDriverLapText(1);
                 setLeaderboardItemInfo[i].playerNumber = carInput.playerNumber;
             }
 
@@ -94,11 +95,22 @@ namespace CarRacingGame3d
         {
             for (int i = 0; i < setLeaderboardItemInfo.Length; i++)
                 foreach (Driver driver in drivers)
-                    if (driver.LastRacePosition == i + 1)
+                    if (driver.PlayerNumber == setLeaderboardItemInfo[i].playerNumber)
                     {
                         setLeaderboardItemInfo[i].SetDriverScoreText($"{driver.Score}");
                         break;
                     }
+        }
+
+        public void UpdateLap(int playerNumber, int currentLap)
+        {
+            for (int i = 0; i < setLeaderboardItemInfo.Length; i++)
+            {
+                if (setLeaderboardItemInfo[i].playerNumber == playerNumber)
+                {
+                    setLeaderboardItemInfo[i].SetDriverLapText(currentLap);
+                }
+            }
         }
 
         //Events 

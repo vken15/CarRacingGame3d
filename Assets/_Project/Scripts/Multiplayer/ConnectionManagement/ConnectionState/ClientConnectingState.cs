@@ -30,7 +30,7 @@ namespace CarRacingGame3d
         public override void OnClientConnected(ulong _)
         {
             ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.Success);
-            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_ClientConnected);
+            ConnectionManager.instance.ChangeState(ConnectionManager.instance.clientConnected);
         }
 
         public override void OnClientDisconnect(ulong _)
@@ -51,7 +51,7 @@ namespace CarRacingGame3d
                 var connectStatus = JsonUtility.FromJson<ConnectStatus>(disconnectReason);
                 ConnectionStatusMessageUIManager.instance.OnConnectStatus(connectStatus);
             }
-            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
+            ConnectionManager.instance.ChangeState(ConnectionManager.instance.offline);
         }
 
 

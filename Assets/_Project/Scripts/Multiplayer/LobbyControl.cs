@@ -155,6 +155,9 @@ namespace CarRacingGame3d
             item.GetComponent<RoomItemUI>().SetPlayerNumber(response.CurrentPlayer, response.MaxPlayer);
             item.GetComponent<Button>().onClick.AddListener(() =>
             {
+                if (mapDisplay != null)
+                    Destroy(mapDisplay);
+
                 mapDisplay = Instantiate(mapPrefab, spawnOnTransform);
                 mapDisplay.GetComponent<Button>().enabled = false;
                 foreach (var mapData in mapDatas)

@@ -36,7 +36,7 @@ namespace CarRacingGame3d
 
         public override void OnClientConnected(ulong _)
         {
-            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_ClientConnected);
+            ConnectionManager.instance.ChangeState(ConnectionManager.instance.clientConnected);
         }
 
         public override void OnClientDisconnect(ulong _)
@@ -58,7 +58,7 @@ namespace CarRacingGame3d
                         case ConnectStatus.HostEndedSession:
                         case ConnectStatus.ServerFull:
                         case ConnectStatus.IncompatibleBuildType:
-                            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
+                            ConnectionManager.instance.ChangeState(ConnectionManager.instance.offline);
                             break;
                         default:
                             m_ReconnectCoroutine = ConnectionManager.instance.StartCoroutine(ReconnectCoroutine());
@@ -78,7 +78,7 @@ namespace CarRacingGame3d
                     ConnectionStatusMessageUIManager.instance.OnConnectStatus(connectStatus);
                 }
 
-                ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
+                ConnectionManager.instance.ChangeState(ConnectionManager.instance.offline);
             }
         }
 

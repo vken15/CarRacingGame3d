@@ -32,11 +32,11 @@ namespace CarRacingGame3d
         [SerializeField] private GameObject leaderboardItemPrefab;
         [SerializeField] Transform leaderboardLayoutGroup;
 
-        private Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan, Color.black };
+        private readonly Color[] playerColors = { Color.black, Color.red, Color.blue, Color.yellow, Color.green, Color.magenta, Color.gray, Color.cyan, Color.black };
 
         private SetLeaderboardItemInfo[] setLeaderboardItemInfo;
 
-        readonly List<PostGameData> playerDatas = new();
+        readonly NetworkList<PostGameData> playerDatas = new();
 
         public override void OnNetworkSpawn()
         {

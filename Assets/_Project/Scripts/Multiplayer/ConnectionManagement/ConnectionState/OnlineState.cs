@@ -9,13 +9,13 @@ namespace CarRacingGame3d
         {
             // This behaviour will be the same for every online state
             ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.UserRequestedDisconnect);
-            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
+            ConnectionManager.instance.ChangeState(ConnectionManager.instance.offline);
         }
 
         public override void OnTransportFailure()
         {
             // This behaviour will be the same for every online state
-            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
+            ConnectionManager.instance.ChangeState(ConnectionManager.instance.offline);
         }
     }
 }

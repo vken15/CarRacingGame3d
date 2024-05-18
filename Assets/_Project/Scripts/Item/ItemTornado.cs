@@ -15,12 +15,12 @@ namespace CarRacingGame3d
             Tornado.GetComponent<Tornado>().moveDir = car.transform.forward;
             Tornado.GetComponent<Tornado>().owner = car.GetComponent<CarInputHandler>().playerNumber;
             Tornado.GetComponent<ParticleSystem>().Play();
-            StartCoroutine(Wait());
+            StartCoroutine(ItemDuration(5));
         }
 
-        private IEnumerator Wait()
+        protected override IEnumerator ItemDuration(float value)
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(value);
             Destroy(gameObject);
         }
     }

@@ -7,6 +7,9 @@ namespace CarRacingGame3d
 {
     public class OptionsUIHandler : MonoBehaviour
     {
+        [SerializeField] private Canvas generalCanvas;
+        [SerializeField] private Toggle generalToggle;
+
         [Header("Screens")]
         [SerializeField] private Dropdown resolutionDropdown;
         [SerializeField] private Toggle fullScreenModeToggle;
@@ -25,14 +28,7 @@ namespace CarRacingGame3d
 
         [Header("Controllers")]
         [SerializeField] private Canvas keyBindingsCanvas;
-
-        private Canvas canvas;
-
-        private void Awake()
-        {
-            canvas = GetComponent<Canvas>();
-            canvas.enabled = false;
-        }
+        [SerializeField] private GameObject tutorialCanvas;
 
         private void Start()
         {
@@ -84,16 +80,14 @@ namespace CarRacingGame3d
             audioMixer.SetFloat("volMaster", Mathf.Log10(volMaster <= 0 ? 0.001f : volMaster) * 40f);
             audioMixer.SetFloat("volBGM", Mathf.Log10(volBGM <= 0 ? 0.001f : volBGM) * 40f);
             audioMixer.SetFloat("volSFX", Mathf.Log10(volSFX <= 0 ? 0.001f : volSFX) * 40f);
+            gameObject.SetActive(false);
         }
 
         private void Update()
         {
             if (InputManager.instance.Controllers.Player.ESC.WasPressedThisFrame())
             {
-                if (!keyBindingsCanvas.enabled)
-                    canvas.enabled = false;
-                else
-                    keyBindingsCanvas.enabled = false;
+                OnClose();
             }
         }
 
@@ -110,7 +104,9 @@ namespace CarRacingGame3d
         {
             ClientPrefs.SetFullScreen(value ? 1 : 0);
             Screen.fullScreen = value;
+            fullScreen = value;
         }
+
         //Sounds
         public void OnVolumeMasterChange(float vol)
         {
@@ -133,15 +129,32 @@ namespace CarRacingGame3d
             audioMixer.SetFloat("volSFX", volSFX);
         }
 
-        //Controllers
-        public void OnKeyBindings()
+        //Buttons
+        public void OnKeyBindings(bool value)
         {
-            keyBindingsCanvas.enabled = true;
+            keyBindingsCanvas.enabled = value;
+            generalCanvas.enabled = !value;
+            tutorialCanvas.SetActive(!value);
         }
 
         public void OnClose()
         {
-            canvas.enabled = false;
+            gameObject.SetActive(false);
+            generalToggle.isOn = true;
+        }
+
+        public void OnTutorial(bool value)
+        {
+            tutorialCanvas.SetActive(value);
+            generalCanvas.enabled = !value;
+            keyBindingsCanvas.enabled = !value;
+        }
+
+        public void OnGeneral(bool value)
+        {
+            generalCanvas.enabled = value;
+            keyBindingsCanvas.enabled = !value;
+            tutorialCanvas.SetActive(!value);
         }
     }
 }

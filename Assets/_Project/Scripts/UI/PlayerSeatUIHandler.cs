@@ -10,10 +10,11 @@ namespace CarRacingGame3d
         [SerializeField] private TMP_Text playerNameText;
         [SerializeField] private TMP_Text isReadyText;
         [SerializeField] private Image carImage;
+        [SerializeField] private Image randomCarImage;
         [SerializeField] private GameObject addAIBtn;
         [SerializeField] private GameObject removeAIBtn;
+        [SerializeField] private GameObject kickBtn;
 
-        // just a way to designate which seat we are -- the leftmost seat on the lobby UI is index 0, the next one is index 1, etc.
         private int seatIndex;
 
         // playerNumber of who is sitting in this seat right now. 1-based; e.g. this is 1 for Player 1, 2 for Player 2, etc. Meaningless when state is Inactive (and in that case it is set to 0 for clarity)
@@ -28,6 +29,8 @@ namespace CarRacingGame3d
             state = isBlocked ? SeatState.Block : SeatState.Inactive;
             playerNumber = 0;
             carImage.gameObject.SetActive(false);
+            randomCarImage.gameObject.SetActive(false);
+            kickBtn.SetActive(false);
             ConfigureStateGraphics();
         }
 
@@ -61,6 +64,8 @@ namespace CarRacingGame3d
                 isReadyText.text = "";
                 playerNameText.text = "EMPTY";
                 carImage.gameObject.SetActive(false);
+                randomCarImage.gameObject.SetActive(false);
+                kickBtn.SetActive(false);
                 if (NetworkManager.Singleton.IsServer)
                 {
                     addAIBtn.SetActive(true);
@@ -76,7 +81,9 @@ namespace CarRacingGame3d
             {
                 isReadyText.text = "";
                 playerNameText.text = "AI";
-                carImage.gameObject.SetActive(true);
+                carImage.gameObject.SetActive(false);
+                randomCarImage.gameObject.SetActive(true);
+                kickBtn.SetActive(false);
                 if (NetworkManager.Singleton.IsServer)
                 {
                     addAIBtn.SetActive(false);
@@ -88,6 +95,13 @@ namespace CarRacingGame3d
                 addAIBtn.SetActive(false);
                 removeAIBtn.SetActive(false);
                 carImage.gameObject.SetActive(true);
+                randomCarImage.gameObject.SetActive(false);
+
+                if (NetworkManager.Singleton.IsServer)
+                {
+                    kickBtn.SetActive(true);
+                }
+
                 if (state == SeatState.LockedIn)
                 {
                     isReadyText.text = "READY";
@@ -95,6 +109,7 @@ namespace CarRacingGame3d
                 else if (state == SeatState.Host)
                 {
                     isReadyText.text = "OWNER";
+                    kickBtn.SetActive(false);
                 }
                 else
                 {

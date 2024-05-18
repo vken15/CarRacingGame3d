@@ -12,10 +12,10 @@ namespace CarRacingGame3d
 {
     public abstract class ConnectionMethodBase
     {
-        protected ConnectionManager m_ConnectionManager;
-        readonly ProfileManager m_ProfileManager;
-        protected readonly string m_PlayerName;
-        protected const string k_DtlsConnType = "dtls";
+        protected ConnectionManager ConnectionManager;
+        readonly ProfileManager ProfileManager;
+        protected readonly string PlayerName;
+        protected const string DtlsConnType = "dtls";
 
         /// <summary>
         /// Setup the host connection prior to starting the NetworkManager
@@ -41,9 +41,9 @@ namespace CarRacingGame3d
 
         public ConnectionMethodBase(ConnectionManager connectionManager, ProfileManager profileManager, string playerName)
         {
-            m_ConnectionManager = connectionManager;
-            m_ProfileManager = profileManager;
-            m_PlayerName = playerName;
+            ConnectionManager = connectionManager;
+            ProfileManager = profileManager;
+            PlayerName = playerName;
         }
 
         protected void SetConnectionPayload(string playerId, string playerName)
@@ -57,7 +57,7 @@ namespace CarRacingGame3d
 
             var payloadBytes = System.Text.Encoding.UTF8.GetBytes(payload);
 
-            m_ConnectionManager.NetworkManager.NetworkConfig.ConnectionData = payloadBytes;
+            ConnectionManager.NetworkManager.NetworkConfig.ConnectionData = payloadBytes;
         }
 
         /// Using authentication, this makes sure your session is associated with your account and not your device. This means you could reconnect
@@ -71,10 +71,10 @@ namespace CarRacingGame3d
         {
             if (Unity.Services.Core.UnityServices.State != ServicesInitializationState.Initialized)
             {
-                return ClientPrefs.GetGuid() + m_ProfileManager.Profile;
+                return ClientPrefs.GetGuid() + ProfileManager.Profile;
             }
 
-            return AuthenticationService.Instance.IsSignedIn ? AuthenticationService.Instance.PlayerId : ClientPrefs.GetGuid() + m_ProfileManager.Profile;
+            return AuthenticationService.Instance.IsSignedIn ? AuthenticationService.Instance.PlayerId : ClientPrefs.GetGuid() + ProfileManager.Profile;
         }
     }
 
@@ -91,13 +91,13 @@ namespace CarRacingGame3d
         {
             ipaddress = ip;
             this.port = port;
-            m_ConnectionManager = connectionManager;
+            ConnectionManager = connectionManager;
         }
 
         public override async Task SetupClientConnectionAsync()
         {
-            SetConnectionPayload(GetPlayerId(), m_PlayerName);
-            var utp = (UnityTransport)m_ConnectionManager.NetworkManager.NetworkConfig.NetworkTransport;
+            SetConnectionPayload(GetPlayerId(), PlayerName);
+            var utp = (UnityTransport)ConnectionManager.NetworkManager.NetworkConfig.NetworkTransport;
             utp.SetConnectionData(ipaddress, port);
         }
 
@@ -109,8 +109,8 @@ namespace CarRacingGame3d
 
         public override async Task SetupHostConnectionAsync()
         {
-            SetConnectionPayload(GetPlayerId(), m_PlayerName); // Need to set connection payload for host as well, as host is a client too
-            var utp = (UnityTransport)m_ConnectionManager.NetworkManager.NetworkConfig.NetworkTransport;
+            SetConnectionPayload(GetPlayerId(), PlayerName); // Need to set connection payload for host as well, as host is a client too
+            var utp = (UnityTransport)ConnectionManager.NetworkManager.NetworkConfig.NetworkTransport;
             utp.SetConnectionData(ipaddress, port);
         }
     }
@@ -123,14 +123,14 @@ namespace CarRacingGame3d
         public ConnectionMethodRelay(ConnectionManager connectionManager, ProfileManager profileManager, string playerName)
             : base(connectionManager, profileManager, playerName)
         {
-            m_ConnectionManager = connectionManager;
+            ConnectionManager = connectionManager;
         }
 
         public override async Task SetupClientConnectionAsync()
         {
             Debug.Log("Setting up Unity Relay client");
 
-            SetConnectionPayload(GetPlayerId(), m_PlayerName);
+            SetConnectionPayload(GetPlayerId(), PlayerName);
 
             if (LobbyServiceFacade.Instance.CurrentUnityLobby == null)
             {
@@ -148,8 +148,8 @@ namespace CarRacingGame3d
             await LobbyServiceFacade.Instance.UpdatePlayerDataAsync(joinedAllocation.AllocationId.ToString(), LocalLobby.Instance.RelayJoinCode);
 
             // Configure UTP with allocation
-            var utp = (UnityTransport)m_ConnectionManager.NetworkManager.NetworkConfig.NetworkTransport;
-            utp.SetRelayServerData(new RelayServerData(joinedAllocation, k_DtlsConnType));
+            var utp = (UnityTransport)ConnectionManager.NetworkManager.NetworkConfig.NetworkTransport;
+            utp.SetRelayServerData(new RelayServerData(joinedAllocation, DtlsConnType));
         }
 
         public override async Task<(bool success, bool shouldTryAgain)> SetupClientReconnectionAsync()
@@ -176,10 +176,10 @@ namespace CarRacingGame3d
         {
             Debug.Log("Setting up Unity Relay host");
 
-            SetConnectionPayload(GetPlayerId(), m_PlayerName); // Need to set connection payload for host as well, as host is a client too
+            SetConnectionPayload(GetPlayerId(), PlayerName); // Need to set connection payload for host as well, as host is a client too
 
             // Create relay allocation
-            Allocation hostAllocation = await RelayService.Instance.CreateAllocationAsync(m_ConnectionManager.MaxConnectedPlayers, region: null);
+            Allocation hostAllocation = await RelayService.Instance.CreateAllocationAsync(ConnectionManager.MaxConnectedPlayers, region: null);
             var joinCode = await RelayService.Instance.GetJoinCodeAsync(hostAllocation.AllocationId);
 
             Debug.Log($"server: connection data: {hostAllocation.ConnectionData[0]} {hostAllocation.ConnectionData[1]}, " +
@@ -195,8 +195,8 @@ namespace CarRacingGame3d
             await LobbyServiceFacade.Instance.UpdatePlayerDataAsync(hostAllocation.AllocationIdBytes.ToString(), joinCode);
 
             // Setup UTP with relay connection info
-            var utp = (UnityTransport)m_ConnectionManager.NetworkManager.NetworkConfig.NetworkTransport;
-            utp.SetRelayServerData(new RelayServerData(hostAllocation, k_DtlsConnType)); // This is with DTLS enabled for a secure connection
+            var utp = (UnityTransport)ConnectionManager.NetworkManager.NetworkConfig.NetworkTransport;
+            utp.SetRelayServerData(new RelayServerData(hostAllocation, DtlsConnType)); // This is with DTLS enabled for a secure connection
 
             Debug.Log($"Created relay allocation with join code {LocalLobby.Instance.RelayJoinCode}");
         }

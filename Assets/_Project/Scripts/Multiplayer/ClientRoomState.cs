@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using UnityEngine;
-using UnityEngine.Playables;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace CarRacingGame3d
@@ -19,7 +17,8 @@ namespace CarRacingGame3d
         [SerializeField] List<PlayerSeatUIHandler> playerSeats;
 
         [SerializeField] Text numPlayersText;
-        [SerializeField] TMP_Text playerNameText;
+        //[SerializeField] TMP_Text playerNameText;
+        [SerializeField] TMP_Text roomCodeText;
 
         [SerializeField] private GameObject startBtn;
         [SerializeField] private GameObject readyBtn;
@@ -38,6 +37,11 @@ namespace CarRacingGame3d
         {
             maxPlayer = ConnectionManager.instance.MaxConnectedPlayers;
             ConnectionManager.instance.CurrentConnectedPlayers = 1;
+
+            if (LocalLobby.Instance.LobbyCode != null)
+                roomCodeText.text = LocalLobby.Instance.LobbyCode;
+            else
+                roomCodeText.text = NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address;
 
             for (int i = 0; i < playerSeats.Count; ++i)
             {
@@ -147,8 +151,8 @@ namespace CarRacingGame3d
                 if (curSeats[i].SeatState != SeatState.Inactive && curSeats[i].SeatState != SeatState.Block)
                     playerSeats[i].SetCarSprite(carSelection.GetCarSprite(curSeats[i].CarId));
 
-                if (playerNameText.text.Equals("") && curSeats[i].ClientId == NetworkManager.Singleton.LocalClientId)
-                    playerNameText.text = curSeats[i].PlayerName;
+/*                if (playerNameText.text.Equals("") && curSeats[i].ClientId == NetworkManager.Singleton.LocalClientId)
+                    playerNameText.text = curSeats[i].PlayerName;*/
             }
         }
 
@@ -194,6 +198,16 @@ namespace CarRacingGame3d
 
             if (networkRoom.IsSpawned)
                 networkRoom.ChangeSeatServerRpc(NetworkManager.Singleton.LocalClientId, carId, false);
+        }
+
+        public void OnRoomCode()
+        {
+            TextEditor textEditor = new()
+            {
+                text = roomCodeText.text
+            };
+            textEditor.SelectAll();
+            textEditor.Copy();
         }
     }
 }

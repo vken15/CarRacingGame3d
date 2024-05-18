@@ -10040,7 +10040,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.5
-      value: 0.3
+      value: -1
       inSlope: 0
       outSlope: 0
       tangentMode: 136
@@ -10061,7 +10061,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   pullingCenter: {fileID: 8223557174712465352}
   refreshRate: 2
-  pullForce: 6000
+  pullForce: 10000
   movementSpeed: 50
   particleSystem: {fileID: 0}
   moveDir: {x: 0, y: 0, z: 0}

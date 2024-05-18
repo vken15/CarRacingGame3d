@@ -75,7 +75,6 @@ namespace CarRacingGame3d
         [SerializeField] private float nitroAcceleration = 5000.0f;
         [SerializeField] private float maxNitroFuel = 100.0f;
         [SerializeField] private float nitroFuel = 100.0f;
-        [SerializeField] private float nitroDuration = 5.0f;
         [SerializeField] private float nitroSpeedMultiplier = 1.2f;
 
         [Header("Physics")]
@@ -106,7 +105,6 @@ namespace CarRacingGame3d
         private float driftVelocity;
 
         private bool isActiveNitro = false;
-        private float currentNitroDuration = 0f;
 
         private DriverInput driverInput;
         private Rigidbody carRb;
@@ -184,6 +182,7 @@ namespace CarRacingGame3d
             base.OnNetworkSpawn();
             if (!IsOwner)
             {
+                GetComponentInChildren<Camera>().enabled = false;
                 playerCamera.Priority = -1;
                 playerAudioListener.enabled = false;
                 return;
@@ -197,6 +196,7 @@ namespace CarRacingGame3d
         {
             if (GetComponent<CarAIHandler>().enabled)
             {
+                GetComponentInChildren<Camera>().enabled = false;
                 playerCamera.Priority = -1;
                 playerAudioListener.enabled = false;
             }
@@ -405,8 +405,8 @@ namespace CarRacingGame3d
 
             carVelocity = transform.InverseTransformDirection(carRb.velocity);
 
-            Debug.DrawRay(transform.position, carVelocity * 10, Color.green);
-            Debug.DrawRay(transform.position, carRb.velocity * 10, Color.blue);
+            //Debug.DrawRay(transform.position, carVelocity * 10, Color.green);
+            //Debug.DrawRay(transform.position, carRb.velocity * 10, Color.blue);
 
             if (IsGrounded())
                 GroundedMovement();
@@ -494,7 +494,7 @@ namespace CarRacingGame3d
         {
             if (driverInput.Brake)
             {
-                carRb.constraints = RigidbodyConstraints.FreezeRotationX;
+                //carRb.constraints = RigidbodyConstraints.FreezeRotationX;
 
                 float newZ = Mathf.SmoothDamp(carRb.velocity.z, 0, ref brakeVelocity, 1.0f);
                 carRb.velocity = carRb.velocity.With(z: newZ);
@@ -561,22 +561,20 @@ namespace CarRacingGame3d
         void Nitro()
         {
             if (nitroFuel < maxNitroFuel && !isActiveNitro)
-                nitroFuel += Time.deltaTime / 2;
+                nitroFuel += Time.deltaTime;
 
-            if (!isActiveNitro && nitroFuel > maxNitroFuel * 0.33f && driverInput.Nitro && GameManager.instance.GetGameState() != GameStates.Countdown)
+            if (!isActiveNitro && nitroFuel >= maxNitroFuel && driverInput.Nitro && GameManager.instance.GetGameState() != GameStates.Countdown)
             {
                 isActiveNitro = true;
-                nitroFuel -= maxNitroFuel * 0.33f;
-                currentNitroDuration = nitroDuration;
             }
 
             if (IsNitro())
             {
-                currentNitroDuration -= networkTimer.MinTimeBetweenTicks;
-                if (currentNitroDuration > 0)
+                if (nitroFuel > 0)
                 {
                     var force = 4 * nitroAcceleration * transform.forward;
                     carRb.AddForce(force, ForceMode.Force);
+                    nitroFuel -= Time.deltaTime * 20;
                 }
                 else isActiveNitro = false;
             }

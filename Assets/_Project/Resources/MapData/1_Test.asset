@@ -16,6 +16,6 @@ MonoBehaviour:
   mapName: Test 1
   mapUISprite: {fileID: 21300000, guid: 88248df9216908b41b0c115a28639e5c, type: 3}
   scene: Online
-  numberOfLaps: 8
+  numberOfLaps: 1
   difficulty: 1
   discription: For testing

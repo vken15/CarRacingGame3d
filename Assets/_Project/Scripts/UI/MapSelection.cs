@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -128,6 +129,8 @@ namespace CarRacingGame3d
             {
                 GameManager.instance.map = mapDatas[index];
                 GameManager.instance.SetNumberOfLaps(mapDatas[index].NumberOfLaps);
+
+                LocalLobby.Instance.MapId = mapDatas[index].MapID;
 
                 var hostSetting = FindAnyObjectByType<HostSettingHandler>();
                 if (hostSetting != null)

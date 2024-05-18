@@ -8,10 +8,11 @@ namespace CarRacingGame3d
 {
     public class PauseMenuUIHandler : MonoBehaviour
     {
-        [SerializeField] private Canvas optionsCanvas;
+        [SerializeField] private GameObject optionsCanvas;
         [SerializeField] private Canvas gameFinishCanvas;
 
         private Canvas canvas;
+
         private void Awake()
         {
             canvas = GetComponent<Canvas>();
@@ -19,7 +20,7 @@ namespace CarRacingGame3d
         }
         private void Update()
         {
-            if (InputManager.instance.Controllers.Player.ESC.WasPressedThisFrame() && !optionsCanvas.enabled && !gameFinishCanvas.enabled)
+            if (InputManager.instance.Controllers.Player.ESC.WasPressedThisFrame() && !optionsCanvas.activeInHierarchy && !gameFinishCanvas.enabled)
             {
                 canvas.enabled = !canvas.enabled;
                 if (GameManager.instance.networkStatus == NetworkStatus.offline)
@@ -40,7 +41,7 @@ namespace CarRacingGame3d
         }
         public void OnOptions()
         {
-            optionsCanvas.enabled = true;
+            optionsCanvas.SetActive(true);
         }
         public void OnExit()
         {

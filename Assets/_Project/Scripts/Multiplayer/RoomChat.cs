@@ -138,6 +138,9 @@ namespace CarRacingGame3d
                 case ConnectStatus.Success:
                     networkRoom.SendChatMessageServerRpc(" has joined the game!", eventMessage.PlayerId);
                     break;
+                case ConnectStatus.Kicked:
+                    networkRoom.SendChatMessageServerRpc(" has been kicked!", eventMessage.PlayerId);
+                    break;
                 case ConnectStatus.ServerFull:
                 case ConnectStatus.LoggedInAgain:
                 case ConnectStatus.UserRequestedDisconnect:

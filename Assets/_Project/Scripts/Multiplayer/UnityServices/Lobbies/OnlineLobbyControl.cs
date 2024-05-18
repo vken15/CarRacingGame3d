@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Net;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -17,11 +15,16 @@ namespace CarRacingGame3d
         [SerializeField] private Button joinBtn;
         [SerializeField] private Button refreshBtn;
         [SerializeField] private Button returnBtn;
+        [SerializeField] private Button codeBtn;
+        [SerializeField] private Button connectBtn;
+        [SerializeField] private Button cancelBtn;
 
         [SerializeField] private GameObject roomGroup;
         [SerializeField] private GameObject roomItem;
         [SerializeField] private GameObject hostCanvas;
+        [SerializeField] private GameObject codeCanvas;
         [SerializeField] private TMP_InputField inputName;
+        [SerializeField] private TMP_InputField inputCode;
 
         [SerializeField] CanvasGroup canvasGroup;
         [SerializeField] GameObject loadingSpinner;
@@ -45,7 +48,7 @@ namespace CarRacingGame3d
         LocalLobby lobbyData;
         UpdateRunner updateRunner;
 
-        const string k_DefaultLobbyName = "CRGServer";
+        const string defaultLobbyName = "CRGServer";
 
         private void Awake()
         {
@@ -73,12 +76,12 @@ namespace CarRacingGame3d
 
             createHostBtn.onClick.AddListener(() =>
             {
-                CreateLobbyRequest("Test", false);
+                CreateLobbyRequest(inputName.text, false);
             });
 
             joinBtn.onClick.AddListener(() =>
             {
-                JoinLobbyRequest(lobbyData);
+                JoinLobbyRequest(lobbyData.LobbyID, lobbyData.LobbyCode);
             });
 
             hostBtn.onClick.AddListener(() => hostCanvas.SetActive(true));
@@ -89,6 +92,15 @@ namespace CarRacingGame3d
             });
 
             inputName.onValueChanged.AddListener((s) => OnInputNameChanged(s));
+
+            codeBtn.onClick.AddListener(() => codeCanvas.SetActive(true));
+
+            connectBtn.onClick.AddListener(() =>
+            {
+                JoinLobbyRequest(null, inputCode.text);
+            });
+
+            cancelBtn.onClick.AddListener(() => codeCanvas.SetActive(false));
 
             LobbyServiceFacade.Instance.OnLobbyListFetched += UpdateUI;
             updateRunner.Subscribe(PeriodicRefresh, 10f);
@@ -144,6 +156,10 @@ namespace CarRacingGame3d
             listItem.GetComponent<Button>().onClick.AddListener(() =>
             {
                 lobbyData = listItem.GetData();
+
+                if (mapDisplay != null)
+                    Destroy(mapDisplay);
+
                 mapDisplay = Instantiate(mapPrefab, spawnOnTransform);
                 mapDisplay.GetComponent<Button>().enabled = false;
                 foreach (var mapData in mapDatas)
@@ -173,7 +189,7 @@ namespace CarRacingGame3d
             // before sending request to lobby service, populate an empty lobby name, if necessary
             if (string.IsNullOrEmpty(lobbyName))
             {
-                lobbyName = k_DefaultLobbyName;
+                lobbyName = defaultLobbyName;
             }
             BlockUIWhileLoadingIsInProgress();
 
@@ -229,7 +245,7 @@ namespace CarRacingGame3d
             }
         }
 
-        public async void JoinLobbyRequest(LocalLobby lobby)
+        public async void JoinLobbyRequest(string lobbyId, string lobbyCode)
         {
             BlockUIWhileLoadingIsInProgress();
 
@@ -241,7 +257,7 @@ namespace CarRacingGame3d
                 return;
             }
 
-            var (Success, Lobby) = await LobbyServiceFacade.Instance.TryJoinLobbyAsync(lobby.LobbyID, lobby.LobbyCode);
+            var (Success, Lobby) = await LobbyServiceFacade.Instance.TryJoinLobbyAsync(lobbyId, lobbyCode);
 
             if (Success)
             {

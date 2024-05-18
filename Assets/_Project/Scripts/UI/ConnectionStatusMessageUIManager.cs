@@ -58,6 +58,9 @@ namespace CarRacingGame3d
                 case ConnectStatus.StartClientFailed:
                     PopupManager.ShowPopupPanel("Connection Failed", "Starting client failed.");
                     break;
+                case ConnectStatus.Kicked:
+                    PopupManager.ShowPopupPanel("Disconnected From Host", "You had been kicked!");
+                    break;
                 default:
                     Debug.LogWarning($"New ConnectStatus {status} has been added, but no connect message defined for it.");
                     break;

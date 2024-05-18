@@ -83,13 +83,13 @@ namespace CarRacingGame3d
                     ConnectionManager.instance.NetworkManager.DisconnectClient(id, reason);
                 }
             }
-            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
+            ConnectionManager.instance.ChangeState(ConnectionManager.instance.offline);
         }
 
         public override void OnServerStopped()
         {
             ConnectionStatusMessageUIManager.instance.OnConnectStatus(ConnectStatus.GenericDisconnect);
-            ConnectionManager.instance.ChangeState(ConnectionManager.instance.m_Offline);
+            ConnectionManager.instance.ChangeState(ConnectionManager.instance.offline);
         }
 
         /// <summary>

@@ -77,8 +77,8 @@ namespace CarRacingGame3d
             }
         }
 
-        LobbyData m_Data;
-        public LobbyData Data => new(m_Data);
+        LobbyData data;
+        public LobbyData Data => new(data);
 
         public void AddUser(LocalLobbyUser user)
         {
@@ -125,50 +125,50 @@ namespace CarRacingGame3d
 
         public string LobbyID
         {
-            get => m_Data.LobbyID;
+            get => data.LobbyID;
             set
             {
-                m_Data.LobbyID = value;
+                data.LobbyID = value;
                 OnChanged();
             }
         }
 
         public string LobbyCode
         {
-            get => m_Data.LobbyCode;
+            get => data.LobbyCode;
             set
             {
-                m_Data.LobbyCode = value;
+                data.LobbyCode = value;
                 OnChanged();
             }
         }
 
         public string RelayJoinCode
         {
-            get => m_Data.RelayJoinCode;
+            get => data.RelayJoinCode;
             set
             {
-                m_Data.RelayJoinCode = value;
+                data.RelayJoinCode = value;
                 OnChanged();
             }
         }
 
         public string LobbyName
         {
-            get => m_Data.LobbyName;
+            get => data.LobbyName;
             set
             {
-                m_Data.LobbyName = value;
+                data.LobbyName = value;
                 OnChanged();
             }
         }
 
         public bool Private
         {
-            get => m_Data.Private;
+            get => data.Private;
             set
             {
-                m_Data.Private = value;
+                data.Private = value;
                 OnChanged();
             }
         }
@@ -177,47 +177,47 @@ namespace CarRacingGame3d
 
         public int MaxPlayerCount
         {
-            get => m_Data.MaxPlayerCount;
+            get => data.MaxPlayerCount;
             set
             {
-                m_Data.MaxPlayerCount = value;
+                data.MaxPlayerCount = value;
                 OnChanged();
             }
         }
 
         public ushort MapId
         {
-            get => m_Data.MapId;
+            get => data.MapId;
             set
             {
-                m_Data.MapId = value;
+                data.MapId = value;
                 OnChanged();
             }
         }
 
         public ushort CurRound
         {
-            get => m_Data.CurRound;
+            get => data.CurRound;
             set
             {
-                m_Data.CurRound = value;
+                data.CurRound = value;
                 OnChanged();
             }
         }
 
         public ushort MaxRound
         {
-            get => m_Data.MaxRound;
+            get => data.MaxRound;
             set
             {
-                m_Data.MaxRound = value;
+                data.MaxRound = value;
                 OnChanged();
             }
         }
 
         public void CopyDataFrom(LobbyData data, Dictionary<string, LocalLobbyUser> currUsers)
         {
-            m_Data = data;
+            this.data = data;
 
             if (currUsers == null)
             {

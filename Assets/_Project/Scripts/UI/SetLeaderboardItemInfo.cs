@@ -8,9 +8,16 @@ namespace CarRacingGame3d
         [SerializeField] private Text driverPositionText;
         [SerializeField] private Text driverNameText;
         [SerializeField] private Text driverFinishTimeText;
+        [SerializeField] private Text driverLapText;
         [SerializeField] private Text driverScoreText;
 
+        private int numberOfLaps;
         public int playerNumber;
+
+        private void Awake()
+        {
+            numberOfLaps = GameManager.instance.GetNumberOfLaps();
+        }
 
         public string GetDriverName()
         {
@@ -37,6 +44,11 @@ namespace CarRacingGame3d
         {
             if (!driverFinishTimeText.Equals("Fail"))
                 driverFinishTimeText.text = newFinishTime;
+        }
+
+        public void SetDriverLapText(int currentLap)
+        {
+            driverLapText.text = $"{currentLap}/{numberOfLaps}";
         }
 
         public void SetDriverScoreText(string newScore)

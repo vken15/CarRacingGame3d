@@ -12460,7 +12460,7 @@ GameObject:
   - component: {fileID: 417337029}
   m_Layer: 7
   m_Name: Terrain_(-1000.00, 0.00, 0.00)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -15104,7 +15104,7 @@ GameObject:
   - component: {fileID: 500750725}
   m_Layer: 7
   m_Name: Terrain_(-1000.00, 0.00, 1000.00)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -15872,7 +15872,7 @@ GameObject:
   - component: {fileID: 522460432}
   m_Layer: 7
   m_Name: Terrain_(0.00, 0.00, -1000.00)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -31350,7 +31350,7 @@ GameObject:
   - component: {fileID: 965957119}
   m_Layer: 7
   m_Name: Terrain_(-1000.00, 0.00, -1000.00)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -36343,7 +36343,7 @@ GameObject:
   - component: {fileID: 1114879561}
   m_Layer: 7
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -39275,7 +39275,7 @@ GameObject:
   - component: {fileID: 1210021080}
   m_Layer: 7
   m_Name: Terrain_(0.00, 0.00, 1000.00)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -63078,6 +63078,38 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2303286172399383924, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303286172399383924, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303286172399383924, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303286172399383924, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342618533694041970, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342618533694041970, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342618533694041970, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342618533694041970, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2528642241242681925, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -63226,6 +63258,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas - In Game
       objectReference: {fileID: 0}
+    - target: {fileID: 5320449976408990582, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320449976408990582, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320449976408990582, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320449976408990582, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5604612221200131423, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -63241,6 +63289,10 @@ PrefabInstance:
     - target: {fileID: 5604612221200131423, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5838666679819086961, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -450.00024
       objectReference: {fileID: 0}
     - target: {fileID: 5972980592729314337, guid: 71dba4cbb0f24ed4ba1fdb43547ed103, type: 3}
       propertyPath: m_AnchorMax.y
@@ -69831,7 +69883,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798667414987221594}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}

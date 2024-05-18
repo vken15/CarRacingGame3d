@@ -53,7 +53,8 @@ namespace CarRacingGame3d
         Reconnecting,             //client lost connection and is attempting to reconnect.
         IncompatibleBuildType,    //client build type is incompatible with server.
         HostEndedSession,         //host intentionally ended the session.
-        StartHostFailed,          // server failed to bind
-        StartClientFailed         // failed to connect to server and/or invalid network endpoint
+        StartHostFailed,          //server failed to bind
+        StartClientFailed,        //failed to connect to server and/or invalid network endpoint
+        Kicked                    //got kicked by host.
     }
 }

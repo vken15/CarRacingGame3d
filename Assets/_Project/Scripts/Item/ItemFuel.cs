@@ -13,5 +13,10 @@ namespace CarRacingGame3d
             car.ReFillFuel(refillAmount);
             Destroy(gameObject);
         }
+
+        protected override IEnumerator ItemDuration(float value)
+        {
+            yield return null;
+        }
     }
 }

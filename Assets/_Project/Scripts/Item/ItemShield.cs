@@ -42,9 +42,9 @@ namespace CarRacingGame3d
             disolveCoroutine = StartCoroutine(CoroutineDisolveShield(target));
         }
 
-        private IEnumerator CountDown(float duration)
+        protected override IEnumerator ItemDuration(float value)
         {
-            yield return new WaitForSeconds(duration);
+            yield return new WaitForSeconds(value);
             OpenCloseShield();
         }
 
@@ -65,7 +65,7 @@ namespace CarRacingGame3d
                 Destroy(gameObject);
             } else
             {
-                StartCoroutine(CountDown(shieldDuration));
+                StartCoroutine(ItemDuration(shieldDuration));
             }
         }
     }

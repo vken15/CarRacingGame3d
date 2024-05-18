@@ -10,7 +10,7 @@ namespace CarRacingGame3d
         [SerializeField] Text nameText;
         [SerializeField] Text numPlayerText;
 
-        LocalLobby m_Data;
+        LocalLobby data;
 
         public void SetRoomName(string name)
         {
@@ -24,14 +24,14 @@ namespace CarRacingGame3d
 
         public void SetData(LocalLobby data)
         {
-            m_Data = data;
+            this.data = data;
             nameText.text = data.LobbyName;
             numPlayerText.text = $"{data.PlayerCount}/{data.MaxPlayerCount}";
         }
 
         public LocalLobby GetData()
         {
-            return m_Data;
+            return data;
         }
     }
 }

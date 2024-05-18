@@ -21,6 +21,9 @@ namespace CarRacingGame3d
 
         CarController carController;
 
+        //FOR TEST
+        private int index = 4;
+
         void Awake()
         {
             carController = GetComponent<CarController>();
@@ -85,6 +88,12 @@ namespace CarRacingGame3d
             {
                 //Random item
                 itemIndex = Random.Range(0, itemDatas.Length);
+                if (IsHost)
+                {
+                    if (index >= itemDatas.Length) index = 0;
+                    itemIndex = index;
+                    index++;
+                }
                 
                 //Set sprite
                 if (IsServer)

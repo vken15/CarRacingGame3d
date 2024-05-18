@@ -12,15 +12,21 @@ namespace CarRacingGame3d
         [SerializeField] float refreshRate = 0.2f;
         [SerializeField] float pullForce = 0;
         [SerializeField] float movementSpeed = 50;
-        [SerializeField] new ParticleSystem particleSystem;
 
         public Vector3 moveDir = Vector3.zero;
         public int owner;
         private Rigidbody rb;
+        private CountdownTimer timer;
 
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
+            timer = new(1.0f);
+        }
+
+        private void Update()
+        {
+            timer.Tick(Time.deltaTime);
         }
 
         private void FixedUpdate()
@@ -29,6 +35,13 @@ namespace CarRacingGame3d
             {
                 rb.AddForce(movementSpeed * moveDir, ForceMode.Acceleration);
             }
+
+            if (timer.IsFinished)
+            {
+                timer.Start();
+            }
+
+            pullingCenter.localPosition = new Vector3(1 - Mathf.Abs(pullingCenterCurve.Evaluate(timer.Progress)), 8 + 2 * pullingCenterCurve.Evaluate(timer.Progress), 1 - Mathf.Abs(pullingCenterCurve.Evaluate(timer.Progress)));
         }
 
         private void OnTriggerEnter(Collider other)
@@ -57,7 +70,6 @@ namespace CarRacingGame3d
                 if (other.GetComponentInParent<CarController>().immunity == false)
                     other.GetComponentInParent<Rigidbody>().AddForce(force * Time.deltaTime * forceDirection.normalized, ForceMode.Acceleration);
                 
-                pullingCenter.position = new Vector3(pullingCenter.position.x, 6 + transform.position.y + 4 * pullingCenterCurve.Evaluate((Time.time * 0.1f) % pullingCenterCurve.length), pullingCenter.position.z);
                 yield return refreshRate;
                 StartCoroutine(PullObject(other, shouldPull));
             } else

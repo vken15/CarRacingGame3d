@@ -59,12 +59,12 @@ namespace CarRacingGame3d
 
         public bool GameStarted = false;
 
-        internal readonly OfflineState m_Offline = new();
-        internal readonly ClientConnectingState m_ClientConnecting = new();
-        internal readonly ClientConnectedState m_ClientConnected = new();
-        internal readonly ClientReconnectingState m_ClientReconnecting = new();
-        internal readonly StartingHostState m_StartingHost = new();
-        internal readonly HostingState m_Hosting = new();
+        internal readonly OfflineState offline = new();
+        internal readonly ClientConnectingState clientConnecting = new();
+        internal readonly ClientConnectedState clientConnected = new();
+        internal readonly ClientReconnectingState clientReconnecting = new();
+        internal readonly StartingHostState startingHost = new();
+        internal readonly HostingState hosting = new();
 
         void Awake()
         {
@@ -83,7 +83,7 @@ namespace CarRacingGame3d
 
         void Start()
         {
-            currentState = m_Offline;
+            currentState = offline;
 
             NetworkManager.OnClientConnectedCallback += OnClientConnectedCallback;
             NetworkManager.OnClientDisconnectCallback += OnClientDisconnectCallback;

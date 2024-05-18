@@ -14,6 +14,7 @@ namespace CarRacingGame3d
         [SerializeField] GameObject trafficBlock;
 
         private int currentTrafficLight = 0;
+        private float currentMinTime = 0;
         private float trafficTimer;
 
         private void Start()
@@ -22,46 +23,52 @@ namespace CarRacingGame3d
             YellowLight.enabled = false;
             GreenLight.enabled = isGreenLight;
             currentTrafficLight = isGreenLight ? 0 : 2;
+            currentMinTime = isGreenLight ? greenLightMinTime : redLightMinTime;
             if (trafficBlock != null)
             {
                 trafficBlock.GetComponent<Animator>().SetBool("IsOpen", isGreenLight);
             }
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (GameManager.instance.GetGameState() == GameStates.Countdown) return;
 
             trafficTimer += Time.deltaTime;
            
-            if (currentTrafficLight == 0 && trafficTimer >= greenLightMinTime)
+            if (trafficTimer >= currentMinTime)
             {
-                currentTrafficLight++;
-                GreenLight.enabled = false;
-                YellowLight.enabled = true;
-                trafficTimer = 0;
-            } else if (currentTrafficLight == 1 && trafficTimer >= yellowLightMinTime)
-            {
-                if (trafficBlock != null)
+                if (currentTrafficLight == 0)
                 {
-                    trafficBlock.GetComponent<Animator>().SetBool("IsOpen", false);
+                    currentTrafficLight++;
+                    GreenLight.enabled = false;
+                    YellowLight.enabled = true;
+                    currentMinTime = yellowLightMinTime;
                 }
-                currentTrafficLight++;
-                YellowLight.enabled = false;
-                RedLight.enabled = true;
-                trafficTimer = 0;
-            } else if (currentTrafficLight == 2 && trafficTimer >= redLightMinTime)
-            {
-                if (trafficBlock != null)
+                else if (currentTrafficLight == 1)
                 {
-                    trafficBlock.GetComponent<Animator>().SetBool("IsOpen", true);
+                    if (trafficBlock != null)
+                    {
+                        trafficBlock.GetComponent<Animator>().SetBool("IsOpen", false);
+                    }
+                    currentTrafficLight++;
+                    YellowLight.enabled = false;
+                    RedLight.enabled = true;
+                    currentMinTime = redLightMinTime;
+                } 
+                else
+                {
+                    if (trafficBlock != null)
+                    {
+                        trafficBlock.GetComponent<Animator>().SetBool("IsOpen", true);
+                    }
+                    currentTrafficLight = 0;
+                    RedLight.enabled = false;
+                    GreenLight.enabled = true;
+                    currentMinTime = greenLightMinTime;
                 }
-                currentTrafficLight = 0;
-                RedLight.enabled = false;
-                GreenLight.enabled = true;
                 trafficTimer = 0;
             }
         }
-
     }
 }

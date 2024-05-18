@@ -15,7 +15,7 @@ namespace CarRacingGame3d
 
         public NetworkRoom NetworkRoom { get; private set; }
 
-        Coroutine m_WaitToEndLobbyCoroutine;
+        Coroutine waitToEndLobbyCoroutine;
 
         private void Awake()
         {
@@ -66,9 +66,9 @@ namespace CarRacingGame3d
         /// </summary>
         void CancelCloseLobby()
         {
-            if (m_WaitToEndLobbyCoroutine != null)
+            if (waitToEndLobbyCoroutine != null)
             {
-                StopCoroutine(m_WaitToEndLobbyCoroutine);
+                StopCoroutine(waitToEndLobbyCoroutine);
             }
             NetworkRoom.IsLobbyClosed.Value = false;
         }
@@ -232,7 +232,7 @@ namespace CarRacingGame3d
             ConnectionManager.instance.GameStarted = true;
 
             // Delay a few seconds to give the UI time to react, then switch scenes
-            m_WaitToEndLobbyCoroutine = StartCoroutine(WaitToEndLobby());
+            waitToEndLobbyCoroutine = StartCoroutine(WaitToEndLobby());
         }
 
         public void OnAddAI(string number)
@@ -249,6 +249,28 @@ namespace CarRacingGame3d
                 if (NetworkRoom.LobbyPlayers[i].PlayerNumber == playerNumber)
                 {
                     NetworkRoom.LobbyPlayers.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        public void OnKick(string number)
+        {
+            var reason = JsonUtility.ToJson(ConnectStatus.Kicked);
+            ushort playerNumber = ushort.Parse(number);
+            for (int i = 0; i < NetworkRoom.LobbyPlayers.Count; ++i)
+            {
+                if (NetworkRoom.LobbyPlayers[i].PlayerNumber == playerNumber)
+                {
+                    ConnectionManager.instance.NetworkManager.DisconnectClient(NetworkRoom.LobbyPlayers[i].ClientId, reason);
+                    if (RoomChat.instance != null)
+                        RoomChat.instance.OnConnectionEvent(
+                            new ConnectionEventMessage()
+                            {
+                                ConnectStatus = ConnectStatus.Kicked,
+                                PlayerId = NetworkRoom.LobbyPlayers[i].ClientId
+                            }
+                        );
                     break;
                 }
             }
