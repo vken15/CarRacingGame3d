@@ -12,7 +12,7 @@ namespace CarRacingGame3d
         {
             smoke.SetActive(true);
             gameObject.transform.parent = null;
-            StartCoroutine(ItemDuration(5));
+            StartCoroutine(ItemDuration(30));
         }
 
         protected override IEnumerator ItemDuration(float value)
