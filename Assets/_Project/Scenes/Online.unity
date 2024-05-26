@@ -4344,7 +4344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb83222d62a7f445b356adbf78cd828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceToReachWayPoint: 5
+  minDistanceToReachWayPoint: 25
   nextWayPointNode:
   - {fileID: 6960585635982353148}
 --- !u!4 &1002312170941465806
@@ -5237,7 +5237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb83222d62a7f445b356adbf78cd828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceToReachWayPoint: 5
+  minDistanceToReachWayPoint: 25
   nextWayPointNode:
   - {fileID: 8684166959656421613}
 --- !u!4 &2713177671893466436
@@ -5359,7 +5359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb83222d62a7f445b356adbf78cd828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceToReachWayPoint: 5
+  minDistanceToReachWayPoint: 25
   nextWayPointNode:
   - {fileID: 6093320048313216045}
 --- !u!20 &4379015552609305831
@@ -5598,7 +5598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb83222d62a7f445b356adbf78cd828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceToReachWayPoint: 5
+  minDistanceToReachWayPoint: 25
   nextWayPointNode:
   - {fileID: 7099006620274296939}
 --- !u!114 &6718366541264107026
@@ -5674,7 +5674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb83222d62a7f445b356adbf78cd828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceToReachWayPoint: 7
+  minDistanceToReachWayPoint: 25
   nextWayPointNode:
   - {fileID: 4119608181519415944}
 --- !u!1 &7076661910096067294
@@ -5767,7 +5767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb83222d62a7f445b356adbf78cd828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceToReachWayPoint: 5
+  minDistanceToReachWayPoint: 25
   nextWayPointNode:
   - {fileID: 7689678675557098266}
 --- !u!114 &7689678675557098266
@@ -5782,7 +5782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb83222d62a7f445b356adbf78cd828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceToReachWayPoint: 5
+  minDistanceToReachWayPoint: 25
   nextWayPointNode:
   - {fileID: 2494431916136753154}
 --- !u!4 &7747590460608132304
@@ -5893,7 +5893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb83222d62a7f445b356adbf78cd828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceToReachWayPoint: 6
+  minDistanceToReachWayPoint: 25
   nextWayPointNode:
   - {fileID: 922448781021954476}
 --- !u!4 &8770311123460684954

@@ -10,7 +10,7 @@ namespace CarRacingGame3d
     class HostingState : OnlineState
     {
         // used in ApprovalCheck. This is intended as a bit of light protection against DOS attacks that rely on sending silly big buffers of garbage.
-        const int k_MaxConnectPayload = 1024;
+        const int MAXCONNECTPAYLOAD = 1024;
 
         public override void Enter()
         {
@@ -110,7 +110,7 @@ namespace CarRacingGame3d
         {
             var connectionData = request.Payload;
             var clientId = request.ClientNetworkId;
-            if (connectionData.Length > k_MaxConnectPayload)
+            if (connectionData.Length > MAXCONNECTPAYLOAD)
             {
                 // If connectionData too high, deny immediately to avoid wasting time on the server. This is intended as
                 // a bit of light protection against DOS attacks that rely on sending silly big buffers of garbage.

@@ -92,7 +92,7 @@ namespace CarRacingGame3d
             {
                 car.GetComponent<CarInputHandler>().enabled = false;
                 car.tag = "AI";
-                //car.GetComponent<CarAIHandler>().SetAIDifficult(driver.Difficult);
+                car.GetComponent<CarAIHandler>().AIDifficult = driver.Difficult;
             }
             else
             {
@@ -107,7 +107,7 @@ namespace CarRacingGame3d
             car.GetComponentInChildren<NameplateUIHandler>().SetData(driver.Name, nameplateColor);
         }
 
-        private void SetClientSpawnCarInfo(GameObject car, string name, int playerNumber, int i, bool IsAI)
+        private void SetClientSpawnCarInfo(GameObject car, string name, int playerNumber, int i, bool IsAI, AIDifficult aIDifficult)
         {
             car.name = name;
             car.GetComponent<CarInputHandler>().playerNumber = playerNumber;
@@ -119,6 +119,7 @@ namespace CarRacingGame3d
             {
                 car.GetComponent<CarAIHandler>().enabled = true;
                 car.GetComponent<CarInputHandler>().enabled = false;
+                car.GetComponent<CarAIHandler>().AIDifficult = aIDifficult;
             } else
             {
                 car.GetComponent<CarAIHandler>().enabled = false;
@@ -136,7 +137,7 @@ namespace CarRacingGame3d
         [ClientRpc]
         private void SpawnCarsClientRpc(NetworkObjectReference car, string name, int playerNumber, int i, bool isAI)
         {
-            SetClientSpawnCarInfo((GameObject)car, name, playerNumber, i, isAI);
+            SetClientSpawnCarInfo((GameObject)car, name, playerNumber, i, isAI, AIDifficult.Normal);
         }
     }
 }

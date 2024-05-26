@@ -262,7 +262,6 @@ namespace CarRacingGame3d
             {
                 if (NetworkRoom.LobbyPlayers[i].PlayerNumber == playerNumber)
                 {
-                    ConnectionManager.instance.NetworkManager.DisconnectClient(NetworkRoom.LobbyPlayers[i].ClientId, reason);
                     if (RoomChat.instance != null)
                         RoomChat.instance.OnConnectionEvent(
                             new ConnectionEventMessage()
@@ -271,6 +270,8 @@ namespace CarRacingGame3d
                                 PlayerId = NetworkRoom.LobbyPlayers[i].ClientId
                             }
                         );
+                    SessionManager<SessionPlayerData>.Instance.DisconnectClient(NetworkRoom.LobbyPlayers[i].ClientId);
+                    ConnectionManager.instance.NetworkManager.DisconnectClient(NetworkRoom.LobbyPlayers[i].ClientId, reason);
                     break;
                 }
             }

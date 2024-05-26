@@ -6,9 +6,6 @@ namespace CarRacingGame3d
 {
     public class CarAIHandler : MonoBehaviour
     {
-        [SerializeField] private AIDifficult aiDifficult;
-        [SerializeField] private float driveSpeed = 45;
-        public bool isAvoidingCars = true;
         [SerializeField] private float track = 20.0f;
 
         [SerializeField] private Vector3 sensorPosition;
@@ -16,20 +13,40 @@ namespace CarRacingGame3d
         [SerializeField] private float sensorAngle = 30.0f;
         [SerializeField] private float sensorLength = 5.0f;
 
+        public bool isAvoiding = true;
+        public bool canBrake = false;
+        public bool canNitro = false;
+
         private Vector3 targetPosition = Vector3.zero;
         private bool avoiding = false;
         private bool leftObstacles = false;
         private bool rightObstacles = false;
 
-        private List<Vector3> temporaryWaypoints = new();
         private float angleToTarget = 0;
-        private int stuckCheckCounter = 0;
         private WayPointNode currentWayPoint = null;
         private WayPointNode previousWayPoint = null;
         private WayPointNode nextWayPoint = null;
         private WayPointNode[] allWayPoints;
 
         private CarController carController;
+
+        public AIDifficult AIDifficult
+        {
+            set
+            {
+                switch (value)
+                {
+                    case AIDifficult.Easy:
+                        break;
+                    case AIDifficult.Normal:
+                        canNitro = true;
+                        break;
+                    case AIDifficult.Hard:
+                        canNitro = true;
+                        break;
+                }
+            }
+        }
 
         void Awake()
         {
@@ -50,11 +67,7 @@ namespace CarRacingGame3d
 
             Vector2 inputVector = Vector2.zero;
 
-            if (temporaryWaypoints.Count == 0)
-            {
-                FollowWayPoints();
-            }
-            //else FollowTemporaryWayPoints();
+            FollowWayPoints();
 
             inputVector.x = TurnTowardTarget();
             inputVector.y = ApplyThrottleOrBrake(inputVector.x);
@@ -62,7 +75,7 @@ namespace CarRacingGame3d
             DriverInput driverInput = new()
             {
                 Move = inputVector,
-                Nitro = false,
+                Nitro = ActiveNitro(),
                 Brake = false
             };
 
@@ -122,7 +135,7 @@ namespace CarRacingGame3d
         {
             Vector3 vectorToTarget = targetPosition - transform.position;
             vectorToTarget.Normalize();
-            if (isAvoidingCars && IsObstaclesInFrontOf(out float avoidMultiplier))
+            if (isAvoiding && IsObstaclesInFrontOf(out float avoidMultiplier))
             {
                 if (leftObstacles && rightObstacles)
                     return -avoidMultiplier;
@@ -248,23 +261,26 @@ namespace CarRacingGame3d
             }
             */
 
-            float reduceSpeedDueToCornering = Mathf.Abs(x) / 1.0f;
+            float reduceSpeedDueToCornering = Mathf.Abs(x) / 2.0f;
             float throttle = 1.05f - reduceSpeedDueToCornering;
 
-            if (temporaryWaypoints.Count() != 0)
-            {
-                if (angleToTarget > 70)
-                    throttle *= -1;
-                else if (angleToTarget < -70)
-                    throttle *= -1;
-                else if (stuckCheckCounter > 3 && stuckCheckCounter < 10)
-                    throttle *= -1;
-            }
-
-            if (leftObstacles && rightObstacles)
+            if ((leftObstacles && rightObstacles) || ((leftObstacles || rightObstacles) && carController.GetVelocityMagnitude() < 2f))
                 throttle = -1;
 
             return throttle;
+        }
+
+        private bool ActiveNitro()
+        {
+            if (canNitro)
+            {
+                if (currentWayPoint != null && (currentWayPoint.transform.position - transform.position).magnitude > track)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
